@@ -43,6 +43,9 @@ Plugin 'ctrlpvim/ctrlp.vim'
 map <C-b> :CtrlPBuffer<CR>
 nmap <C-S-Tab> :bp<Cr>
 
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+
 Plugin 'majutsushi/tagbar'
 nmap ? :TagbarOpenAutoClose<CR>
 
