@@ -1,0 +1,3 @@
+bind refs P ?!git push -u origin %(branch)
+bind refs p ?!git pull --rebase %(branch)
+bind refs M ?!git merge %(branch)
