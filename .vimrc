@@ -2,9 +2,17 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 set t_Co=256
 set number
+set noswapfile
+set hlsearch
 let g:mapleader = ","
 set directory^=$HOME/.vim/tmp//
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+
+" use a blinking upright bar cursor in Insert mode, a blinking block in normal
+if &term == 'xterm-256color' || &term == 'screen-256color'
+    let &t_SI = "\<Esc>[5 q"
+    let &t_EI = "\<Esc>[1 q"
+endif
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -38,9 +46,9 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Navigation 
 Plugin 'scrooloose/nerdtree'
 map Q :NERDTreeToggle<CR>
+map <Leader>q :NERDTreeFind<CR>
 nmap <C-S-Tab> :bp<Cr>
 Plugin 'ctrlpvim/ctrlp.vim'
-map <C-b> :CtrlPBuffer<CR>
 nmap <C-S-Tab> :bp<Cr>
 
 Plugin 'junegunn/fzf'
@@ -50,6 +58,7 @@ Plugin 'majutsushi/tagbar'
 nmap ? :TagbarOpenAutoClose<CR>
 
 " Utility
+Plugin 'godlygeek/tabular'
 Plugin 'honza/vim-snippets'
 Plugin 'scrooloose/nerdcommenter'
 " Add spaces after comment delimiters by default
@@ -67,6 +76,14 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
+inoremap <leader>; <C-o>A;
+nnoremap <leader>; <C-o>A;<Esc>
+inoremap <leader>w <Esc>:w<CR>
+nnoremap <Esc> :noh<CR><Esc>
+nnoremap <leader>d :bd<CR>
+" Ne fonctionne pas
+inoremap <C-$> ->
+
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ervandew/supertab'
 
@@ -75,7 +92,7 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 
 Plugin 'jiangmiao/auto-pairs'
-
+Plugin 'yuttie/comfortable-motion.vim'
 " Ignore files in .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
