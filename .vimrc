@@ -7,6 +7,7 @@ set hlsearch
 let g:mapleader = ","
 set directory^=$HOME/.vim/tmp//
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set so=999
 
 " use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -83,6 +84,12 @@ nnoremap <Esc> :noh<CR><Esc>
 nnoremap <leader>d :bd<CR>
 " Ne fonctionne pas
 inoremap <C-$> ->
+let g:comfortable_motion_no_default_key_mappings = 1
+nnoremap <silent> <C-d> :call comfortable_motion#flick(100)<CR>
+nnoremap <silent> <C-u> :call comfortable_motion#flick(-100)<CR>
+
+nnoremap <silent> <C-f> :call comfortable_motion#flick(200)<CR>
+nnoremap <silent> <C-b> :call comfortable_motion#flick(-200)<CR>
 
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ervandew/supertab'
