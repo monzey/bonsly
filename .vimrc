@@ -100,6 +100,7 @@ Plugin 'garbas/vim-snipmate'
 
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'yuttie/comfortable-motion.vim'
+Plugin 'tpope/vim-surround'
 " Ignore files in .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
