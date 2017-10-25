@@ -83,7 +83,7 @@ inoremap <leader>w <Esc>:w<CR>
 nnoremap <Esc> :noh<CR><Esc>
 nnoremap <leader>d :bd<CR>
 " Ne fonctionne pas
-inoremap <C-$> ->
+inoremap <leader>$ ->
 let g:comfortable_motion_no_default_key_mappings = 1
 nnoremap <silent> <C-d> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <C-u> :call comfortable_motion#flick(-100)<CR>
@@ -101,6 +101,8 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'yuttie/comfortable-motion.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'Yggdroot/indentLine'
+let g:indentLine_char = '|'
 " Ignore files in .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
