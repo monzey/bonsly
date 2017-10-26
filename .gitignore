@@ -1,0 +1,7 @@
+/* Atom */
+.apm
+.node-gyp
+blob-store
+storage
+compile-cache
+packages
