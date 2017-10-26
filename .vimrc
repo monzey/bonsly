@@ -7,7 +7,6 @@ set hlsearch
 let g:mapleader = ","
 set directory^=$HOME/.vim/tmp//
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
-set so=999
 
 " use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -23,7 +22,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -59,9 +58,13 @@ Plugin 'majutsushi/tagbar'
 nmap ? :TagbarOpenAutoClose<CR>
 
 " Utility
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
 Plugin 'godlygeek/tabular'
 Plugin 'honza/vim-snippets'
 Plugin 'scrooloose/nerdcommenter'
+" Updates asynchronously ctags
+let g:easytags_async = 1
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " Use compact syntax for prettified multi-line comments
@@ -82,14 +85,7 @@ nnoremap <leader>; <C-o>A;<Esc>
 inoremap <leader>w <Esc>:w<CR>
 nnoremap <Esc> :noh<CR><Esc>
 nnoremap <leader>d :bd<CR>
-" Ne fonctionne pas
 inoremap <leader>$ ->
-let g:comfortable_motion_no_default_key_mappings = 1
-nnoremap <silent> <C-d> :call comfortable_motion#flick(100)<CR>
-nnoremap <silent> <C-u> :call comfortable_motion#flick(-100)<CR>
-
-nnoremap <silent> <C-f> :call comfortable_motion#flick(200)<CR>
-nnoremap <silent> <C-b> :call comfortable_motion#flick(-200)<CR>
 
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ervandew/supertab'
@@ -99,7 +95,6 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'yuttie/comfortable-motion.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'Yggdroot/indentLine'
 let g:indentLine_char = '|'
