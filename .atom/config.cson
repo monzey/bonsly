@@ -40,12 +40,13 @@
       "one-dark-syntax"
     ]
   editor:
-    fontSize: 12
+    fontSize: 13
     showIndentGuide: true
     tabLength: 4
     tabType: "soft"
   "exception-reporting":
     userId: "6e7f83a3-11c7-480f-ac55-64e3118afdcf"
+  "git-diff": {}
   "vim-mode-plus":
     automaticallyEscapeInsertModeOnActivePaneItemChange: true
     charactersToAddSpaceOnSurround: [
