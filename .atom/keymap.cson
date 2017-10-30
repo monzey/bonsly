@@ -1,3 +1,6 @@
+'.platform-linux':
+    'alt': 'abort!'
+    'ctrl-shift-m': 'window:toggle-menu-bar'
 'atom-text-editor.vim-mode-plus:not(.normal-mode)':
     'alt': 'vim-mode-plus:activate-normal-mode'
 '.platform-win32, .platform-linux':
