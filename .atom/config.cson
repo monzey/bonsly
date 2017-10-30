@@ -33,7 +33,6 @@
     ]
     openEmptyEditorOnStart: false
     projectHome: "/home/maxime/Workspace"
-    restorePreviousWindowsOnStart: "no"
     telemetryConsent: "limited"
     themes: [
       "atom-material-ui"
@@ -41,6 +40,7 @@
     ]
   editor:
     fontSize: 13
+    scrollPastEnd: true
     showIndentGuide: true
     tabLength: 4
     tabType: "soft"

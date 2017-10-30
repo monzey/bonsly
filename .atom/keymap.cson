@@ -2,9 +2,12 @@
     'alt': 'vim-mode-plus:activate-normal-mode'
 '.platform-win32, .platform-linux':
   'ctrl-k ctrl-b': 'tree-view:toggle'
-'atom-text-editor.vim-mode-plus.normal-mode':
+'atom-text-editor':
   'ctrl-$': 'symbols-view:toggle-file-symbols'
+  'alt-q': 'tree-view:toggle'
+  'shift-q': 'tree-view:toggle-focus'
   # 'ctrl-£': 'symbols-view:toggle-project-symbols'
+  'ctrl-$': 'symbols-view:toggle-file-symbols'
 '.select-list.fuzzy-finder .editor':
   'ctrl-j': 'core:move-down'
   'ctrl-k': 'core:move-up'
