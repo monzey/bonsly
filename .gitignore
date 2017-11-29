@@ -5,3 +5,6 @@ blob-store
 storage
 compile-cache
 packages
+
+/* Vim */
+.vim/plugged
