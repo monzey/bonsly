@@ -12,6 +12,7 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 let g:mapleader = ","
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
 
