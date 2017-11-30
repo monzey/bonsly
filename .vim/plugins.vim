@@ -11,4 +11,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'leafgarland/typescript-vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'Yggdroot/indentLine'
+Plug 'tpope/vim-surround'
 call plug#end()

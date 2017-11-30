@@ -1,6 +1,7 @@
 filetype off                 
 syntax on
 
+set incsearch
 set nocompatible              
 set t_Co=256
 set number
@@ -11,6 +12,8 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 let g:mapleader = ","
 let g:airline_powerline_fonts = 1
+let g:indentLine_char = '┆'
+let g:indentLine_enabled = 1
 
 " use a blinking upright bar cursor in Insert mode, a blinking block in normal
 let &t_SI = "\<Esc>[5 q"
