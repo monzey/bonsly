@@ -6,3 +6,5 @@ nnoremap <leader>d :bd<CR>
 nnoremap <A-q> :NERDTreeToggle<CR>
 nnoremap <S-q> :NERDTreeFind<CR>
 nnoremap <C-p> :GFiles<CR>
+nnoremap <leader>t :bn<CR>
+nnoremap <leader>T :bp<CR>
