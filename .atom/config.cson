@@ -47,6 +47,8 @@
   "exception-reporting":
     userId: "6e7f83a3-11c7-480f-ac55-64e3118afdcf"
   "git-diff": {}
+  "linter-ui-default":
+    showPanel: true
   "vim-mode-plus":
     automaticallyEscapeInsertModeOnActivePaneItemChange: true
     charactersToAddSpaceOnSurround: [
