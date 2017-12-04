@@ -1,6 +1,6 @@
 inoremap <leader>w <Esc>:w<CR>
 inoremap <leader>; <Esc>A;
-inoremap <leader>$ ->
+inoremap £ ->
 nnoremap <leader>w :w<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <S-q> :NERDTreeToggle<CR>
