@@ -15,4 +15,5 @@ Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-surround'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
+Plug 'majutsushi/tagbar'
 call plug#end()

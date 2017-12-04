@@ -9,6 +9,8 @@ set noswapfile
 set hlsearch
 set directory^=$HOME/.vim/tmp//
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set ignorecase
+set smartcase
 
 let g:loaded_matchparen = 1
 

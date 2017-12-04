@@ -8,3 +8,4 @@ nnoremap <leader>q :NERDTreeFind<CR>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <leader>t :bn<CR>
 nnoremap <leader>T :bp<CR>
+nnoremap ? :TagbarOpenAutoClose<CR>
