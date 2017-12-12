@@ -8,3 +8,7 @@ packages
 
 /* Vim */
 .vim/plugged
+
+/* Tmux */
+!.tmux/plugins/tpm
+.tmux/plugins
