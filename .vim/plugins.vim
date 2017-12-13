@@ -16,4 +16,6 @@ Plug 'tpope/vim-surround'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'majutsushi/tagbar'
+Plug 'nelsyeung/twig.vim'
+Plug 'elzr/vim-json'
 call plug#end()
