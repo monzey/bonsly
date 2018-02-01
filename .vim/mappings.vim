@@ -9,3 +9,5 @@ nnoremap <C-p> :GFiles<CR>
 nnoremap <leader>t :bn<CR>
 nnoremap <leader>T :bp<CR>
 nnoremap ? :TagbarOpenAutoClose<CR>
+nmap <silent> <C-l> <Plug>(jsdoc)
+nnoremap <buffer> <C-l> :call pdv#DocumentWithSnip()<CR>

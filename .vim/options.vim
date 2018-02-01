@@ -12,6 +12,13 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ignorecase
 set smartcase
 
+" Indentation spécifique javascript
+autocmd FileType javascript set tabstop=2
+autocmd FileType javascript set softtabstop=2 
+autocmd FileType javascript set expandtab 
+autocmd FileType javascript set shiftwidth=2 
+autocmd FileType javascript set smarttab
+
 let g:loaded_matchparen = 1
 
 let g:mapleader = ","
@@ -21,6 +28,7 @@ let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
 let g:UltiSnipsExpandTrigger="<tab>"
 let s:ag_options = '-f --ignore app/cache --ignore app/logs --ignore sql --ignore web'
+let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
 
 command! -bang -nargs=* Ag
         \ call fzf#vim#ag(

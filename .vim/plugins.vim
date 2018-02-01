@@ -18,4 +18,8 @@ Plug 'SirVer/ultisnips'
 Plug 'majutsushi/tagbar'
 Plug 'nelsyeung/twig.vim'
 Plug 'elzr/vim-json'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'tobyS/vmustache'
+Plug 'tobyS/pdv'
+Plug 'chr4/nginx.vim'
 call plug#end()
