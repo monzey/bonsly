@@ -3,3 +3,4 @@ bind refs p ?!git pull --rebase %(branch)
 bind refs M ?!git merge %(branch)
 bind main c ?!git checkout %(commit)
 bind status d ?!rm %(file)
+bind generic H !git log --author=%(prompt) --name-status
