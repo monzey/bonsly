@@ -1,9 +1,9 @@
 filetype off                 
 syntax on
 
+set termguicolors
 set incsearch
 set nocompatible              
-set t_Co=256
 set number
 set noswapfile
 set hlsearch
@@ -12,6 +12,16 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ignorecase
 set smartcase
 set timeoutlen=400 ttimeoutlen=0
+set backspace=indent,eol,start
+
+
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+set background=dark
+colorscheme onedark
+
+autocmd BufEnter * :syntax sync fromstart
 
 " Indentation spécifique javascript
 autocmd FileType javascript set tabstop=2
@@ -20,11 +30,20 @@ autocmd FileType javascript set expandtab
 autocmd FileType javascript set shiftwidth=2 
 autocmd FileType javascript set smarttab
 
+autocmd FileType typescript set tabstop=2
+autocmd FileType typescript set softtabstop=2 
+autocmd FileType typescript set expandtab 
+autocmd FileType typescript set shiftwidth=2 
+autocmd FileType typescript set smarttab
+
 let g:loaded_matchparen = 1
+
+let g:minimap_highlight="Visual"
 
 let g:mapleader = ","
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme="onedark"
 let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -50,4 +69,3 @@ command! -bang -nargs=? -complete=dir Files
 let &t_SI = "\<Esc>[5 q"
 let &t_EI = "\<Esc>[1 q"
 
-colorscheme nord
