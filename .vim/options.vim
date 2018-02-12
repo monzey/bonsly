@@ -13,6 +13,7 @@ set ignorecase
 set smartcase
 set timeoutlen=400 ttimeoutlen=0
 set backspace=indent,eol,start
+set nowrap
 
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
