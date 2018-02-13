@@ -43,6 +43,11 @@ let g:loaded_matchparen = 1
 
 let g:minimap_highlight="Visual"
 
+let g:NERDSpaceDelims=1
+let g:NERDCompactSexyComs=1
+let g:NERDDefaultAlign="left"
+let g:NERDCommentEmptyLines=1
+
 let g:onedark_termcolors=16
 let g:mapleader = ","
 let g:airline_powerline_fonts = 1
