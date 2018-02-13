@@ -41,6 +41,7 @@ let g:loaded_matchparen = 1
 
 let g:minimap_highlight="Visual"
 
+let g:onedark_termcolors=16
 let g:mapleader = ","
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
