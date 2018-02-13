@@ -9,6 +9,9 @@ antigen bundle heroku
 antigen bundle commant-not-found
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle molovo/crash
+antigen bundle desyncr/auto-ls
+antigen bundle voronkovich/symfony.plugin.zsh
 
 antigen theme agnoster
 
@@ -20,9 +23,10 @@ KEYTIMEOUT=1
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 DEFAULT_USER="maxime"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+export TERM=xterm-256color
