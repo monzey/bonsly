@@ -15,6 +15,8 @@ set timeoutlen=400 ttimeoutlen=0
 set backspace=indent,eol,start
 set nowrap
 
+set scrolloff=10
+
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"

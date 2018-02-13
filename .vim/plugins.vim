@@ -23,5 +23,6 @@ Plug 'chr4/nginx.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'cespare/vim-toml'
 Plug 'tpope/vim-fugitive'
+Plug 'yuttie/comfortable-motion.vim'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
