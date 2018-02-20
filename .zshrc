@@ -31,3 +31,4 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$PATH:$HOME/.rvm/bin"
 export TERM=xterm-256color
 export PATH=/usr/lib/dart/bin:$PATH
+export PATH="$PATH":"~/.pub-cache/bin"
