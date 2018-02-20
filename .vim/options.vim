@@ -70,9 +70,7 @@ command! -bang -nargs=+ -complete=dir Ag
 command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(
         \ <q-args>,
-        \ <bang>0 ? fzf#vim#with_preview('up:80%')
-        \         : fzf#vim#with_preview('right:50%:hidden', '?'),
-        \ <bang>0)
+        \ fzf#vim#with_preview('right:50%:hidden', '?'))
 
 " use a blinking upright bar cursor in Insert mode, a blinking block in normal
 let &t_SI = "\<Esc>[5 q"
