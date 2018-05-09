@@ -39,6 +39,12 @@ autocmd FileType html set expandtab
 autocmd FileType html set shiftwidth=2 
 autocmd FileType html set smarttab
 
+autocmd FileType dart set tabstop=2
+autocmd FileType dart set softtabstop=2 
+autocmd FileType dart set expandtab 
+autocmd FileType dart set shiftwidth=2 
+autocmd FileType dart set smarttab
+
 autocmd FileType typescript set tabstop=2
 autocmd FileType typescript set softtabstop=2 
 autocmd FileType typescript set expandtab 
