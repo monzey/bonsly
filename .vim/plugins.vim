@@ -25,4 +25,5 @@ Plug 'cespare/vim-toml'
 Plug 'tpope/vim-fugitive'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'chrisbra/Colorizer'
 call plug#end()
