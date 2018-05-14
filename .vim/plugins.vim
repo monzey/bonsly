@@ -26,4 +26,5 @@ Plug 'tpope/vim-fugitive'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/Colorizer'
+Plug 'Quramy/tsuquyomi'
 call plug#end()
