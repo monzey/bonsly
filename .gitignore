@@ -12,3 +12,5 @@ packages
 /* Tmux */
 !.tmux/plugins/tpm
 .tmux/plugins
+
+error.log
