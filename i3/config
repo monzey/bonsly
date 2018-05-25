@@ -26,10 +26,10 @@ font pango:monospace 8
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-set $up k
-set $down j
-set $left h
-set $right l
+set $up l
+set $down k
+set $left j
+set $right m
 
 # use Mouse+Mod1 to drag floating windows to their wanted position
 floating_modifier Mod1
@@ -72,7 +72,7 @@ bindsym Mod1+Shift+Up move up
 bindsym Mod1+Shift+Right move right
 
 # split in horizontal orientation
-bindsym Mod1+m split h
+bindsym Mod1+h split h
 
 # split in vertical orientation
 bindsym Mod1+v split v
@@ -149,6 +149,11 @@ bindsym Mod1+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# Volume controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -178,9 +183,10 @@ bindsym Mod1+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
+# bar {
+#         status_command i3status
+# }
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
@@ -193,7 +199,7 @@ bar {
 #######################################################################
 exec i3-config-wizard
 
+# I3 gaps config
 for_window [class="^.*"] border pixel 0
 gaps inner 10
-gaps outer 10
-
+gaps outer 2
