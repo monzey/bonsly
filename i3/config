@@ -203,3 +203,9 @@ exec i3-config-wizard
 for_window [class="^.*"] border pixel 0
 gaps inner 10
 gaps outer 2
+
+# Compton startup
+exec compton -b -c
+
+# Nitrogen starup
+exec --no-startup-id nitrogen
