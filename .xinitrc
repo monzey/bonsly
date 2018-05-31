@@ -1,1 +1,2 @@
-feh --bg-scale ~/.config/feh/wall.png
+exec i3
+~/.fehbg
