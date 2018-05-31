@@ -242,7 +242,7 @@ c.colors.downloads.bar.bg = '#222222'
 
 ## Background color of the statusbar in command mode.
 ## Type: QssColor
-c.colors.statusbar.command.bg = '#222222'
+c.colors.statusbar.command.bg = '#111111'
 
 ## Foreground color of the statusbar in command mode.
 ## Type: QssColor
