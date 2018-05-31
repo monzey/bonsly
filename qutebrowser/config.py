@@ -46,15 +46,15 @@
 
 ## Background color of the completion widget category headers.
 ## Type: QssColor
-# c.colors.completion.category.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #888888, stop:1 #505050)'
+c.colors.completion.category.bg = '#222222'
 
 ## Bottom border color of the completion widget category headers.
 ## Type: QssColor
-# c.colors.completion.category.border.bottom = 'black'
+c.colors.completion.category.border.bottom = '#222222'
 
 ## Top border color of the completion widget category headers.
 ## Type: QssColor
-# c.colors.completion.category.border.top = 'black'
+c.colors.completion.category.border.top = '#222222'
 
 ## Foreground color of completion widget category headers.
 ## Type: QtColor
@@ -62,7 +62,7 @@
 
 ## Background color of the completion widget for even rows.
 ## Type: QssColor
-# c.colors.completion.even.bg = '#333333'
+c.colors.completion.even.bg = '#222222'
 
 ## Text color of the completion widget. May be a single color to use for
 ## all columns or a list of three colors, one for each column.
@@ -71,19 +71,19 @@
 
 ## Background color of the selected completion item.
 ## Type: QssColor
-# c.colors.completion.item.selected.bg = '#e8c000'
+c.colors.completion.item.selected.bg = '#333333'
 
 ## Bottom border color of the selected completion item.
 ## Type: QssColor
-# c.colors.completion.item.selected.border.bottom = '#bbbb00'
+c.colors.completion.item.selected.border.bottom = '#333333'
 
 ## Top border color of the completion widget category headers.
 ## Type: QssColor
-# c.colors.completion.item.selected.border.top = '#bbbb00'
+c.colors.completion.item.selected.border.top = '#333333'
 
 ## Foreground color of the selected completion item.
 ## Type: QtColor
-# c.colors.completion.item.selected.fg = 'black'
+c.colors.completion.item.selected.fg = 'white'
 
 ## Foreground color of the matched text in the completion.
 ## Type: QssColor
@@ -91,7 +91,7 @@
 
 ## Background color of the completion widget for odd rows.
 ## Type: QssColor
-# c.colors.completion.odd.bg = '#444444'
+c.colors.completion.odd.bg = '#222222'
 
 ## Color of the scrollbar in the completion view.
 ## Type: QssColor
@@ -103,7 +103,7 @@
 
 ## Background color for the download bar.
 ## Type: QssColor
-# c.colors.downloads.bar.bg = 'black'
+c.colors.downloads.bar.bg = '#222222'
 
 ## Background color for downloads with errors.
 ## Type: QtColor
@@ -422,7 +422,7 @@ c.colors.tabs.selected.odd.fg = 'white'
 ## Shrink the completion to be smaller than the configured size if there
 ## are no scrollbars.
 ## Type: Bool
-# c.completion.shrink = False
+c.completion.shrink = True
 
 ## Format of timestamps (e.g. for the history completion).
 ## Type: TimestampTemplate
@@ -747,11 +747,11 @@ c.colors.tabs.selected.odd.fg = 'white'
 
 ## Font used in the completion categories.
 ## Type: Font
-# c.fonts.completion.category = 'bold 10pt monospace'
+c.fonts.completion.category = 'bold 12pt monospace'
 
 ## Font used in the completion widget.
 ## Type: Font
-# c.fonts.completion.entry = '10pt monospace'
+c.fonts.completion.entry = '12pt monospace'
 
 ## Font used for the debugging console.
 ## Type: QtFont
@@ -1608,8 +1608,8 @@ c.tabs.position = 'bottom'
 # config.bind('<Escape>', 'leave-mode', mode='command')
 # config.bind('<Return>', 'command-accept', mode='command')
 # config.bind('<Shift-Delete>', 'completion-item-del', mode='command')
-# config.bind('<Shift-Tab>', 'completion-item-focus prev', mode='command')
-# config.bind('<Tab>', 'completion-item-focus next', mode='command')
+config.bind('<Ctrl-K>', 'completion-item-focus prev', mode='command')
+config.bind('<Ctrl-J>', 'completion-item-focus next', mode='command')
 # config.bind('<Up>', 'completion-item-focus --history prev', mode='command')
 
 ## Bindings for hint mode
