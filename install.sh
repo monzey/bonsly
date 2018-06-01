@@ -13,3 +13,4 @@ ln -sf $dir/qutebrowser $HOME/.config/
 ln -sf $dir/polybar $HOME/.config/
 ln -sf $dir/i3 $HOME/.config/
 ln -sf $dir/.ncmpcpp $HOME/.ncmpcpp
+ln -sf $dir/rofi $HOME/.config
