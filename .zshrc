@@ -32,3 +32,6 @@ export PATH=/usr/lib/dart/bin:$PATH
 export PATH=$PATH:~/.pub-cache/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+(cat ~/.cache/wal/sequences)
+source ~/.cache/wal/colors-tty.sh
