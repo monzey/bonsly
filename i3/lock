@@ -1,0 +1,29 @@
+#!/bin/bash
+
+i3lock --blur 0x5  \
+       --insidevercolor=00aedb77 \
+       --insidewrongcolor=d1114177 \
+       --insidecolor=ffffff77 \
+       --ringvercolor=00aedb44 \
+       --ringwrongcolor=d1114144 \
+       --ringcolor=ffffff44 \
+       --line-uses-inside \
+       --keyhlcolor=22222277 \
+       --bshlcolor=d1114177 \
+       --separatorcolor=00000000 \
+       --indicator \
+       -k \
+       --timecolor=00000077 \
+       --datecolor=00000077 \
+       --noinputtext="" \
+       --layoutcolor=00000044 \
+       --wrongtext="" \
+       --wrongcolor=00000044 \
+       --veriftext="" \
+       --verifcolor=00000044 \
+       --verif-font="FontAwesome" \
+       --verifsize=78 \
+       --wrongsize=78 \
+       --wrong-font="FontAwesome" \
+       --layout-font="Roboto Medium for Powerline" \
+       --keylayout 0
