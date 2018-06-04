@@ -33,9 +33,10 @@ font-4 = Unifont:size=5;0
 font-5 = Termsynu:size=7;0
 font-6 = MaterialIcons:size=10;2
 
-modules-left = i3 mpd
-modules-center = xwindow
-modules-right = volume cpu memory clock battery powermenu
+fixed-center = false
+
+modules-left = i3 mpd xwindow
+modules-right = cpu memory volume xbacklight wired-network wireless-network battery clock powermenu
 
 ; wm-restack = i3
 tray-position = right
@@ -300,7 +301,7 @@ bar-used-empty-foreground = #44
 
 [module/wireless-network]
 type = internal/network
-interface = net1
+interface = wlp2s0
 interval = 2.0
 ping-interval = 10
 
@@ -309,11 +310,11 @@ label-connected = %essid%
 label-disconnected =    not connected
 label-disconnected-foreground = #66
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
 
 animation-packetloss-0 = 
 animation-packetloss-0-foreground = #ffa64c
@@ -399,8 +400,8 @@ bar-volume-empty-foreground = #44
 [module/battery]
 type = internal/battery
 full-at = 98
-format-charging = %{T3}Battery charging <label-charging> %{T-}
-format-discharging = %{T3}Battery <label-discharging> %{T-}
+format-charging = %{T3}  <label-charging> %{T-}
+format-discharging = %{T3} <label-discharging> %{T-}
 ;format-full = %{T3}Battery <label-full>
 label-charging-font = 3
 label-discharging-font = 3
