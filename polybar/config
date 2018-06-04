@@ -35,7 +35,7 @@ font-6 = MaterialIcons:size=10;2
 
 modules-left = i3 mpd
 modules-center = xwindow
-modules-right = volume cpu memory clock powermenu
+modules-right = volume cpu memory clock battery powermenu
 
 ; wm-restack = i3
 tray-position = right
@@ -399,7 +399,7 @@ bar-volume-empty-foreground = #44
 [module/battery]
 type = internal/battery
 full-at = 98
-format-charging = %{T3}Battery <label-charging> %{T-}
+format-charging = %{T3}Battery charging <label-charging> %{T-}
 format-discharging = %{T3}Battery <label-discharging> %{T-}
 ;format-full = %{T3}Battery <label-full>
 label-charging-font = 3
@@ -418,8 +418,8 @@ type = custom/menu
 format-padding = 3
 format-foreground = #fff
 
-label-open = 
-label-close = 
+label-open = 
+label-close = 
 label-separator = " - "
 
 menu-0-0 = Terminate WM
