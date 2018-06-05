@@ -8,6 +8,4 @@ setxkbmap -option ctrl:swapcaps
 
 xrdb  ~/.Xresources
 
-wal -R
-
 exec i3
