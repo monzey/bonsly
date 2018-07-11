@@ -1,5 +1,6 @@
 dir=$(pwd -P)
 
+ln -sf $dir/alacritty $HOME/.config/
 ln -sf $dir/.tigrc $HOME/.tigrc
 ln -sf $dir/.tmux.conf $HOME/.config/.tmux.conf
 ln -sf $dir/.vim $HOME
