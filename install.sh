@@ -15,3 +15,5 @@ ln -sf $dir/polybar $HOME/.config/
 ln -sf $dir/i3 $HOME/.config/
 ln -sf $dir/.ncmpcpp $HOME
 ln -sf $dir/rofi $HOME/.config
+ln -sf $dir/git/.gitignore $HOME/.gitignore
+ln -sf $dir/git/.gitconfig $HOME/.gitconfig

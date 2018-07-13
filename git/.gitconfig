@@ -1,0 +1,6 @@
+[user]
+	email = maxi.bertrand@gmail.com
+	name = Maxime Bertrand
+[core]
+	editor = vim
+	excludesfile = /home/max/.gitignore
