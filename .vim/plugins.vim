@@ -27,4 +27,5 @@ Plug 'yuttie/comfortable-motion.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/Colorizer'
 Plug 'godlygeek/tabular'
+Plug 'vim-vdebug/vdebug'
 call plug#end()
