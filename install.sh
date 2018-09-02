@@ -17,3 +17,5 @@ ln -sf $dir/.ncmpcpp $HOME
 ln -sf $dir/rofi $HOME/.config
 ln -sf $dir/git/.gitignore $HOME/.gitignore
 ln -sf $dir/git/.gitconfig $HOME/.gitconfig
+ln -sf $dir/ranger/rc.conf $HOME/.config/ranger/rc.conf
+ln -sf $dir/.Xmodmap $HOME/.Xmodmap
