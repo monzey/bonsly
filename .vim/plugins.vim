@@ -28,4 +28,5 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/Colorizer'
 Plug 'godlygeek/tabular'
 Plug 'vim-vdebug/vdebug'
+Plug 'arnaud-lb/vim-php-namespace'
 call plug#end()

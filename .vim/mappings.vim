@@ -10,7 +10,9 @@ nnoremap <leader>t :bn<CR>
 nnoremap <leader>T :bp<CR>
 nnoremap ? :TagbarOpenAutoClose<CR>/
 nmap     <silent> <C-l> <Plug>(jsdoc)
-nnoremap <buffer> <leader>l :call pdv#DocumentWithSnip()<CR>
 nnoremap F :Files!<CR>
 nnoremap S :Ag! 
 vnoremap a :Tabularize /
+
+autocmd FileType php nnoremap <leader>u :call PhpInsertUse()<CR>
+autocmd FileType php nnoremap <buffer> <leader>l :call pdv#DocumentWithSnip()<CR>
