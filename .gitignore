@@ -7,10 +7,10 @@ compile-cache
 packages
 
 /* Vim */
-.vim/plugged
+vim/.vim/plugged
 
 /* Tmux */
-!.tmux/plugins/tpm
-.tmux/plugins
+!/tmux/.tmux/plugins/tpm
+tmux/.tmux/plugins
 
 error.log

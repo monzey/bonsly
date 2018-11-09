@@ -1,0 +1,23 @@
+shell 
+shell -w git clone git@github.com:monzey/dotfiles.git
+shell -w git clone https://github.com/monzey/dotfiles.git
+shell %s
+shell ./%s
+shell -w ./%s
+shell su - web
+shell -w ./dotfiles/install.sh
+open_with vim
+search ins
+shell -w ./install.sh
+shell vim
+shell -w php composer.phar install
+VEND
+search vend
+shell -w phpq
+search dot
+search instal
+search insta
+open_with 
+shell  %s
+delete
+shell tig
