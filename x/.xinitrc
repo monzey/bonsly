@@ -1,4 +1,4 @@
-~/.fehbg &
+feh --bg-scale ~/wall.png
 
 xset +fp ~/.fonts
 xset fp rehash
