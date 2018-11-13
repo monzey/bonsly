@@ -35,7 +35,7 @@ set $right m
 floating_modifier Mod4
 
 # start a terminal
-bindsym Mod4+Return exec i3-sensible-terminal
+bindsym Mod4+Return exec stterm
 bindsym Mod1+Shift+l exec --no-startup-id ~/.config/i3/lock
 
 # kill focused window
