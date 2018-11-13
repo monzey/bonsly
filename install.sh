@@ -12,3 +12,4 @@ stow tmux
 stow vim
 stow x
 stow zsh
+stow autostart
