@@ -6,7 +6,7 @@ xset fp rehash
 setxkbmap fr
 setxkbmap -option ctrl:swapcaps
 
-xrdb  ~/.Xresources
+xrdb -merge ~/.Xresources
 
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 
