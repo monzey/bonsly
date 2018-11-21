@@ -13,3 +13,5 @@ stow vim
 stow x
 stow zsh
 stow autostart
+
+chsh -s $(which zsh)

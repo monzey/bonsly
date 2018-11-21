@@ -11,10 +11,11 @@ mkdir -p build && cd build/
 make
 make install
 
+rm -rf i3-gaps
+
 # install polybar
 git clone https://github.com/jaagr/polybar.git /tmp/polybar
 cd /tmp/polybar && ./build.sh
 cd ~
 
-chsh -s $(which zsh)
 curl -L git.io/antigen > /usr/bin/antigen
