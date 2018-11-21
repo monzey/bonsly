@@ -11,7 +11,7 @@ mkdir -p build && cd build/
 make
 make install
 
-rm -rf i3-gaps
+rm -rf ../i3-gaps
 
 # install polybar
 git clone https://github.com/jaagr/polybar.git /tmp/polybar
