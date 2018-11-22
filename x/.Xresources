@@ -37,3 +37,4 @@
 
 ! URxvt scrollbar
 URxvt.scrollBar: false
+URxvt.font: xft:FuraCode Nerd Font Mono:pixelsize=13:Regular
