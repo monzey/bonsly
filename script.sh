@@ -20,9 +20,12 @@ git clone https://github.com/jaagr/polybar.git /tmp/polybar
 cd /tmp/polybar && ./build.sh
 cd ~
 
-install 
+# install zsh plugins manager
 curl -L git.io/antigen > /usr/bin/antigen
 
 # install fonts
 cp $dir/fonts/* /usr/share/fonts
 fc-cache -fv
+
+# Vim as default editor
+export EDITOR=vim
