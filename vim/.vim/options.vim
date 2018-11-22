@@ -60,7 +60,7 @@ let g:NERDCompactSexyComs=1
 let g:NERDDefaultAlign="left"
 let g:NERDCommentEmptyLines=1
 
-let g:onedark_termcolors=16
+let g:onedark_termcolors=256
 let g:mapleader = ","
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
