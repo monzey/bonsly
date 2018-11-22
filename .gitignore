@@ -13,4 +13,8 @@ vim/.vim/plugged
 !/tmux/.tmux/plugins/tpm
 tmux/.tmux/plugins
 
+/* Ranger */
+ranger/.config/ranger/bookmarks
+ranger/.config/ranger/history
+
 error.log
