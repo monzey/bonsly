@@ -30,7 +30,8 @@ export NVM_DIR="$HOME/.nvm"
 
 # Vim as default editor
 export EDITOR=vim
-export PATH=/usr/lib/dart/bin:$PATH
+export PATH=$PATH:/usr/lib/dart/bin
 export PATH=$PATH:~/.pub-cache/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+export PATH=$PATH:$HOME/.rvm/bin
+export PATH=$PATH:$HOME/.cargo/env
