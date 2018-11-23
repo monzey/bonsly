@@ -18,6 +18,7 @@ git checkout v0.2.1
 cargo build --release
 mv target/release/alacritty /usr/bin
 chmod a+x /usr/bin/alacritty
+rm -rf alacritty
 
 cd $pwd
 
