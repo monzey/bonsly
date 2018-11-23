@@ -30,7 +30,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # Vim as default editor
 export EDITOR=vim
-export TERM=rxvt-unicode-256color
 export PATH=/usr/lib/dart/bin:$PATH
 export PATH=$PATH:~/.pub-cache/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
