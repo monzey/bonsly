@@ -35,7 +35,7 @@ set $right m
 floating_modifier Mod4
 
 # start a terminal
-bindsym Mod4+Return exec rxvt-unicode
+bindsym Mod4+Return exec alacritty
 bindsym Mod1+Shift+l exec --no-startup-id ~/.config/i3/lock
 
 # kill focused window
