@@ -19,13 +19,13 @@ rustup override set stable
 rustup update stable
 
 # Install alacritty
-git clone https://github.com/jwilm/alacritty.git
-cd alacritty
+git clone https://github.com/jwilm/alacritty.git alacritty-git
+cd alacritty-git
 git checkout v0.2.1
 cargo build --release
 mv target/release/alacritty /usr/bin
 chmod a+x /usr/bin/alacritty
-rm -rf alacritty
+rm -rf alacritty-git
 
 cd $pwd
 
