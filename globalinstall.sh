@@ -23,6 +23,7 @@ installDevEnvironment () {
     # Slack
     wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.3-amd64.deb -O /tmp/slack.deb
     dpkg -i /tmp/slack.deb
+}
 
 installCustomEnvironment () {
     apt update
