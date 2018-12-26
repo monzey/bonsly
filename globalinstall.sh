@@ -1,33 +1,29 @@
 dir=$(pwd)
-opt=$( getopt -l dev,custom,all -- "$@" )
-
-installBasicComponents;
-
-while true ; do
-    case "$1" in
-        -dev) 
-            installDevEnvironment;
-        -custom) 
-            installCustomEnvironment;
-        -all)
-            installDevEnvironment;
-            installCustomEnvironment;
-    esac
-done
 
 installBasicComponents () {
     apt install -y curl build-essential cmake cmake-data openssh-server
 }
 
 installDevEnvironment () {
-    apt update
+    echo "deb http://download.virtualbox.org/virtualbox/debian stretch contrib" > /etc/apt/sources.list.d/virtualbox.list
+    wget https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    sudo apt-key add oracle_vbox_2016.asc
 
+    apt update
     apt install -y nginx php-fpm
+
+    # PhpStorm
     wget https://download-cf.jetbrains.com/webide/PhpStorm-2018.3.tar.gz -O /tmp/phpstorm.tar.gz
     mkdir -p /tmp/phpstorm && tar -zxvf /tmp/phpstorm.tar.gz -C /tmp/phpstorm --strip-components=1
+    mv /tmp/phpstorm /opt/phpstorm
+    ln -s /opt/phpstorm/bin/Phpstorm.sh /usr/bin/phpstorm
+    chmod a+x /usr/bin/phpstorm
+
+    # virtual box
+    apt install virtualbox-6.0
 }
 
-installCustomEnvironment() {
+installCustomEnvironment () {
     apt update
 
     apt install -y libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev sudo
@@ -81,3 +77,24 @@ installCustomEnvironment() {
     cp $dir/fonts/* /usr/share/fonts
     fc-cache -fv
 }
+
+usage () {
+    echo 'Usage: '$0' [-d] [-c]' 1>&2;exit 1;
+}
+
+# installBasicComponents;
+
+while getopts :dc opt; do
+    case "${opt}" in
+        d) 
+            installDevEnvironment
+            ;;
+        c) 
+            installCustomEnvironment
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
