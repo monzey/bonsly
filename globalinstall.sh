@@ -1,7 +1,7 @@
 dir=$(pwd)
 
 installBasicComponents () {
-    apt install -y curl build-essential cmake cmake-data openssh-server
+    apt install -y curl dkms build-essential cmake cmake-data openssh-server linux-headers-`uname -r`
 }
 
 installDevEnvironment () {
@@ -17,7 +17,12 @@ installDevEnvironment () {
     # virtual box
     wget https://download.virtualbox.org/virtualbox/6.0.0/virtualbox-6.0_6.0.0-127566~Debian~stretch_amd64.deb -O /tmp/virtualbox.deb
     dpkg -i /tmp/virtualbox.deb
-}
+    apt install -y --fix-broken
+    /sbin/vboxconfig
+
+    # Slack
+    wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.3-amd64.deb -O /tmp/slack.deb
+    dpkg -i /tmp/slack.deb
 
 installCustomEnvironment () {
     apt update
