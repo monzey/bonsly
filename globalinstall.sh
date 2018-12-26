@@ -82,7 +82,7 @@ usage () {
     echo 'Usage: '$0' [-d] [-c]' 1>&2;exit 1;
 }
 
-# installBasicComponents;
+installBasicComponents;
 
 while getopts :dc opt; do
     case "${opt}" in
