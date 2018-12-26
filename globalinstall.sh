@@ -5,11 +5,6 @@ installBasicComponents () {
 }
 
 installDevEnvironment () {
-    echo "deb http://download.virtualbox.org/virtualbox/debian stretch contrib" > /etc/apt/sources.list.d/virtualbox.list
-    wget https://www.virtualbox.org/download/oracle_vbox_2016.asc
-    sudo apt-key add oracle_vbox_2016.asc
-
-    apt update
     apt install -y nginx php-fpm
 
     # PhpStorm
@@ -20,7 +15,8 @@ installDevEnvironment () {
     chmod a+x /usr/bin/phpstorm
 
     # virtual box
-    apt install -y virtualbox-6.0
+    wget https://download.virtualbox.org/virtualbox/6.0.0/virtualbox-6.0_6.0.0-127566~Debian~stretch_amd64.deb -O /tmp/virtualbox.deb
+    dpkg -i /tmp/virtualbox.deb
 }
 
 installCustomEnvironment () {
