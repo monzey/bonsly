@@ -23,6 +23,9 @@ installDevEnvironment () {
     # Slack
     wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.3-amd64.deb -O /tmp/slack.deb
     dpkg -i /tmp/slack.deb
+
+    # Generate a ssh private key to link it to github repos
+    ssh-keygen -t rsa -b 4096 -C "maxi.bertrand@gmail.com"
 }
 
 installCustomEnvironment () {
