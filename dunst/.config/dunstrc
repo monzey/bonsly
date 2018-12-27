@@ -1,5 +1,6 @@
 [global]
-    font = "monospace 18"
+    font = "FuraCode Nerd Font Mono 12"
+
 
     # The format of the message. Possible variables are:
     #   %a  appname
@@ -7,7 +8,7 @@
     #   %b  body
     #   %i  iconname (including its path)
     #   %I  iconname (without its path)
-    format = "%a: %s %b"
+    format = "%i %s %p \n%b"
 
     # Sort messages by urgency
     sort = yes
@@ -17,7 +18,7 @@
 
     # alignment of message text.
     # Possible values are "left", "center" and "right"
-    alignment = right
+    alignment = left
 
     # The frequency with wich text that is longer than the notification
     # window allows bounces back and forth.
@@ -46,7 +47,7 @@
 
     # The transparency of the window. range: [0; 100]
     # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
-    transparency = 0
+    transparency = 10
 
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
@@ -66,7 +67,7 @@
     #
     # If this option is set to mouse or keyboard, the monitor option will be
     # ignored.
-    follow = mouse
+    follow = keyboard
 
     # should a notification popped up from history be sticky or
     # timeout as if it would normally do.
@@ -85,6 +86,9 @@
     # This can either be "auto" or "foreground". "Auto" tries to find a color
     # that fits nicely to the background color.
     separator_color = auto
+
+    padding = 12
+    horizontal_padding = 16
 
 
 [shortcuts]
