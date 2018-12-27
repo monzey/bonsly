@@ -1,5 +1,7 @@
 stow alacritty
+stow autostart
 stow compton
+stow dunst
 stow feh
 stow i3
 stow ncmpcpp
@@ -12,7 +14,6 @@ stow tmux
 stow vim
 stow x
 stow zsh
-stow autostart
 
 chsh -s $(which zsh)
 
