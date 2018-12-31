@@ -1,29 +1,7 @@
 #!/bin/bash
+TMPBG=/tmp/screen.png
+RES=3840x1080
 
-i3lock --blur 0x5  \
-       --insidevercolor=00aedb77 \
-       --insidewrongcolor=d1114177 \
-       --insidecolor=ffffff77 \
-       --ringvercolor=00aedb44 \
-       --ringwrongcolor=d1114144 \
-       --ringcolor=ffffff44 \
-       --line-uses-inside \
-       --keyhlcolor=22222277 \
-       --bshlcolor=d1114177 \
-       --separatorcolor=00000000 \
-       --indicator \
-       -k \
-       --timecolor=00000077 \
-       --datecolor=00000077 \
-       --noinputtext="" \
-       --layoutcolor=00000044 \
-       --wrongtext="" \
-       --wrongcolor=00000044 \
-       --veriftext="" \
-       --verifcolor=00000044 \
-       --verif-font="FontAwesome" \
-       --verifsize=78 \
-       --wrongsize=78 \
-       --wrong-font="FontAwesome" \
-       --layout-font="Roboto Medium for Powerline" \
-       --keylayout 0
+ffmpeg -f x11grab -video_size $RES -y -i $DISPLAY -filter_complex "boxblur=5:1,overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" -vframes 1 $TMPBG
+i3lock -i $TMPBG
+
