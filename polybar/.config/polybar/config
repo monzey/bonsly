@@ -11,114 +11,40 @@ height = 27
 background = #1f1f1f
 foreground = #eee
 
-border-bottom = 1
+border-bottom-size = 0
 border-bottom-color = #333
 
-overline-size = 3
+overline-size = 5
 overline-color = ${self.background}
-underline-size = 3
+underline-size = 4
 underline-color = ${colors.accent}
 
 spacing = 3
 padding-left = 0
 padding-right = 0
-module-margin-left = 3
-module-margin-right = 3
+module-margin-left = 2
+module-margin-right = 2
 
-font-0 = FuraCode Nerd Font Mono-Regular:size=8;0
+font-0 = FuraCode Nerd Font Mono-Regular:size=9;0
 font-1 = FuraCode Nerd Font Mono-Regular:size=5;0
 font-2 = FuraCode Nerd Font Mono-Regular:size=8;0
-font-3 = FuraCode Nerd Font Mono-Regular:size=14;-1
+font-3 = FuraCode Nerd Font Mono-Regular:size=14;1
 font-4 = FuraCode Nerd Font Mono-Regular:size=5;0
 font-5 = FuraCode Nerd Font Mono-Regular:size=7;0
 font-6 = FuraCode Nerd Font Mono-Regular:size=10;2
 
 fixed-center = false
 
-modules-left = i3 mpd xwindow
-modules-right = cpu memory volume xbacklight wired-network wireless-network battery clock powermenu
+modules-left = i3 xwindow
+modules-right = cpu memory volume wired-network clock 
 
 ; wm-restack = i3
 tray-position = right
-
-[bar/bottom]
-; monitor = eDP-1
-bottom = true
-width = 100%
-height = 27
-
-background = #1c1c1c
-foreground = #eefafafa
-
-overline-size = 3
-overline-color = ${colors.accent}
-underline-size = 3
-underline-color = ${colors.accent}
-
-;border-color = #ff0000
-border-top = 3
-border-top-color = #3d3d3d
-;border-bottom = 0
-;border-bottom-color = #333333
-
-spacing = 3
-;padding-right = 4
-padding-left = 0
-padding-right = 0
-module-margin-left = 0
-module-margin-right = 6
-
-modules-left = i3
-;modules-center =
-modules-right = cpu memory 
-;modules-right = memory
-
-wm-restack = i3
-
-[bar/external]
-enable-ipc = true
-monitor = HDMI-1
-bottom = true
-;dock = true
-width = ${bar/bottom.width}
-height = ${bar/bottom.height}
-
-background = ${bar/bottom.background}
-foreground = ${bar/bottom.foreground}
-
-underline-size = ${bar/bottom.underline-size}
-underline-color = ${bar/bottom.underline-color}
-overline-size = ${bar/bottom.overline-size}
-overline-color = ${bar/bottom.overline-color}
-
-border-bottom.= ${bar/bottom.border-bottom}
-border-bottom.color = ${bar/bottom.border-bottom-color}
-
-spacing = ${bar/bottom.spacing}
-padding-left = ${bar/bottom.padding-left}
-padding-right = ${bar/bottom.padding-right}
-module-margin-left = 0
-module-margin-right = ${bar/bottom.module-margin-right}
-
-font-0 = ${bar/bottom.font-0}
-font-1 = ${bar/bottom.font-1}
-font-2 = ${bar/bottom.font-2}
-font-3 = ${bar/bottom.font-3}
-font-4 = ${bar/bottom.font-4}
-font-5 = ${bar/bottom.font-5}
-
-modules-left = bspwm i3
-modules-center = xwindow
-modules-right = fs-root clock
-
-wm-restack = ${bar/bottom.wm-restack}
-
 
 [module/fs-root]
 type = internal/fs
 mount-0 = /
 label-mounted = %{F#e60053}%percentage_used%%%{F-} used of %mountpoint%
-
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -165,6 +91,7 @@ ws-icon-2 = code;
 ws-icon-3 = music;
 ws-icon-4 = irssi;
 ws-icon-default = 
+ws-icon-5 = code_secondary;
 
 label-dimmed-underline = ${root.background}
 
@@ -239,9 +166,9 @@ label-visible-underline = ${colors.accent}
 type = internal/cpu
 interval = 1.5
 
-format = <label> <ramp-coreload>
+format = <label>
 
-label = CPU
+label = %{T4} %{T10}%percentage%%
 label-font = 10
 label-foreground = #99
 
@@ -273,26 +200,9 @@ ramp-coreload-7-foreground = #ff5555
 [module/memory]
 type = internal/memory
 interval = 0.2
-format = <label> <bar-used>
+label = %{T4} %{T10}%percentage_used%%
 
-label = RAM
-label-font = 10
 label-foreground = #99
-
-bar-used-width = 30
-bar-used-gradient = true
-bar-used-foreground-0 = #449f3d
-bar-used-foreground-1 = #2f8419
-bar-used-foreground-2 = #f5a70a
-bar-used-foreground-3 = #ed5456
-bar-used-indicator = █
-bar-used-indicator-font = 5
-bar-used-indicator-foreground = #fff
-bar-used-fill = █
-bar-used-fill-font = 5
-bar-used-empty = █
-bar-used-empty-font = 5
-bar-used-empty-foreground = #44
 
 [module/wireless-network]
 type = internal/network
@@ -319,10 +229,10 @@ animation-packetloss-framerate = 500
 
 [module/wired-network]
 type = internal/network
-interface = net0
+interface = eno1
 interval = 2.0
 
-label-connected =   %local_ip%
+label-connected = %{T4} %{T10}%downspeed%
 label-disconnected = Ethernet disconnected
 label-disconnected-foreground = #66
 
@@ -366,15 +276,15 @@ interval = 5
 format-padding = 5
 format-background = #000
 format-foreground = #fff
-date = %%{F#bb}%Y-%m-%d%%{F-}  %%{F#ee}%H:%M%%{F-}
+date = %{T4} %{T10}%%{F#bb}%d %B %Y%%{F-}  %{T4} %{T10}%%{F#ee}%H:%M%%{F-}
 
 [module/volume]
-type = internal/volume
+type = internal/alsa
 
-format-volume =   <bar-volume>
+format-volume = %{T4}墳 %{T10}<label-volume>
+format-muted = %{T4}婢 %{T10}<label-muted>
 
 format-muted-foreground = #66
-label-muted = 
 ; label-muted-foreground = #99ffffff
 
 bar-volume-width = 20

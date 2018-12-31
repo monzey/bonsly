@@ -36,7 +36,7 @@ floating_modifier Mod4
 
 # start a terminal
 bindsym Mod4+Return exec alacritty
-bindsym Mod1+Shift+l exec --no-startup-id ~/.config/i3/lock
+bindsym Mod4+q exec --no-startup-id ~/.config/i3/lock
 
 # kill focused window
 bindsym Mod4+Shift+q kill
@@ -111,10 +111,10 @@ bindsym Mod4+minus scratchpad show
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "web"
 set $ws2 "term"
-set $ws3 "code"
-set $ws4 "music"
-set $ws5 "irssi"
-set $ws6 "6"
+set $ws3 "music"
+set $ws4 "irssi"
+set $ws5 "code"
+set $ws6 "code_secondary"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -122,12 +122,12 @@ set $ws10 "10"
 
 
 # switch to workspace
-bindsym Mod4+1 workspace $ws1
-bindsym Mod4+2 workspace $ws2
+bindsym Mod4+Tab workspace $ws1
+bindsym Mod4+Shift+s workspace $ws2
 bindsym Mod4+3 workspace $ws3
 bindsym Mod4+4 workspace $ws4
-bindsym Mod4+5 workspace $ws5
-bindsym Mod4+6 workspace $ws6
+bindsym Mod4+Shift+b workspace $ws5
+bindsym Mod4+Shift+n workspace $ws6
 bindsym Mod4+7 workspace $ws7
 bindsym Mod4+8 workspace $ws8
 bindsym Mod4+9 workspace $ws9
