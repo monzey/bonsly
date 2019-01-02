@@ -110,11 +110,12 @@ bindsym Mod4+minus scratchpad show
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "web"
+set $ws11 "webins"
 set $ws2 "term"
-set $ws3 "music"
-set $ws4 "irssi"
-set $ws5 "code"
-set $ws6 "code_secondary"
+set $ws3 "code"
+set $ws33 "codesec"
+set $ws4 "music"
+set $ws5 "irssi"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -122,19 +123,20 @@ set $ws10 "10"
 
 
 # switch to workspace
-bindsym Mod4+Tab workspace $ws1
-bindsym Mod4+Shift+s workspace $ws2
-bindsym Mod4+3 workspace $ws3
-bindsym Mod4+4 workspace $ws4
-bindsym Mod4+Shift+b workspace $ws5
-bindsym Mod4+Shift+n workspace $ws6
+bindsym Mod4+z workspace $ws1
+bindsym Mod4+Control+z workspace $ws11
+bindsym Mod4+Control+s workspace $ws2
+bindsym Mod4+Control+i workspace $ws3
+bindsym Mod4+Control+o workspace $ws33
+bindsym Mod4+Control+p workspace $ws4
+bindsym Mod4+Control+n workspace $ws5
 bindsym Mod4+7 workspace $ws7
 bindsym Mod4+8 workspace $ws8
 bindsym Mod4+9 workspace $ws9
 bindsym Mod4+0 workspace $ws10
 
 # move focused container to workspace
-bindsym Mod4+Shift+1 move container to workspace $ws1
+bindsym Mod4+Shift+z move container to workspace $ws1
 bindsym Mod4+Shift+2 move container to workspace $ws2
 bindsym Mod4+Shift+3 move container to workspace $ws3
 bindsym Mod4+Shift+4 move container to workspace $ws4

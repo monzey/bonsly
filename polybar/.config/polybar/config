@@ -87,11 +87,12 @@ format = <label-state> <label-mode>
 
 ws-icon-0 = term;
 ws-icon-1 = web;
-ws-icon-2 = code;
-ws-icon-3 = music;
-ws-icon-4 = irssi;
+ws-icon-2 = webins;
+ws-icon-3 = code;
+ws-icon-4 = codesec;
+ws-icon-5 = music;
+ws-icon-6 = irssi;
 ws-icon-default = 
-ws-icon-5 = code_secondary;
 
 label-dimmed-underline = ${root.background}
 
