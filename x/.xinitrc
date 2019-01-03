@@ -9,6 +9,7 @@ setxkbmap -option ctrl:swapcaps
 xrdb -merge ~/.Xresources
 
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+xmodmap -e "keycode 62 = Escape"
 
 wal -R
 
