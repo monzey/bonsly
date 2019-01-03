@@ -213,6 +213,9 @@ for_window [class="^.*"] border pixel 0
 gaps inner 10
 gaps outer 2
 
+# Prevent mouse warping
+mouse_warping none
+
 # Compton startup
 exec compton -b -c
 
