@@ -38,3 +38,6 @@
 ! URxvt scrollbar
 URxvt.scrollBar: false
 URxvt.font: xft:FuraCode Nerd Font Mono:pixelsize=13:Regular
+
+Xcursor.theme: cursor-default-theme
+Xcursor.size: 24
