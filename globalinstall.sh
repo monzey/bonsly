@@ -22,7 +22,7 @@ installDevEnvironment () {
     dpkg -i /tmp/slack.deb
 
     apt install -y --fix-broken
-    apt install -y openvpn
+    apt install -y openvpn htop
 
     # Generate a ssh private key to link it to github repos
     ssh-keygen -t rsa -b 4096 -C "maxi.bertrand@gmail.com"
