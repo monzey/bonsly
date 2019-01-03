@@ -135,6 +135,8 @@ assign [class="jetbrains-phpstorm"] $ws3
 assign [class="Slack"] $ws5
 for_window [class="Spotify"] move to workspace $ws4
 
+bindsym Mod4+Tab workspace back_and_forth
+
 # switch to workspace
 bindsym Mod4+z workspace $ws1
 bindsym Mod4+Control+z workspace $ws11
@@ -217,7 +219,7 @@ gaps outer 2
 mouse_warping none
 
 # Compton startup
-exec compton -b -c
+exec compton -b -c 
 
 exec chromium
 exec phpstorm
