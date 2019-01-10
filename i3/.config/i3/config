@@ -130,11 +130,13 @@ workspace $ws4 output DP-2
 workspace $ws5 output DP-2
 
 assign [class="Chromium"] $ws1
-assign [class="Chromium" window_role="^pop-up$"] $ws11
+for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
 
 assign [class="jetbrains-phpstorm"] $ws3
 for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws33
 for_window [class="jetbrains-phpstorm" title="^Structure"] move to workspace $ws33
+for_window [class="jetbrains-phpstorm" title="^Find"] move to workspace $ws33
+for_window [class="jetbrains-phpstorm" title="^File Transfer"] move to workspace $ws33
 
 assign [class="Slack"] $ws5
 
