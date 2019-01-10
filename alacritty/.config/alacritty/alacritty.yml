@@ -201,7 +201,7 @@ hide_cursor_when_typing: false
 # - Block
 # - Underline
 # - Beam
-cursor_style: Underline
+cursor_style: Block
 
 # Live config reload (changes require restart)
 live_config_reload: true
@@ -260,6 +260,8 @@ key_bindings:
   - { key: C,        mods: Control|Shift,    action: Copy                }
   - { key: Q,        mods: Command, action: Quit                         }
   - { key: W,        mods: Command, action: Quit                         }
+  - { key: K,        mods: Control|Alt, action: ScrollPageUp             }
+  - { key: J,        mods: Control|Alt, action: ScrollPageDown           }
   - { key: Insert,   mods: Shift,   action: PasteSelection               }
   - { key: Key0,     mods: Control, action: ResetFontSize                }
   - { key: Equals,   mods: Control, action: IncreaseFontSize             }
