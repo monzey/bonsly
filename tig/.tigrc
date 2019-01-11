@@ -1,5 +1,5 @@
-bind refs P ?!git push -u %(remote) %(branch)
-bind refs p ?!git pull --rebase %(remote) %(branch)
+bind refs P ?!git push %(remote) %(branch)
+bind refs p ?!git pull %(remote) %(branch)
 bind refs M ?!git merge %(branch)
 bind main c ?!git checkout %(commit)
 bind status d ?!rm %(file)
