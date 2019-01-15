@@ -116,8 +116,8 @@ set $ws3 "code"
 set $ws33 "codesec"
 set $ws4 "music"
 set $ws5 "irssi"
-set $ws7 "7"
-set $ws8 "8"
+set $ws6 "surf"
+set $ws7 "todo"
 set $ws9 "9"
 set $ws10 "10"
 
@@ -128,9 +128,13 @@ workspace $ws3 output DP-1
 workspace $ws33 output DP-2
 workspace $ws4 output DP-2
 workspace $ws5 output DP-2
+workspace $ws6 output DP-1
+workspace $ws7 output DP-2
 
-assign [class="Chromium"] $ws1
+assign [class="Chromium" role="pop-up"] $ws1
 for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
+
+assign [class="Chromium" role="browser"] $ws6
 
 assign [class="jetbrains-phpstorm"] $ws3
 for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws33

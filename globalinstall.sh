@@ -44,6 +44,18 @@ installCustomEnvironment () {
     apt update
     apt install -y spotify-client
 
+    # Install qutebrowser
+    wget http://ftp.fr.debian.org/debian/pool/main/p/pypeg2/python3-pypeg2_2.15.2-2_all.deb -O /tmp/python3.deb
+    dpkg -i /tmp/python3.deb
+
+    wget http://ftp.fr.debian.org/debian/pool/main/q/qutebrowser/qutebrowser_1.5.2-1_all.deb -O /tmp/qutebrowser.deb
+    dpkg -i /tmp/qutebrowser.deb
+
+    wget http://ftp.fr.debian.org/debian/pool/main/q/qutebrowser/qutebrowser-qtwebengine_1.5.2-1_all.deb -O /tmp/qtwebengine.deb
+    dpkg -i /tmp/qtwebengine.deb
+
+    apt install -y --fix-broken
+
     # Install rust
     apt remove rustc -y
     curl https://sh.rustup.rs -sSf | sh
