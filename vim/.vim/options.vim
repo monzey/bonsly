@@ -88,3 +88,5 @@ command! -bang -nargs=? -complete=dir Files
 let &t_SI = "\<Esc>[5 q"
 let &t_EI = "\<Esc>[1 q"
 
+" Vim Outliner
+let maplocalleader = ',,'

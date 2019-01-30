@@ -28,4 +28,5 @@ Plug 'chrisbra/Colorizer'
 Plug 'godlygeek/tabular'
 Plug 'vim-vdebug/vdebug'
 Plug 'arnaud-lb/vim-php-namespace'
+Plug 'vimoutliner/vimoutliner'
 call plug#end()
