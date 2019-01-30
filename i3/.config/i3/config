@@ -128,19 +128,20 @@ workspace $ws3 output DP-1
 workspace $ws33 output DP-2
 workspace $ws4 output DP-2
 workspace $ws5 output DP-2
-workspace $ws6 output DP-1
-workspace $ws7 output DP-2
+workspace $ws6 output DP-2
+workspace $ws7 output DP-1
 
-assign [class="Chromium" role="pop-up"] $ws1
+assign [class="Chromium" window_role="pop-up"] $ws1
 for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
 
-assign [class="Chromium" role="browser"] $ws6
+assign [class="Chromium" window_role="browser"] $ws6
 
 assign [class="jetbrains-phpstorm"] $ws3
 for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws33
 for_window [class="jetbrains-phpstorm" title="^Structure"] move to workspace $ws33
 for_window [class="jetbrains-phpstorm" title="^Find"] move to workspace $ws33
 for_window [class="jetbrains-phpstorm" title="^File Transfer"] move to workspace $ws33
+for_window [class="jetbrains-phpstorm" title="^Debug"] move to workspace $ws33
 
 assign [class="Slack"] $ws5
 
@@ -156,8 +157,8 @@ bindsym Mod4+Control+i workspace $ws3
 bindsym Mod4+Control+o workspace $ws33
 bindsym Mod4+Control+p workspace $ws4
 bindsym Mod4+Control+n workspace $ws5
-bindsym Mod4+7 workspace $ws7
-bindsym Mod4+8 workspace $ws8
+bindsym Mod4+Control+j workspace $ws6
+bindsym Mod4+Control+d workspace $ws7
 bindsym Mod4+9 workspace $ws9
 bindsym Mod4+0 workspace $ws10
 
@@ -233,6 +234,7 @@ mouse_warping none
 exec compton -b -c 
 
 exec chromium
+exec chromium --app=https://localhost:4443/dashboard
 exec phpstorm
 exec slack
 exec spotify
