@@ -131,10 +131,10 @@ workspace $ws5 output DP-2
 workspace $ws6 output DP-2
 workspace $ws7 output DP-1
 
-assign [class="Chromium" window_role="pop-up"] $ws1
-for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
+assign [class="Google-chrome" window_role="pop-up"] $ws1
+for_window [class="Google-chrome" title="^DevTools"] move to workspace $ws11
 
-assign [class="Chromium" window_role="browser"] $ws6
+assign [class="Google-chrome" window_role="browser"] $ws6
 
 assign [class="jetbrains-phpstorm"] $ws3
 for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws33
@@ -217,10 +217,15 @@ mode "resize" {
 bindsym Mod4+r mode "resize"
 
 # Applications shortcuts
-bindsym Mod4+shift+w exec qutebrowser
+bindsym Mod4+shift+w exec google-chrome --kiosk
+bindsym Mod4+ctrl+space exec recdsk
+bindsym Mod4+ctrl+q exec killall recdsk
 
 # Polybar config
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Dunst
+exec --no-startup-id dunst 
 
 # I3 gaps config
 for_window [class="^.*"] border pixel 0
@@ -233,8 +238,9 @@ mouse_warping none
 # Compton startup
 exec compton -b -c 
 
-exec chromium
-exec chromium --app=https://localhost:4443/dashboard
+exec google-chrome --kiosk
+exec --no-startup-id i3-msg 'workspace $ws2; exec alacritty'
+exec google-chrome --app=https://localhost:4443/dashboard
 exec phpstorm
 exec slack
 exec spotify
