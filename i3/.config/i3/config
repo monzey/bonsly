@@ -131,8 +131,8 @@ workspace $ws5 output DP-2
 workspace $ws6 output DP-2
 workspace $ws7 output DP-1
 
-assign [class="Google-chrome" window_role="pop-up"] $ws1
-for_window [class="Google-chrome" title="^DevTools"] move to workspace $ws11
+assign [class="Chromium" window_role="pop-up"] $ws1
+for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
 
 assign [class="Google-chrome" window_role="browser"] $ws6
 
@@ -239,8 +239,13 @@ mouse_warping none
 exec compton -b -c 
 
 exec google-chrome --kiosk
-exec --no-startup-id i3-msg 'workspace $ws2; exec alacritty'
-exec google-chrome --app=https://localhost:4443/dashboard
+
+# Run tig & vagrant
+exec --no-startup-id i3-msg 'workspace term'
+exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up; vagrant ssh"
+exec alacritty --working-directory ~/rg/rgsupv-dashboard -e tig
+
+exec chromium --app=https://dashboard.rg-supervision.local/dashboard 
 exec phpstorm
 exec slack
 exec spotify
