@@ -245,7 +245,7 @@ exec --no-startup-id i3-msg 'workspace term'
 exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up; vagrant ssh"
 exec alacritty --working-directory ~/rg/rgsupv-dashboard -e tig
 
-exec chromium --app=https://dashboard.rg-supervision.local/dashboard 
+exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
 exec phpstorm
 exec slack
 exec spotify
