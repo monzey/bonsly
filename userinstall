@@ -1,3 +1,5 @@
+pwd=`pwd`
+
 stow alacritty
 stow autostart
 stow compton
@@ -21,3 +23,5 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 mkdir -p ~/.icons/cursor-default-theme
 cp -r cursor/* ~/.icons/cursor-default-theme
+
+ln -sf $pwd/.fonts.conf ~
