@@ -33,8 +33,8 @@ installCustomEnvironment () {
     apt update
 
     apt install -y libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-composite0-dev sudo
-    apt install -y chromium stow xfonts-base xserver-xorg-input-all xinit xserver-xorg xserver-xorg-video-all cargo ranger zsh zsh-antigen tig feh vim-nox tmux rofi compton i3 suckless-tools xclip silversearcher-ag nodejs
-    apt install -y dbus-x11 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev dirmngr ffmpeg x11-apps
+    apt install -y chromium stow xfonts-base xserver-xorg-input-all xinit xserver-xorg xserver-xorg-video-all cargo ranger zsh zsh-antigen tig feh vim-nox tmux compton i3 suckless-tools xclip silversearcher-ag nodejs bison flex
+    apt install -y dbus-x11 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev dirmngr ffmpeg x11-apps librsvg-2
 
     npm install -g joplin
 
@@ -68,6 +68,13 @@ installCustomEnvironment () {
     cd /tmp/dunst
     make
     make install
+
+    # Install rofi
+    git clone https://github.com/dunst-project/dunst.git /tmp/rofi
+    cd /tmp/rofi
+    mkdir build && cd build
+    ../configure --disable-check
+    make && make install
 
     # Install rust
     cd /tmp
