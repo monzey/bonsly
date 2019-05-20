@@ -8,7 +8,7 @@
     #   %b  body
     #   %i  iconname (including its path)
     #   %I  iconname (without its path)
-    format = "%i %s %p \n%b"
+    format = "<b>%a</b> %s \n%b\n%p"
 
     # Sort messages by urgency
     sort = yes
@@ -24,7 +24,7 @@
     # window allows bounces back and forth.
     # This option conflicts with 'word_wrap'.
     # Set to 0 to disable
-    bounce_freq = 10
+    bounce_freq = 0
 
     # show age of message if message is older than show_age_threshold seconds.
     # set to -1 to disable
@@ -32,6 +32,8 @@
 
     # split long notifications into multiple lines
     word_wrap = yes
+    icon_position = left
+    history_length = 20
 
 
     # the geometry of the window
@@ -43,7 +45,7 @@
     # the window expands to the longest message displayed.
     # A positive x is measured from the left, a negative from the
     # right side of the screen.  Y is measured from the top and down respectevly.
-    geometry = "0x3-30+20"
+    geometry = "300x3-30+20"
 
     # The transparency of the window. range: [0; 100]
     # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
@@ -52,7 +54,7 @@
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
     # Set to 0 to disable.
-    idle_threshold = 120
+    idle_threshold = 0
 
     # Which monitor should the notifications be displayed on.
     # monitor = 1
@@ -80,7 +82,7 @@
 
     # Draw a line of 'separatpr_height' pixel height between two notifications.
     # Set to 0 to disable
-    separator_height = 2;
+    separator_height = 0;
 
     # Define a color for the separator.
     # This can either be "auto" or "foreground". "Auto" tries to find a color
@@ -89,6 +91,7 @@
 
     padding = 12
     horizontal_padding = 16
+    startup_notification = true
 
 
 [shortcuts]

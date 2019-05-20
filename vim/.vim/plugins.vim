@@ -29,4 +29,7 @@ Plug 'godlygeek/tabular'
 Plug 'vim-vdebug/vdebug'
 Plug 'arnaud-lb/vim-php-namespace'
 Plug 'vimoutliner/vimoutliner'
+Plug 'moll/vim-node'
+Plug 'othree/yajs.vim'
+Plug 'galooshi/vim-import-js'
 call plug#end()

@@ -1,7 +1,8 @@
-bind refs P ?!git push %(remote) %(branch)
-bind refs p ?!git pull %(remote) %(branch)
-bind refs M ?!git merge %(branch)
+bind refs P ?!git push "%(prompt Remote name: )" %(branch)
+bind refs p ?!git pull "%(prompt Remote name: )" %(branch)
+bind refs M ?!git pull %(remote) master
 bind main c ?!git checkout %(commit)
 bind status d ?!rm %(file)
 bind generic H !git log --author=%(prompt) --name-status
 bind refs f ?!git fetch --all
+bind generic N ?!git checkout -b "%(prompt New branch name: )"
