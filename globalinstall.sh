@@ -24,7 +24,7 @@ installDevEnvironment () {
     apt install -y --fix-broken
     apt install -y openvpn htop
 
-    ln -sf ./init.d/openvpncustom /etc/init.d/openvpncustom
+    ln -sf $dir/init.d/openvpncustom /etc/init.d/openvpncustom
     update-rc.d openvpncustom defaults
 
     # Generate a ssh private key to link it to github repos
