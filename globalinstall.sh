@@ -24,6 +24,9 @@ installDevEnvironment () {
     apt install -y --fix-broken
     apt install -y openvpn htop
 
+    ln -sf ./init.d/openvpncustom /etc/init.d/openvpncustom
+    update-rc.d openvpncustom defaults
+
     # Generate a ssh private key to link it to github repos
     ssh-keygen -t rsa -b 4096 -C "maxi.bertrand@gmail.com"
 }
@@ -96,16 +99,16 @@ installCustomEnvironment () {
     cd $pwd
 
     # install i3 gaps
-    curl -sL https://raw.githubusercontent.com/maestrogerardo/i3-gaps-deb/master/i3-gaps-deb | bash -
+    cd /tmp
+    git clone https://www.github.com/Airblader/i3 i3-gaps
     cd i3-gaps
+    git checkout gaps-next && git pull
     autoreconf --force --install
-    rm -rf build/
-    mkdir -p build && cd build/
-    ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
-    make
-    make install
-
-    rm -rf ../i3-gaps
+    rm -rf build
+    mkdir build
+    cd build
+    ../configure --prefix=/usr --sysconfdir=/etc
+    make && make install
 
     # install polybar
     git clone https://github.com/jaagr/polybar.git /tmp/polybar
@@ -122,18 +125,48 @@ installCustomEnvironment () {
     # mv recdsk utility
     cp recdsk /usr/bin
     chmod +x /usr/bin/recdsk
+
+}
+
+vim () {
+    # step up in the game
+    sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
+        libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+        libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
+        python3-dev ruby-dev lua5.1 liblua5.1-dev libperl-dev git
+
+    cd /tmp
+    git clone https://github.com/vim/vim.git
+    cd vim
+    ./configure --with-features=huge \
+        --enable-multibyte \
+        --enable-rubyinterp=yes \
+        --enable-pythoninterp=yes \
+        --with-python-config-dir=/usr/lib/python2.7/config \ 
+        --enable-python3interp=yes \
+        --with-python3-config-dir=/usr/lib/python3.5/config \
+        --enable-perlinterp=yes \
+        --enable-luainterp=yes \
+        --enable-gui=gtk2 \
+        --enable-cscope \
+        --prefix=/usr/local
+
+    make VIMRUNTIMEDIR=/usr/local/share/vim/vim81
 }
 
 usage () {
     echo 'Usage: '$0' [-d] [-c]' 1>&2;exit 1;
 }
 
-installBasicComponents;
+# installBasicComponents;
 
 while getopts :dc opt; do
     case "${opt}" in
         d) 
             installDevEnvironment
+            ;;
+        v) 
+            vim
             ;;
         c) 
             installCustomEnvironment

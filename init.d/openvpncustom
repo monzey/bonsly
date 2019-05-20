@@ -1,0 +1,14 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          openvpncustom
+# Required-Start:    $remote_fs dbus
+# Required-Stop:     $remote_fs dbus
+# Should-Start:	     $syslog
+# Should-Stop:       $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start vpn at boot time
+# Description:       Starts vpn connection for better development
+### END INIT INFO
+
+openvpn --config /root/.openvpn/mbertrand/mbertrand.ovpn --cd /root/.openvpn/mbertrand > /tmp/openvcustom.log &
