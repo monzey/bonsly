@@ -211,14 +211,15 @@ type = internal/mpd
 format-online =  <label-song> 
 ;alt icons =   
 ; format-online-background = ${color.ashade8}
-format-online-foreground = ${color.shade8}
+format-playing-foreground = ${color.shade8}
+format-paused-foreground = ${color.fg-alt}
 format-online-padding = 2
 
 icon-play = 喇
 icon-pause = 
 
-label-song-maxlen = 25
-label-song-ellipsis = true
+label-song-maxlen = 155
+label-song-ellipsis = false
 
 ;==========================================================
 
