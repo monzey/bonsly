@@ -37,9 +37,19 @@ installCustomEnvironment () {
 
     apt install -y libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-composite0-dev sudo
     apt install -y chromium stow xfonts-base xserver-xorg-input-all xinit xserver-xorg xserver-xorg-video-all cargo ranger zsh zsh-antigen tig feh vim-nox tmux compton i3 suckless-tools xclip silversearcher-ag nodejs bison flex
-    apt install -y dbus-x11 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev dirmngr ffmpeg x11-apps librsvg-2
+    apt install -y dbus-x11 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev dirmngr ffmpeg x11-apps librsvg-2 mpc
 
     npm install -g joplin
+
+    # Install mpoidy
+    wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+    wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list
+    apt update
+    apt install mopidy mopidy-spotify
+
+    # Install iris
+    pip3 install Mopidy-Iris
+    sudo echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.5/dist-packages/mopidy_iris/system.sh" >> /etc/sudoers
 
     # Install spotify
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90

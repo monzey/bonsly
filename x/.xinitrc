@@ -13,4 +13,6 @@ xmodmap -e "keycode 62 = Escape"
 
 wal -R
 
+mopidy
+
 exec i3

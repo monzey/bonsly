@@ -189,6 +189,11 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 2dB+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 2dB-
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
 
+# mpd controls
+bindsym Mod4+equal exec mpc next
+bindsym Mod4+parenright exec mpc prev
+bindsym Mod4+BackSpace exec mpc toggle
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -248,4 +253,4 @@ exec alacritty --working-directory ~/rg/rgsupv-dashboard -e tig
 exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
 exec phpstorm
 exec slack
-exec spotify
+exec google-chrome --app=http://localhost:6680/iris

@@ -25,3 +25,5 @@ mkdir -p ~/.icons/cursor-default-theme
 cp -r cursor/* ~/.icons/cursor-default-theme
 
 ln -sf $pwd/.fonts.conf ~
+
+cp $pwd/mopidy/.config/mopidy/mopidy.conf $HOME/.config/mopidy/mopidy.conf
