@@ -1,4 +1,4 @@
-feh --bg-scale ~/wall.png
+feh --bg-scale ~/wall
 
 xset +fp ~/.fonts
 xset fp rehash
@@ -13,6 +13,6 @@ xmodmap -e "keycode 62 = Escape"
 
 wal -R
 
-mopidy
+mopidy &
 
 exec i3

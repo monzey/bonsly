@@ -1,3 +1,3 @@
 #!/bin/bash
-i3lock -u -t -i ~/wall.png & sleep 5 && xset dpms force off
+i3lock -t -i ~/wall & sleep 1 && xset dpms force off
 
