@@ -123,7 +123,7 @@ scroll-down = i3wm-wsprev
 
 ;== Module Location ========================================================
 
-modules-left = google github reddit youtube 
+modules-left = github
 modules-center = mpd
 modules-right = volume date powermenu 
  
@@ -175,33 +175,13 @@ label-active-foreground = ${color.acolor}
 label-urgent-foreground = ${color.curgent}
 label-occupied-foreground = ${color.coccupied}
 
-[module/google]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = google-chrome --app=https://www.google.com/ 
-
 [module/github]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = google-chrome --app=https://www.github.com/ 
-
-[module/reddit]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = google-chrome --app=https://www.reddit.com/
-
-[module/youtube]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = google-chrome --app=https://www.youtube.com/
+type = internal/github
+; content = 
+token = ${env:GITHUB_ACCESS_TOKEN}
+format = <label> HEy
+label = %notification%
+empty-notifications = true
 
 ;==========================================================
 
@@ -303,11 +283,11 @@ tail = true
 [module/date]
 type = internal/date
 interval = 30
-label =  %time%
+label = %date% %time% 
 label-padding = 2
 label-background = ${color.bg}
-time =  %I:%M %p
-time-alt =  %Y-%m-%d
+time =  %H:%M 
+date =  %b %d %Y  
 
 [module/powermenu]
 type = custom/text

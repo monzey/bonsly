@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-source antigen
+source /usr/local/bin/antigen
 
 antigen use oh-my-zsh
 
@@ -12,10 +12,12 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle molovo/crash
 antigen bundle desyncr/auto-ls
 antigen bundle voronkovich/symfony.plugin.zsh
-
-antigen theme agnoster
+antigen bundle lambda-mod-zsh-theme
+antigen theme romkatv/powerlevel10k
 
 antigen apply
+
+source $HOME/dotfiles/.purepower
 
 KEYTIMEOUT=1
 # Set name of the theme to load. Optionally, if you set this to "random"

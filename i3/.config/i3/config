@@ -136,12 +136,12 @@ for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
 
 assign [class="Google-chrome" window_role="browser"] $ws6
 
-assign [class="jetbrains-phpstorm"] $ws3
-for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws33
-for_window [class="jetbrains-phpstorm" title="^Structure"] move to workspace $ws33
-for_window [class="jetbrains-phpstorm" title="^Find"] move to workspace $ws33
-for_window [class="jetbrains-phpstorm" title="^File Transfer"] move to workspace $ws33
-for_window [class="jetbrains-phpstorm" title="^Debug"] move to workspace $ws33
+assign [class="jetbrains-phpstorm"] $ws33
+for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws3
+for_window [class="jetbrains-phpstorm" title="^Structure"] move to workspace $ws3
+for_window [class="jetbrains-phpstorm" title="^Find"] move to workspace $ws3
+for_window [class="jetbrains-phpstorm" title="^File Transfer"] move to workspace $ws3
+for_window [class="jetbrains-phpstorm" title="^Debug"] move to workspace $ws3
 
 assign [class="Slack"] $ws5
 
