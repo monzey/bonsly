@@ -1,3 +1,4 @@
+exec --no-startup-id i3lock -t -i ~/wall
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -17,6 +18,9 @@ font pango:monospace 8
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
+# Lock until all layouts are set
+exec --no-startup-id ~/.config/i3/lock
+
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -30,6 +34,8 @@ set $up l
 set $down k
 set $left j
 set $right m
+
+set $mod Mod4
 
 # use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
@@ -78,7 +84,7 @@ bindsym Mod4+Shift+Right move right
 bindsym Mod4+h split h
 
 # split in vertical orientation
-bindsym Mod4+v split v
+# bindsym Mod4+v split v
 
 # enter fullscreen mode for the focused container
 bindsym Mod4+f fullscreen toggle
@@ -147,6 +153,7 @@ assign [class="Slack"] $ws5
 
 for_window [class="Spotify"] move to workspace $ws4
 
+bindsym Mod4+v exec alacritty --working-directory ~/rg/rgsupv-dashboard -e $SHELL -c "vim"
 bindsym Mod4+Tab workspace back_and_forth
 
 # switch to workspace
@@ -159,8 +166,6 @@ bindsym Mod4+Control+p workspace $ws4
 bindsym Mod4+Control+n workspace $ws5
 bindsym Mod4+Control+j workspace $ws6
 bindsym Mod4+Control+d workspace $ws7
-bindsym Mod4+9 workspace $ws9
-bindsym Mod4+0 workspace $ws10
 
 # move focused container to workspace
 bindsym Mod4+Shift+z move container to workspace $ws1
@@ -223,8 +228,12 @@ bindsym Mod4+r mode "resize"
 
 # Applications shortcuts
 bindsym Mod4+shift+w exec google-chrome --kiosk
-bindsym Mod4+ctrl+space exec recdsk
-bindsym Mod4+ctrl+q exec killall recdsk
+# bindcode $mod+66+65 exec recdsk
+# bindsym Mod4+ctrl+q exec killall recdsk
+
+bindcode $mod+35 exec alacritty --working-directory ~/dotfiles -e $SHELL -c "vim"
+
+exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up; vagrant ssh"
 
 # Polybar config
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
@@ -245,12 +254,13 @@ exec compton -b -c
 
 exec google-chrome --kiosk
 
-# Run tig & vagrant
+# Run tig 
 exec --no-startup-id i3-msg 'workspace term'
-exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up; vagrant ssh"
 exec alacritty --working-directory ~/rg/rgsupv-dashboard -e tig
 
 exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
-exec phpstorm
+# exec phpstorm
 exec slack
-exec google-chrome --app=http://localhost:6680/iris
+exec spotify
+
+exec --no-startup-id killall i3lock

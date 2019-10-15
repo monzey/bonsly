@@ -2,6 +2,7 @@ pwd=`pwd`
 
 stow alacritty
 stow autostart
+stow bat
 stow compton
 stow dunst
 stow feh

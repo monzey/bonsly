@@ -1,3 +1,51 @@
-#!/bin/bash
-i3lock -t -i ~/wall & sleep 1 && xset dpms force off
+#!/bin/sh
+
+B='#00000000'  # blank
+C='#ffffff22'  # clear ish
+D='#ff00ffcc'  # default
+T='#ee00eeee'  # text
+W='#880000bb'  # wrong
+V='#bb00bbbb'  # verifying
+
+i3lock \
+--insidevercolor=$B   \
+--ringvercolor=$B     \
+\
+--insidewrongcolor=$B \
+--ringwrongcolor=$B   \
+\
+--insidecolor=$B      \
+--ringcolor=$B        \
+--linecolor=$B        \
+--separatorcolor=$B   \
+\
+--verifcolor=$T        \
+--wrongcolor=$T        \
+--timecolor=$T        \
+--datecolor=$T        \
+--layoutcolor=$T      \
+--keyhlcolor=$D       \
+--bshlcolor=$V        \
+\
+--screen -1            \
+--blur 5              \
+--clock               \
+--indicator           \
+--timestr="%H:%M:%S"  \
+--datestr="%A, %m %Y" \
+--date-font="FuraCode Nerd Font Mono" \
+--wrongtext="ﮊ" \
+--noinputtext="ﰣ" \
+--veriftext="..." \
+--radius="120" \
+--verifsize="128" \
+--wrongsize="128" \
+--verif-font="FuraCode Nerd Font Mono" \
+--wrong-font="FuraCode Nerd Font Mono" \
+# --wrongtext="Nope!"
+# --textsize=20
+# --modsize=10
+# --timefont=comic-sans
+# --datefont=monofur
+# etc
 

@@ -67,8 +67,9 @@ offset-x = 0.5%
 offset-y = 0.5%
 bottom = true
 override-redirect = true
+wm-restack = i3
 fixed-center = false
-line-size = 2
+line-size = 1
 monitor=DP-1
 
 background = ${color.bg}
@@ -76,8 +77,8 @@ foreground = ${color.fg}
 
 ;==========================================================
 
-font-0 = FuraCode Nerd Font Mono-Regular:size=14;3
-font-1 = FuraCode Nerd Font Mono-Regular:size=13;3
+font-0 = FuraCode Nerd Font:style=Light;size=14;3
+font-1 = FuraCode Nerd Font-Regular:size=13;3
 
 ;==========================================================
 
@@ -101,6 +102,7 @@ offset-x = 0.5%
 offset-y = 0.5%
 bottom = true
 override-redirect = true
+wm-restack = i3
 fixed-center = false
 line-size = 2
 monitor=DP-2
@@ -110,8 +112,8 @@ foreground = ${color.fg}
 
 ;==========================================================
 
-font-0 = FuraCode Nerd Font Mono-Regular:size=14;3
-font-1 = FuraCode Nerd Font Mono-Regular:size=13;3
+font-0 = FuraCode Nerd Font:style=Light;size=14;3
+font-1 = FuraCode Nerd Font-Regular:size=13;3
 
 ;==========================================================
 
@@ -123,11 +125,26 @@ scroll-down = i3wm-wsprev
 
 ;== Module Location ========================================================
 
-modules-left = github
+modules-left = cpu memory 
 modules-center = mpd
-modules-right = volume date powermenu 
+modules-right = volume date 
  
 ;== Modules ========================================================
+[module/cpu]
+type = internal/cpu
+interval = 2
+format =  <label>
+label = %percentage-cores%
+format-underline = ${color.fg}
+format-padding = 2
+
+[module/memory]
+type = internal/memory
+interval = 2
+format = ﬘ <label>
+label = %gb_used%|%gb_total% 
+format-padding = 2
+format-underline = ${color.shade2}
 
 [module/arch]
 type = custom/text
@@ -262,6 +279,7 @@ label-volume = %percentage%%
 label-muted = "婢"
 label-muted-background = ${color.bg}
 label-muted-padding = 2
+format-volume-underline = ${color.shade4}
 
 ramp-volume-0 = 奄
 ramp-volume-1 = 奄
@@ -288,15 +306,7 @@ label-padding = 2
 label-background = ${color.bg}
 time =  %H:%M 
 date =  %b %d %Y  
-
-[module/powermenu]
-type = custom/text
-content = 襤
-content-padding = 2
-content-background = ${color.bg}
-content-foreground = ${color.fg}
-click-left = pmenu_1
-click-right = pmenu_1
+format-underline = ${color.fg}
 
 [module/spotify]
 type = custom/script
@@ -304,11 +314,14 @@ interval = 1
 format-prefix = " "
 format = <label>
 exec = python $HOME/.config/polybar/scripts/spotify_status.py -f '{artist}: {song}'
-format-underline = #1db954
 
 [module/xwindow]
 type = internal/xwindow
 format = <label>
+
+[module/temperature]
+type=internal/temperature
+interval=0.5
 
 ; vim:ft=dosini
 ;== EOF ========================================================

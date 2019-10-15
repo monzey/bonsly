@@ -5,6 +5,7 @@ installBasicComponents () {
 }
 
 installDevEnvironment () {
+    apt install -y jq graphviz
     # PhpStorm
     wget https://download-cf.jetbrains.com/webide/PhpStorm-2018.3.tar.gz -O /tmp/phpstorm.tar.gz
     mkdir -p /tmp/phpstorm && tar -zxvf /tmp/phpstorm.tar.gz -C /tmp/phpstorm --strip-components=1
@@ -27,6 +28,20 @@ installDevEnvironment () {
     ln -sf $dir/init.d/openvpncustom /etc/init.d/openvpncustom
     update-rc.d openvpncustom defaults
 
+    # install hub
+    wget https://github.com/github/hub/releases/download/v2.12.8/hub-linux-amd64-2.12.8.tgz -O /tmp/hub.tar.gz
+    mkdir -p /tmp/hub && tar -zxvf /tmp/hub.tar.gz -C /tmp/hub --strip-components=1
+    cd /tmp/hub && ./install
+
+    # install madge
+    npm i -g madge
+
+    cd /tmp
+    # install git madge
+    hub clone jez/git-madge
+    cp /tmp/git-madge/git-madge /usr/bin/git-madge
+    chmod a+x /usr/bin/git-madge
+
     # Generate a ssh private key to link it to github repos
     ssh-keygen -t rsa -b 4096 -C "maxi.bertrand@gmail.com"
 }
@@ -41,7 +56,7 @@ installCustomEnvironment () {
 
     npm install -g joplin
 
-    # Install mpoidy
+    # Install mopidy
     wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
     wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list
     apt update
@@ -56,19 +71,6 @@ installCustomEnvironment () {
     echo deb http://repository.spotify.com stable non-free | tee /etc/apt/sources.list.d/spotify.list
     apt update
     apt install -y spotify-client
-
-    # Install qutebrowser
-    wget http://ftp.fr.debian.org/debian/pool/main/p/pypeg2/python3-pypeg2_2.15.2-2_all.deb -O /tmp/python3.deb
-    dpkg -i /tmp/python3.deb
-
-    wget http://ftp.fr.debian.org/debian/pool/main/q/qutebrowser/qutebrowser_1.5.2-1_all.deb -O /tmp/qutebrowser.deb
-    dpkg -i /tmp/qutebrowser.deb
-
-    wget http://ftp.fr.debian.org/debian/pool/main/q/qutebrowser/qutebrowser-qtwebengine_1.5.2-1_all.deb -O /tmp/qtwebengine.deb
-    dpkg -i /tmp/qtwebengine.deb
-
-    wget https://github.com/advanced-rest-client/arc-electron/releases/download/v12.1.4/arc-linux-12.1.4-amd64.deb -O /tmp/arc.deb
-    dpkg -i /tmp/arc.deb
 
     # Install Chrome
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
@@ -125,6 +127,22 @@ installCustomEnvironment () {
     cd /tmp/polybar && ./build.sh
     cd ~
 
+    # install i3lock color
+    apt install libjpeg-dev libpam0g-dev
+    git clone https://github.com/PandorasFox/i3lock-color.git /tmp/i3lock-color
+    cd /tmp/i3lock-color
+    autoreconf --force --install
+    mkdir -p build && cd build/
+    ../configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --disable-sanitizers
+    make
+
+    # install bat
+    wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -O /tmp/bat.deb
+    dpkg -i /tmp/bat.deb
+
     # install zsh plugins manager
     curl -L git.io/antigen > /usr/local/bin/antigen
 
@@ -136,6 +154,8 @@ installCustomEnvironment () {
     cp recdsk /usr/bin
     chmod +x /usr/bin/recdsk
 
+    # Install ctags 
+    git clone https://github.com/romainl/ctags-patterns-for-javascript.git /opt/jsctags
 }
 
 # step up in the game
@@ -149,12 +169,11 @@ vim () {
     cd /tmp
     git clone https://github.com/vim/vim.git
     cd vim
-    ./configure --with-features=manually \
+    ./configure --with-features=huge \
+        --enable-fail-if-missing \
         --enable-multibyte \
         --enable-rubyinterp=yes \
-        # --enable-pythoninterp=yes \
-        # --with-python-config-dir=/usr/lib/python2.7/config \ 
-        --enable-python3interp \
+        --enable-python3interp=dynamic \
         --with-x \
         --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
         --enable-perlinterp=yes \

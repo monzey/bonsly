@@ -37,3 +37,5 @@ export PATH=$PATH:~/.pub-cache/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH=$PATH:$HOME/.rvm/bin
 export PATH=$PATH:$HOME/.cargo/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
