@@ -34,7 +34,7 @@ installDevEnvironment () {
     cd /tmp/hub && ./install
 
     # install madge
-    npm i -g madge
+    npm i -g madge diff-so-fancy
 
     cd /tmp
     # install git madge

@@ -4,6 +4,7 @@
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore
+  pager = diff-so-fancy | less --tabs=4 -RFXS
 [alias]
   # NOTE: These aliases depend on the `git files` alias from
   # a few sections ago!

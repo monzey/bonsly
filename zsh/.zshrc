@@ -13,6 +13,7 @@ antigen bundle molovo/crash
 antigen bundle desyncr/auto-ls
 antigen bundle voronkovich/symfony.plugin.zsh
 antigen bundle lambda-mod-zsh-theme
+antigen bundle wfxr/forgit
 antigen theme romkatv/powerlevel10k
 
 antigen apply
