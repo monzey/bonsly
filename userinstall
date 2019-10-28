@@ -1,3 +1,6 @@
+#! /bin/bash 
+
+cd ~/dotfiles
 pwd=`pwd`
 
 stow alacritty
@@ -6,12 +9,14 @@ stow bat
 stow compton
 stow dunst
 stow feh
+stow git
 stow i3
 stow ncmpcpp
 stow polybar
 stow qutebrowser
 stow ranger
 stow rofi
+stow tern
 stow tig
 stow tmux
 stow vim
@@ -20,11 +25,15 @@ stow zsh
 
 chsh -s $(which zsh)
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+folder=`~/.tmux/plugins/tpm`
+
+if [ ! -d "$folder" ] ; then
+  git clone https://github.com/tmux-plugins/tpm "$folder"
+fi
 
 mkdir -p ~/.icons/cursor-default-theme
 cp -r cursor/* ~/.icons/cursor-default-theme
 
 ln -sf $pwd/.fonts.conf ~
 
-cp $pwd/mopidy/.config/mopidy/mopidy.conf $HOME/.config/mopidy/mopidy.conf
+cd ~

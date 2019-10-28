@@ -12,21 +12,23 @@
   # Open all files changed since REVIEW_BASE in Vim tabs
   # Then, run fugitive's :Gdiff in each tab, and finally
   # tell vim-gitgutter to show +/- for changes since REVIEW_BASE
-  review = !vim -p $(git files) +\"tabdo Gdiff banner\" +\"let g:gitgutter_diff_base = 'banner'\"
+  review = !vim -p $(git files) +\"tabdo Gdiff master\" +\"let g:gitgutter_diff_base = 'master'\"
 
   # Same as the above, except specify names of files as arguments,
   # instead of opening all files:
   # git reviewone foo.js bar.js
-  reviewone = !vim -p +\"tabdo Gdiff banner\" +\"let g:gitgutter_diff_base = 'banner'\"
+  reviewone = !vim -p +\"tabdo Gdiff master\" +\"let g:gitgutter_diff_base = 'master'\"
 
   # list files which have changed since REVIEW_BASE
-  # (REVIEW_BASE defaults to 'banner' in my zshrc)
-  files = !git diff --name-only $(git merge-base HEAD \"banner\")
+  # (REVIEW_BASE defaults to 'master' in my zshrc)
+  files = !git diff --name-only $(git merge-base HEAD \"master\")
 
   # Same as above, but with a diff stat instead of just names
   # (better for interactive use)
-  stat = !git diff --stat $(git merge-base HEAD \"banner\")
+  stat = !git diff --stat $(git merge-base HEAD \"master\")
 
-  prlist = !hub pr list -L 20 -b banner --format='%i | %t [%H] %sH %n' --color=always -s open
+  prlist = !hub pr list -L 20 -b master --format='%i | %t [%H] %sH %n' --color=always -s open
 
   pr = !hub pull-request | xclip -sel clip
+[diff-so-fancy]
+  markEmptyLines = false

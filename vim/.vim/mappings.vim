@@ -28,8 +28,9 @@ nnoremap <leader>p :GFiles<CR><C-R><C-W>
 nnoremap <space> za
 nnoremap <leader><C-t> :TestFile<CR>
 nmap <leader>< ysiw<
-nmap <leader>cl :let @*=expand("%:p")<CR>
+nnoremap <leader>cl :let @*=expand("%:p")<CR>
 nnoremap <leader><C-y> :let @"=expand("%:p")<CR>
+vnoremap <leader>s y:Ag! "<C-R>*<CR>"
 
 autocmd FileType php nnoremap <leader>u :call PhpInsertUse()<CR>
 autocmd FileType php nnoremap <buffer> <leader>l :call pdv#DocumentWithSnip()<CR>

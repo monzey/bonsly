@@ -14,7 +14,7 @@ set smartcase
 set timeoutlen=400 ttimeoutlen=0
 set backspace=indent,eol,start
 set nowrap
-set nu rnu
+set nu 
 set wildmenu
 set lazyredraw
 set showmatch
@@ -30,6 +30,10 @@ set title
 set nobackup
 set noswapfile
 hi CursorLineNR cterm=NONE
+
+" Autocompletion
+filetype plugin on
+set omnifunc=syntxcomplete#Complete
 
 " For node module resolution
 " set path=.,src,node_modules
@@ -110,6 +114,7 @@ let g:airline_theme="badwolf"
 let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
 let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 let s:ag_options = '-f --ignore app/cache --ignore app/logs '
 let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
 
@@ -142,7 +147,7 @@ let g:vdebug_options.break_on_open = "0"
 
 " Ale
 let g:ale_fixers = { 'javascript': ['prettier', 'eslint']}
-let g:ale_fix_on_save = 0
+let g:ale_fix_on_save = 1
 let g:ale_set_highlights = 0
 let g:ale_sign_column_always = 1
 " highlight clear ALEWarningSign

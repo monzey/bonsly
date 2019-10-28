@@ -39,9 +39,10 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'sjl/badwolf'
 Plug 'isRuslan/vim-es6'
-Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 Plug 'janko/vim-test'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
 call plug#end()

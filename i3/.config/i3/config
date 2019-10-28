@@ -233,8 +233,6 @@ bindsym Mod4+shift+w exec google-chrome --kiosk
 
 bindcode $mod+35 exec alacritty --working-directory ~/dotfiles -e $SHELL -c "vim"
 
-exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up; vagrant ssh"
-
 # Polybar config
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -254,12 +252,16 @@ exec compton -b -c
 
 exec google-chrome --kiosk
 
-# Run tig 
-exec --no-startup-id i3-msg 'workspace term'
-exec alacritty --working-directory ~/rg/rgsupv-dashboard -e tig
+# Dev env 
+exec --no-startup-id i3-msg 'workspace todo; exec alacritty --working-directory ~/rg/rgsupv-dashboard'
+exec --no-startup-id i3-msg 'workspace todo; exec alacritty --working-directory ~/rg/lib-ui'
+exec --no-startup-id i3-msg 'workspace code; exec alacritty --working-directory ~/rg/rg-dashboard -e $SHELL -c vim'
+
+# Vagrant
+exec --no-startup-id i3-msg 'workspace codesec; exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
+exec --no-startup-id i3-msg 'workspace codesec; exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
 
 exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
-# exec phpstorm
 exec slack
 exec spotify
 
