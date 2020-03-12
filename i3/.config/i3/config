@@ -150,8 +150,10 @@ for_window [class="jetbrains-phpstorm" title="^File Transfer"] move to workspace
 for_window [class="jetbrains-phpstorm" title="^Debug"] move to workspace $ws3
 
 assign [class="Slack"] $ws5
+for_window [class="Google-chrome" title="^WhatsApp"] move to workspace $ws5
 
 for_window [class="Spotify"] move to workspace $ws4
+for_window [class="Google-chrome" title="YouTube"] move to workspace $ws4
 
 bindsym Mod4+v exec alacritty --working-directory ~/rg/rgsupv-dashboard -e $SHELL -c "vim"
 bindsym Mod4+Tab workspace back_and_forth
@@ -234,15 +236,15 @@ bindsym Mod4+shift+w exec google-chrome --kiosk
 bindcode $mod+35 exec alacritty --working-directory ~/dotfiles -e $SHELL -c "vim"
 
 # Polybar config
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Dunst
 exec --no-startup-id dunst 
 
 # I3 gaps config
 for_window [class="^.*"] border pixel 0
-gaps inner 10
-gaps bottom 40
+gaps inner 0
+gaps bottom 0
 
 # Prevent mouse warping
 mouse_warping none
@@ -250,7 +252,7 @@ mouse_warping none
 # Compton startup
 exec compton -b -c 
 
-exec google-chrome --kiosk
+exec google-chrome --kiosk 
 
 # Dev env 
 exec --no-startup-id i3-msg 'workspace todo; exec alacritty --working-directory ~/rg/rgsupv-dashboard'
@@ -262,6 +264,10 @@ exec --no-startup-id i3-msg 'workspace codesec; exec alacritty --working-directo
 exec --no-startup-id i3-msg 'workspace codesec; exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
 
 exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
+exec chromium --app='http://192.168.10.10:6006/?path=/story/atoms--atoms' --auto-open-devtools-for-tabs
+
+exec google-chrome --app='https://web.whatsapp.com/'
+exec google-chrome --app='https://youtube.com/'
 exec slack
 exec spotify
 

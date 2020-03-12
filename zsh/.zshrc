@@ -74,12 +74,12 @@ export NVM_DIR="$HOME/.nvm"
 # Vim as default editor
 export EDITOR=vim
 export PATH=$PATH:/usr/lib/dart/bin
-export PATH=$PATH:~/.pub-cache/bin
+export PATH=$PATH:$HOME/.pub-cache/bin
+export PATH=$PATH:$HOME/.cargo/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH=$PATH:$HOME/.rvm/bin
-export PATH=$PATH:$HOME/.cargo/bin
 
-alias gco='git checkout `git branch | fzf`'
+alias gco='git checkout `(git branch -a & git tag) | fzf`'
 # alias gp='git push `git branch | fzf`'
 # alias gl='git pull `git branch | fzf`'
 alias gn='git checkout -b $@'
@@ -88,5 +88,6 @@ alias gc='ga && git commit'
 alias core='cd ~/rg/rgsupv-core && vim'
 alias dash='cd ~/rg/rgsupv-dashboard && vim'
 alias dbox='cd ~/rg/devbox > /dev/null 2>&1 && vagrant ssh'
+alias repack='~/dotfiles/pack'
 
 [ -f ~/.config/fzf/fzf.zsh ] && source ~/.config/fzf/fzf.zsh
