@@ -19,6 +19,7 @@ stow tern
 stow tig
 stow tmux
 stow vim
+stow nvim
 stow x
 stow zsh
 

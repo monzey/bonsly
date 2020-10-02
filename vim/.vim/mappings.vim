@@ -6,7 +6,7 @@ nnoremap <leader>; <C-i>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>d <C-W><C-O>:bd<CR>
 " <C-@> actually maps to <C-space>
-nnoremap <C-@> :Buffer<CR> 
+nnoremap <C-space> :Buffer<CR> 
 nnoremap <S-q> :NERDTreeToggle<CR>
 nnoremap <leader>q :NERDTreeFind<CR>
 nnoremap <C-p> :GFiles<CR>
@@ -70,14 +70,20 @@ inoremap <silent><expr> <C-n> coc#refresh()
 
 " ####################### coc.nvim
 
-execute "set <M-j>=\ej"
-execute "set <M-m>=\em"
-execute "set <M-k>=\ek"
-execute "set <M-l>=\el"
-nnoremap <M-j> <C-W>h
-nnoremap <M-m> <C-W>l
-nnoremap <M-k> <C-W>j
-nnoremap <M-l> <C-W>k
+" execute "set <A-j>=\ej"
+" execute "set <A-m>=\em"
+" execute "set <A-k>=\ek"
+" execute "set <A-l>=\el"
+nnoremap <A-j> <C-W>h
+nnoremap <A-m> <C-W>l
+nnoremap <A-k> <C-W>j
+nnoremap <A-l> <C-W>k
 
 autocmd FileType php nnoremap <leader>u :call PhpInsertUse()<CR>
 autocmd FileType php nnoremap <buffer> <leader>l :call pdv#DocumentWithSnip()<CR>
+
+" Vim smooth scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
