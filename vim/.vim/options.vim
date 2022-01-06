@@ -49,6 +49,7 @@
   set background=dark
   colorscheme dracula
 
+  au! cursormoved * call PoppyInit()
   autocmd BufEnter * :syntax sync fromstart
   " autocmd CursorMoved * exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 

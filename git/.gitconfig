@@ -5,6 +5,7 @@
 	editor = vim
 	excludesfile = ~/.gitignore
   pager = diff-so-fancy | less --tabs=4 -RFXS
+	autocrlf = input
 [alias]
   # NOTE: These aliases depend on the `git files` alias from
   # a few sections ago!

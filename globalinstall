@@ -38,13 +38,6 @@ installDevEnvironment () {
   # For git madge
   apt-get install -y jq graphviz
 
-  # PhpStorm
-  # wget https://download-cf.jetbrains.com/webide/PhpStorm-2018.3.tar.gz -O /tmp/phpstorm.tar.gz
-  # mkdir -p /tmp/phpstorm && tar -zxvf /tmp/phpstorm.tar.gz -C /tmp/phpstorm --strip-components=1
-  # mv /tmp/phpstorm /opt/phpstorm
-  # ln -s /opt/phpstorm/bin/phpstorm.sh /usr/bin/phpstorm
-  # chmod a+x /usr/bin/phpstorm
-
   # virtual box
   # wget https://download.virtualbox.org/virtualbox/6.0.0/virtualbox-6.0_6.0.0-127566~Debian~stretch_amd64.deb -O /tmp/virtualbox.deb
   # dpkg -i /tmp/virtualbox.deb
@@ -76,11 +69,11 @@ installDevEnvironment () {
 }
 
 installCustomEnvironment () {
-  curl -sL https://deb.nodesource.com/setup_10.x | bash -
-  apt-get update
+  # Install nvm
+  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
-  apt-get install -y libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-composite0-dev sudo
-  apt-get install -y chromium xfonts-base xserver-xorg-input-all xinit xserver-xorg xserver-xorg-video-all cargo tig feh vim-nox tmux compton i3 suckless-tools xclip nodejs bison flex
+  apt-get install -y libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-composite0-dev sudo
+  apt-get install -y chromium xfonts-base xserver-xorg-input-all xinit xserver-xorg xserver-xorg-video-all cargo tig feh vim-nox tmux compton suckless-tools xclip nodejs bison flex
   apt-get install -y dbus-x11 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev dirmngr ffmpeg x11-apps librsvg-2 mpc
 
   # Install spotify
@@ -145,7 +138,7 @@ installCustomEnvironment () {
   cd ~
 
   # install i3lock color
-  # apt-get install libjpeg-dev libpam0g-dev
+  # sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util0-dev libxcb-xrm-dev libxcb-xtest0-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev
   # git clone https://github.com/PandorasFox/i3lock-color.git /tmp/i3lock-color
   # cd /tmp/i3lock-color
   # autoreconf --force --install

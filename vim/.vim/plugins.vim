@@ -48,4 +48,6 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'luochen1990/rainbow'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'yuezk/vim-js'
+Plug 'bounceme/poppy.vim'
+Plug 'frazrepo/vim-rainbow'
 call plug#end()
