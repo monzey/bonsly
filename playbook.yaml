@@ -20,7 +20,8 @@
           - alsa-utils
     - name: Add i3 ppa
       apt_repository: 
-        repo: ppa:regolith-linux/release
+        repo: deb http://ppa.launchpad.net/regolith-linux/release/ubuntu focal main
+        filename: regolith
     - name: Add spotify ppa
       apt_repository:
         repo: deb http://repository.spotify.com stable non-free
