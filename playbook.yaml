@@ -179,6 +179,10 @@
         make install
       args:
         chdir: /tmp/dunst
+    - name: Remove current rustc
+        apt:
+          name: rustc
+          state: absent
     - name: Install rust & cargo
       shell: | 
         curl https://sh.rustup.rs -sSf | sh
