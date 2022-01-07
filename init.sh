@@ -9,3 +9,5 @@ installAnsible () {
   # launch playbook
   ansible-playbook playbook.yaml --ask-become-pass -vvv
 }
+
+installAnsible
