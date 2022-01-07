@@ -224,7 +224,7 @@
       shell: fc-cache -fv
     - name: Install VPN
       file:
-        src: {{ playbook_dir }}/init.d/openvpncustom
+        src: "{{ playbook_dir }}/init.d/openvpncustom"
         dest: /etc/init.d/openvpncustom
         state: link
     # - name: Install i3lock-color
