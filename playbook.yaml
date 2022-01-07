@@ -183,9 +183,11 @@
       apt:
         name: rustc
         state: absent
-    - name: Install rust & cargo
+    - name: Install rust
       shell: | 
         curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Set up rust
+        shell: |
         source $HOME/.cargo/env
         rustup override set stable
         rustup update stable
