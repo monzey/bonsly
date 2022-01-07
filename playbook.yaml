@@ -10,7 +10,6 @@
     - name: Install core
       apt:
         name:
-          - curl 
           - dkms 
           - build-essential 
           - cmake 
@@ -114,7 +113,6 @@
           - compton 
           - suckless-tools 
           - xclip 
-          - nodejs 
           - bison 
           - flex
           - dbus-x11 
@@ -251,6 +249,11 @@
         repo: https://github.com/monzey/dotfiles.git
         dest: $HOME/dotfiles
       become_user: monzey
+    - name: Change chsh permissions
+      replace:
+        path: /etc/pam.d/chsh
+        regexp: 'required'
+        replace: 'sufficient'
     - name: Wrap up
       script: install.sh
       args:
