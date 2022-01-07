@@ -32,7 +32,7 @@
     - name: Add diff-so-fancy ppa
       apt_repository:
         repo: deb http://ppa.launchpad.net/aos1/diff-so-fancy/ubuntu focal main
-        file: diffsofancy
+        filename: diffsofancy
     - name: Install dev utils
       apt:
         name:
