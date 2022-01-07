@@ -33,6 +33,10 @@
       apt_repository:
         repo: deb http://repository.spotify.com stable non-free
         filename: spotify
+    - name: Add diff-so-fancy key
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: 0x4466B73F97EF279EC64D8A169E8A0C808486162E
     - name: Add diff-so-fancy ppa
       apt_repository:
         repo: deb http://ppa.launchpad.net/aos1/diff-so-fancy/ubuntu focal main
