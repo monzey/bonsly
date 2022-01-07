@@ -193,11 +193,11 @@
     - name: Install rust
       shell: | 
         curl https://sh.rustup.rs -sSf | sh -s -- -y
-    - name: Set up rust
-      shell: |
-        source $HOME/.cargo/env
-        rustup override set stable
-        rustup update stable
+    # - name: Set up rust
+    #   shell: |
+    #     source $HOME/.cargo/env
+    #     rustup override set stable
+    #     rustup update stable
     # - name: Clone alacritty repo #does not work
     #   git: 
     #     repo: https://github.com/jwilm/alacritty.git
@@ -213,8 +213,8 @@
     #     src: /tmp/alacritty/releases/target/alacritty
     #     dest: /usr/bin/alacritty
     #     mode: a+x
-    - name: Install alacritty
-      shell: cargo install alacritty
+    # - name: Install alacritty
+    #   shell: cargo install alacritty
     - name: Recdsk
       copy:
         src: recdsk
