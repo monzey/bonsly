@@ -134,7 +134,7 @@
         size: 4096
         type: rsa
         comment: maxi.bertrand@gmail.com
-        become: monzey
+      become: monzey
     - name: Install chrome
       shell: |
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
