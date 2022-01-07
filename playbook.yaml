@@ -137,6 +137,7 @@
           - libgtk-3-dev 
           - libxdg-basedir-dev 
           - libnotify-dev
+          - polybar
         update_cache: yes
     - name: Add ssh directory
       file:
@@ -208,14 +209,6 @@
     #     mode: a+x
     - name: Install alacritty
       shell: cargo install alacritty
-    - name: Clone polybar
-      git:
-        repo: https://github.com/jaagr/polybar.git
-        dest: /tmp/polybar
-    - name: Install polybar
-      shell: bash build.sh
-      args:
-        chdir: /tmp/polybar
     - name: Recdsk
       copy:
         src: recdsk
@@ -231,17 +224,20 @@
       shell: fc-cache -fv
     - name: Install VPN
       file:
-        src: init.d/openvpncustom
+        src: {{ playbook_dir }}/init.d/openvpncustom
         dest: /etc/init.d/openvpncustom
         state: link
     # - name: Install i3lock-color
     - name: Install nvm
-      shell: >
+      shell: |
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+        source $HOME/.bashrc
     - name: Install node
-      ansible.builtin.shell: |
+      shell: |
         nvm install {{ item }}
         nvm use {{ item }}
+      args:
+        executable: /bin/bash
       loop:
         - 16.13.0
     - name: Wrap up
