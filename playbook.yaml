@@ -241,10 +241,10 @@
       loop:
         - 16.13.0
     - name: Clone dotfiles
-        git:
-          repo: https://github.com/monzey/dotfiles.git
-          dest: $HOME/dotfiles
-        become_user: monzey
+      git:
+        repo: https://github.com/monzey/dotfiles.git
+        dest: $HOME/dotfiles
+      become_user: monzey
     - name: Wrap up
       script: install.sh
       args:
