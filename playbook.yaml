@@ -213,7 +213,7 @@
         repo: https://github.com/jaagr/polybar.git
         dest: /tmp/polybar
     - name: Install polybar
-      shell: sh build.sh
+      shell: bash build.sh
       args:
         chdir: /tmp/polybar
     - name: Recdsk
