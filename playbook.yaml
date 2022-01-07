@@ -246,5 +246,7 @@
         dest: $HOME/dotfiles
       become_user: monzey
     - name: Wrap up
-      script: $HOME/dotfiles/install.sh
+      script: install.sh
+      args:
+        chdir: /home/monzey/dotfiles
       become_user: monzey
