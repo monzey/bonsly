@@ -191,21 +191,23 @@
         source $HOME/.cargo/env
         rustup override set stable
         rustup update stable
-    - name: Clone alacritty repo
-      git: 
-        repo: https://github.com/jwilm/alacritty.git
-        dest: /tmp/alacritty
-        version: v0.2.1
-    - name: Build alacritty
-      shell: >
-        cargo build --release
-      args:
-        chdir: /tmp/alacritty
+    # - name: Clone alacritty repo
+    #   git: 
+    #     repo: https://github.com/jwilm/alacritty.git
+    #     dest: /tmp/alacritty
+    #     version: v0.2.1
+    # - name: Build alacritty
+    #   shell: >
+    #     cargo build --release
+    #   args:
+    #     chdir: /tmp/alacritty
+    # - name: Install alacritty
+    #   copy:
+    #     src: /tmp/alacritty/releases/target/alacritty
+    #     dest: /usr/bin/alacritty
+    #     mode: a+x
     - name: Install alacritty
-      copy:
-        src: /tmp/alacritty/releases/target/alacritty
-        dest: /usr/bin/alacritty
-        mode: a+x
+      shell: cargo install alacritty
     - name: Clone polybar
       git:
         repo: https://github.com/jaagr/polybar.git
