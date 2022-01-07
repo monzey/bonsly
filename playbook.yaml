@@ -51,7 +51,7 @@
           - neovim-runtime
           - i3-gaps
           - diff-so-fancy
-          - tsserver
+          # - tsserver
           - bat
           - hub
           - fzf
@@ -126,11 +126,15 @@
           - x11-apps 
           - librsvg2-2 
           - mpc
-          - spotify
+          - spotify-client
         update_cache: yes
     - name: Add ssh key
-      shell: >
-        ssh-keygen -t rsa -b 4096 -C "maxi.bertrand@gmail.com"
+      community.crypto.openssh_keypair:
+        path: ~/.ssh/id_rsa
+        size: 4096
+        type: rsa
+        comment: maxi.bertrand@gmail.com
+        become: monzey
     - name: Install chrome
       shell: |
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
