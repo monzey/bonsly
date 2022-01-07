@@ -199,6 +199,8 @@
     - name: Build alacritty
       shell: >
         cargo build --release
+      args:
+        chdir: /tmp/alacritty
     - name: Install alacritty
       copy:
         src: /tmp/alacritty/releases/target/alacritty
