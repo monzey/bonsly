@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
   become: yes
-  # vars:
   tasks:
     - name: Swap keyboard layout
       replace:
@@ -20,8 +19,9 @@
           - alsa-utils
     - name: Add i3 ppa
       apt_repository: 
-        repo: deb http://ppa.launchpad.net/regolith-linux/release/ubuntu focal main
+        repo: ppa:regolith-linux/release
         filename: regolith
+        codename: focal
     - name: Add spotify key
       apt_key:
         url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
@@ -51,7 +51,6 @@
           - neovim-runtime
           - i3-gaps
           - diff-so-fancy
-          # - tsserver
           - bat
           - hub
           - fzf
@@ -192,7 +191,7 @@
         source $HOME/.cargo/env
         rustup override set stable
         rustup update stable
-    # - name: Clone alacritty repo
+    # - name: Clone alacritty repo #does not work
     #   git: 
     #     repo: https://github.com/jwilm/alacritty.git
     #     dest: /tmp/alacritty
