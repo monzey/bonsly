@@ -127,6 +127,7 @@
           - librsvg2-2 
           - mpc
           - spotify
+        update_cache: yes
     - name: Add ssh key
       shell: >
         ssh-keygen -t rsa -b 4096 -C "maxi.bertrand@gmail.com"
