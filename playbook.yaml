@@ -187,7 +187,7 @@
       shell: | 
         curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Set up rust
-        shell: |
+      shell: |
         source $HOME/.cargo/env
         rustup override set stable
         rustup update stable
