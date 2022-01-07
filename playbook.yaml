@@ -29,6 +29,7 @@
     - name: Add spotify ppa
       apt_repository:
         repo: deb http://repository.spotify.com stable non-free
+        filename: spotify
     - name: Add diff-so-fancy ppa
       apt_repository:
         repo: deb http://ppa.launchpad.net/aos1/diff-so-fancy/ubuntu focal main
@@ -67,7 +68,7 @@
           - libxcb-util0-dev 
           - libxcb-xkb-dev 
           - pkg-config 
-          - python-xcbgen 
+          - python3-xcbgen 
           - xcb-proto 
           - libxcb-xrm-dev 
           - libasound2-dev 
@@ -123,7 +124,7 @@
           - dirmngr 
           - ffmpeg 
           - x11-apps 
-          - librsvg-2 
+          - librsvg2-2 
           - mpc
           - spotify
     - name: Add ssh key
