@@ -31,7 +31,8 @@
         repo: deb http://repository.spotify.com stable non-free
     - name: Add diff-so-fancy ppa
       apt_repository:
-        repo: ppa:aos1/diff-so-fancy
+        repo: deb http://ppa.launchpad.net/aos1/diff-so-fancy/ubuntu focal main
+        file: diffsofancy
     - name: Install dev utils
       apt:
         name:
