@@ -17,9 +17,13 @@
           - cmake-data 
           - openssh-server 
           - alsa-utils
-    - name: Add i3 ppa
+    - name: Add regolith key
+      apt_key:
+        url: https://regolith-linux.github.io/package-repo/regolith.key
+        state: present
+    - name: Add regolith ppa
       apt_repository: 
-        repo: deb [trusted=yes] https://regolith-linux.github.io/package-repo/unstable/debian/bullseye/amd64 bullseye main
+        repo: deb https://regolith-linux.github.io/package-repo/unstable/debian/bullseye/amd64 bullseye main
         filename: regolith
     - name: Add spotify key
       apt_key:
