@@ -20,7 +20,8 @@
           - alsa-utils
     - name: Add i3 ppa
       apt_repository: 
-        repo: ppa:aos1/diff-so-fancy
+        repo: deb http://ppa.launchpad.net/regolith-linux/release/ubuntu focal main
+        filename: regolith
     - name: Add spotify key
       apt_key:
         url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
@@ -28,11 +29,9 @@
     - name: Add spotify ppa
       apt_repository:
         repo: deb http://repository.spotify.com stable non-free
-        filename: spotify
-    - name: Add spotify ppa
+    - name: Add diff-so-fancy ppa
       apt_repository:
-        repo: deb http://repository.spotify.com stable non-free
-        filename: spotify
+        repo: ppa:aos1/diff-so-fancy
     - name: Install dev utils
       apt:
         name:
