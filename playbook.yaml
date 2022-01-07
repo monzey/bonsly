@@ -19,9 +19,8 @@
           - alsa-utils
     - name: Add i3 ppa
       apt_repository: 
-        repo: ppa:regolith-linux/release
+        repo: deb https://regolith-linux.github.io/package-repo/unstable/debian/bullseye/amd64 bullseye main
         filename: regolith
-        codename: focal
     - name: Add spotify key
       apt_key:
         url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
