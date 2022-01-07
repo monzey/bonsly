@@ -185,7 +185,7 @@
         state: absent
     - name: Install rust & cargo
       shell: | 
-        curl https://sh.rustup.rs -sSf | sh
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
         source $HOME/.cargo/env
         rustup override set stable
         rustup update stable
