@@ -1,4 +1,4 @@
-# Max's dotfiles
+# Monzey's dotfiles
 
 Currently supports the following confs:
 + alacritty
@@ -17,4 +17,14 @@ Currently supports the following confs:
 + x
 + zsh
 
-run ``./install.sh`` to install symlinks in your $HOME directory
+## From a fresh install of debian 11 bullseye
+
+```bash
+  apt install git
+  git clone https://github.com/monzey/dotfiles.git
+  cd dotfiles
+  chmod a+x init.sh
+  ./init.sh
+```
+
+That's it !
