@@ -190,6 +190,8 @@
     - name: Install i3lock-color
       shell: |
         ./install-i3lock-color.sh
+      args:
+        chdir: /tmp/i3lock-color
     # - name: Set up rust
     #   shell: |
     #     source $HOME/.cargo/env
