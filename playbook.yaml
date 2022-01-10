@@ -45,7 +45,6 @@
         name:
           - stow 
           - zsh 
-          - zsh-antigen 
           - ranger 
           - silversearcher-ag 
           - openvpn
@@ -60,6 +59,7 @@
           - bat
           - hub
           - fzf
+          - rofi
         update_cache: yes
     - name: Install secondary deps
       apt:
@@ -143,6 +143,10 @@
           - libnotify-dev
           - polybar
         update_cache: yes
+    - name: Install antigen
+      get_url:
+        url: git.io/antigen
+        dest: /urs/local/bin/antigen
     - name: Add ssh directory
       file:
         path: ~/.ssh
@@ -172,18 +176,6 @@
         make install
       args:
         chdir: /tmp/dunst
-    - name: Clone rofi
-      git:
-        repo: https://github.com/DaveDavenport/rofi
-        dest: /tmp/rofi
-    - name: Install rofi
-      shell: |
-        mdkir build && cd build
-        ../configure
-        make
-        make install
-      args:
-        chdir: /tmp/dunst
     - name: Remove current rustc
       apt:
         name: rustc
@@ -191,6 +183,13 @@
     - name: Install rust
       shell: | 
         curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Clone i3lock-color
+      git:
+        repo: https://github.com/Raymo111/i3lock-color.git
+        dest: /tmp/i3lock-color
+    - name: Install i3lock-color
+      shell: |
+        ./install-i3lock-color.sh
     # - name: Set up rust
     #   shell: |
     #     source $HOME/.cargo/env

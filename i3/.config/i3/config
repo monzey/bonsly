@@ -38,12 +38,13 @@ set $left j
 set $right m
 
 set $mod Mod4
+set $term terminator
 
 # use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
 
 # start a terminal
-bindsym Mod4+Return exec alacritty
+bindsym Mod4+Return exec $term
 bindsym Mod4+q exec --no-startup-id ~/.config/i3/lock
 
 # kill focused window
@@ -158,7 +159,7 @@ for_window [class="Google-chrome" title="YouTube"] move to workspace $ws4
 
 for_window [class="Code"] move to workspace $ws33
 
-bindsym Mod4+v exec alacritty --working-directory ~/rg/rgsupv-dashboard -e $SHELL -c "nvim"
+bindsym Mod4+v exec $term --working-directory ~/rg/rgsupv-dashboard -e $SHELL -c "nvim"
 bindsym Mod4+Tab workspace back_and_forth
 
 # switch to workspace
@@ -239,7 +240,7 @@ bindsym Mod4+shift+w exec google-chrome --kiosk
 # bindcode $mod+66+65 exec recdsk
 # bindsym Mod4+ctrl+q exec killall recdsk
 
-bindcode $mod+35 exec alacritty --working-directory ~/dotfiles -e $SHELL -c "nvim"
+bindcode $mod+35 exec $term --working-directory ~/dotfiles -e $SHELL -c "nvim"
 
 # Polybar config
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
@@ -261,8 +262,8 @@ exec compton -b -c
 exec google-chrome --kiosk 
 
 # Vagrant
-exec --no-startup-id i3-msg 'workspace codesec; exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
-exec --no-startup-id i3-msg 'workspace codesec; exec alacritty --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
+exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
+exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
 
 exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
 exec chromium --app='http://192.168.10.10:6006/?path=/story/atoms--atoms' --auto-open-devtools-for-tabs
@@ -272,4 +273,4 @@ exec google-chrome --app='https://youtube.com/'
 exec slack
 exec spotify
 
-exec --no-startup-id killall i3lock
+# exec --no-startup-id killall i3lock
