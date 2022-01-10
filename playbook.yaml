@@ -211,9 +211,6 @@
         ./install-i3lock-color.sh
       args:
         chdir: /tmp/i3lock-color
-    - name:
-      uri:
-        url
     # - name: Set up rust
     #   shell: |
     #     source $HOME/.cargo/env
@@ -240,9 +237,12 @@
           shell: cargo install alacritty
         - name: Install alacritty globaly
           copy: 
-            src: $HOME/.cargo/bin/alacritty
+            src: /$HOME/.cargo/bin/alacritty
             dest: /usr/bin/alacritty
-            mode: '0644'
+            mode: '0755'
+    - name: Install slack
+      apt:
+        deb: https://downloads.slack-edge.com/releases/linux/4.23.0/prod/x64/slack-desktop-4.23.0-amd64.deb
     - name: Recdsk
       copy:
         src: recdsk
