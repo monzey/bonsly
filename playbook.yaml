@@ -211,35 +211,21 @@
         ./install-i3lock-color.sh
       args:
         chdir: /tmp/i3lock-color
-    # - name: Set up rust
-    #   shell: |
-    #     source $HOME/.cargo/env
-    #     rustup override set stable
-    #     rustup update stable
-    # - name: Clone alacritty repo #does not work
-    #   git: 
-    #     repo: https://github.com/jwilm/alacritty.git
-    #     dest: /tmp/alacritty
-    #     version: v0.2.1
-    # - name: Build alacritty
-    #   shell: >
-    #     cargo build --release
-    #   args:
-    #     chdir: /tmp/alacritty
-    # - name: Install alacritty
-    #   copy:
-    #     src: /tmp/alacritty/releases/target/alacritty
-    #     dest: /usr/bin/alacritty
-    #     mode: a+x
     - name: Install alacritty
       block:
         - name: Install alacritty globaly
           shell: cargo install alacritty
-        - name: Install alacritty globaly
+        - name: Install alacritty for user
           copy: 
             src: /$HOME/.cargo/bin/alacritty
             dest: /usr/bin/alacritty
             mode: '0755'
+    - name: Install slack dep 1
+      apt:
+        deb: http://ftp.fr.debian.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
+    - name: Install slack dep 2
+      apt:
+        deb: http://ftp.fr.debian.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-4_amd64.deb
     - name: Install slack
       apt:
         deb: https://downloads.slack-edge.com/releases/linux/4.23.0/prod/x64/slack-desktop-4.23.0-amd64.deb
@@ -261,7 +247,6 @@
         src: "{{ playbook_dir }}/init.d/openvpncustom"
         dest: /etc/init.d/openvpncustom
         state: link
-    # - name: Install i3lock-color
     - name: Install nvm
       shell: |
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
