@@ -16,6 +16,7 @@
           - cmake-data 
           - openssh-server 
           - alsa-utils
+          - autconf
     - name: Add regolith key
       apt_key:
         url: https://regolith-linux.github.io/package-repo/regolith.key
@@ -85,6 +86,24 @@
           - libpango1.0-dev 
           - libxcb-util0-dev 
           - xcb 
+          - pkg-config 
+          - libpam0g-dev 
+          - libcairo2-dev 
+          - libfontconfig1-dev 
+          - libxcb-composite0-dev 
+          - libev-dev 
+          - libx11-xcb-dev 
+          - libxcb-xkb-dev 
+          - libxcb-xinerama0-dev 
+          - libxcb-randr0-dev 
+          - libxcb-image0-dev 
+          - libxcb-util0-dev 
+          - libxcb-xrm-dev 
+          - libxcb-xtest0-dev 
+          - libxkbcommon-dev 
+          - libxkbcommon-x11-dev 
+          - libjpeg-dev
+          - libxcb-xrm-dev
           - libxcb1-dev 
           - libxcb-icccm4-dev 
           - libyajl-dev 
@@ -192,6 +211,9 @@
         ./install-i3lock-color.sh
       args:
         chdir: /tmp/i3lock-color
+    - name:
+      uri:
+        url
     # - name: Set up rust
     #   shell: |
     #     source $HOME/.cargo/env
@@ -212,8 +234,15 @@
     #     src: /tmp/alacritty/releases/target/alacritty
     #     dest: /usr/bin/alacritty
     #     mode: a+x
-    # - name: Install alacritty
-    #   shell: cargo install alacritty
+    - name: Install alacritty
+      block:
+        - name: Install alacritty globaly
+          shell: cargo install alacritty
+        - name: Install alacritty globaly
+          copy: 
+            src: $HOME/.cargo/bin/alacritty
+            dest: /usr/bin/alacritty
+            mode: '0644'
     - name: Recdsk
       copy:
         src: recdsk
