@@ -256,15 +256,15 @@
             url: https://download.virtualbox.org/virtualbox/6.1.30/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack
             dest: /tmp/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack
         - name: Install extension pack
-          shell: vboxmanage extpack install /tmp/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack    
+          shell: echo "y" | vboxmanage extpack install /tmp/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack    
     - name: Install vagrant
       block:
-        - name: Add vagrant repo
-          apt_repository:
-            repo: deb [arch=amd64] https://apt.releases.hashicorp.com bullseye main
         - name: Add vagrant repo key
           apt_key:
             url: https://apt.releases.hashicorp.com/gpg
+        - name: Add vagrant repo
+          apt_repository:
+            repo: deb [arch=amd64] https://apt.releases.hashicorp.com bullseye main
         - name: Install vagrant package
           apt:
             name: vagrant
