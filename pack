@@ -1,6 +1,0 @@
-cd ~/lib-ui
-rm *.tgz
-npm run build
-npm pack
-cd -
-npm i ~/lib-ui/*.tgz
