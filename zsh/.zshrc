@@ -72,7 +72,7 @@ auto-ls-exa () {
 }
 
 auto-ls-st () {
-	git status -sb
+	git st
 }
 
 AUTO_LS_COMMANDS=(exa st)

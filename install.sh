@@ -34,6 +34,9 @@ fi
 mkdir -p ~/.icons/cursor-default-theme
 cp -r cursor/* ~/.icons/cursor-default-theme
 
+cp ~/git-st /usr/bin/git-st
+chmod /usr/bin/git-st 755
+
 ln -sf $pwd/.fonts.conf ~
 
 cd ~
