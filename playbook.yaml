@@ -220,6 +220,9 @@
             src: /$HOME/.cargo/bin/alacritty
             dest: /usr/bin/alacritty
             mode: '0755'
+    - name: Install vscode
+      apt:
+        deb: https://az764295.vo.msecnd.net/stable/899d46d82c4c95423fb7e10e68eba52050e30ba3/code_1.63.2-1639562499_amd64.deb
     - name: Install slack dep 1
       apt:
         deb: http://ftp.fr.debian.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb

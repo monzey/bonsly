@@ -66,6 +66,17 @@ KEYTIMEOUT=1
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 DEFAULT_USER="maxime"
 
+# auto-ls config
+auto-ls-exa () {
+  exa
+}
+
+auto-ls-st () {
+	git status -sb
+}
+
+AUTO_LS_COMMANDS=(exa st)
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -89,5 +100,7 @@ alias core='cd ~/rg/rgsupv-core && vim'
 alias dash='cd ~/rg/rgsupv-dashboard && vim'
 alias dbox='cd ~/rg/devbox > /dev/null 2>&1 && vagrant ssh'
 alias repack='~/dotfiles/pack'
+
+alias ls='exa'
 
 [ -f ~/.config/fzf/fzf.zsh ] && source ~/.config/fzf/fzf.zsh
