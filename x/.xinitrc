@@ -15,4 +15,5 @@ wal -R
 
 mopidy &
 
+exec dbus-launch
 exec i3
