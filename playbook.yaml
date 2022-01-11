@@ -269,6 +269,13 @@
           apt:
             name: vagrant
             update_cache: yes
+    - name: Install devbox
+      block:
+        - name: Clone devbox repo
+          git:
+            repo: https://github.com/rgsystemes/devbox.git
+            dest: /$HOME/devbox
+          become_user: monzey
     - name: Recdsk
       copy:
         src: recdsk
