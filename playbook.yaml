@@ -259,13 +259,13 @@
           shell: vboxmanage extpack install /tmp/extpack-6.1.30.vbox-extpack
     - name: Install vagrant
       block:
-        name: Add vagrant repo
+        - name: Add vagrant repo
           apt_repository:
             repo: deb [arch=amd64] https://apt.releases.hashicorp.com bullseye main
-        name: Add vagrant repo key
+        - name: Add vagrant repo key
           apt_key:
             url: https://apt.releases.hashicorp.com/gpg
-        name: Install vagrant package
+        - name: Install vagrant package
           apt:
             name: vagrant
           update_cache: yes
