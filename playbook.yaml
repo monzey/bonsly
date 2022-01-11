@@ -240,13 +240,13 @@
           apt_key:
             url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
             state: present
-        - name: Add vbox repo
-          apt_repository: 
-            repo: deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib
         - name: Add vbox key
           apt_key:
             url: https://www.virtualbox.org/download/oracle_vbox.asc
             state: present
+        - name: Add vbox repo
+          apt_repository: 
+            repo: deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib
         - name: Install vbox
           apt:
             name: virtualbox-6.1
