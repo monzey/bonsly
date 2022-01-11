@@ -38,7 +38,7 @@ set $left j
 set $right m
 
 set $mod Mod4
-set $term terminator
+set $term alacritty
 
 # use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
@@ -273,4 +273,4 @@ exec google-chrome --app='https://youtube.com/'
 exec slack
 exec spotify
 
-# exec --no-startup-id killall i3lock
+exec --no-startup-id killall i3lock

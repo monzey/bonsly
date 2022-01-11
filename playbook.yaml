@@ -250,6 +250,7 @@
     - name: Install nvm
       shell: |
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+      become_user: monzey
     - name: Install node 
       shell: |
         source $HOME/.nvm/nvm.sh
@@ -259,6 +260,7 @@
         executable: /bin/bash
       loop:
         - 16.13.0
+      become_user: monzey
     - name: Clone dotfiles
       git:
         repo: https://github.com/monzey/dotfiles.git
