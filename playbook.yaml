@@ -268,7 +268,7 @@
         - name: Install vagrant package
           apt:
             name: vagrant
-          update_cache: yes
+            update_cache: yes
     - name: Recdsk
       copy:
         src: recdsk
