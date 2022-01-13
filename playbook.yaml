@@ -67,6 +67,8 @@
     - name: Install secondary deps
       apt:
         name: 
+          - openresolv
+          - rsync
           - libcairo2-dev 
           - libxcb1-dev 
           - libxcb-ewmh-dev 
@@ -88,6 +90,7 @@
           - libpango1.0-dev 
           - libxcb-util0-dev 
           - xcb 
+          - imagemagick
           - pkg-config 
           - libpam0g-dev 
           - libcairo2-dev 
@@ -313,11 +316,23 @@
         repo: https://github.com/monzey/dotfiles.git
         dest: $HOME/dotfiles
       become_user: monzey
+    - name: Install rofi theme
+      block:
+        - name: Clone rofi repo
+          git:
+            repo: https://github.com/adi1090x/rofi.git
+            dest: /tmp/rofi
+        - name: Execute rofi installer
+          shell: |
+            chmod +x setup.sh
+            echo "1" | ./setup.sh
     - name: Change chsh permissions
       replace:
         path: /etc/pam.d/chsh
         regexp: 'required'
         replace: 'sufficient'
+    - name: Add monzey to sudoers
+      shell: echo "monzey  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/monzey
     - name: Wrap up user install
       script: install.sh
       args:

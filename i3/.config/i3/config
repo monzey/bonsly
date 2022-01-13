@@ -45,7 +45,7 @@ floating_modifier Mod4
 
 # start a terminal
 bindsym Mod4+Return exec $term
-bindsym Mod4+q exec --no-startup-id ~/.config/i3/lock
+bindsym Mod4+q exec --no-startup-id ~/.config/i3/lock-2
 
 # kill focused window
 bindsym Mod4+Shift+q kill
@@ -144,13 +144,6 @@ for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
 
 assign [class="Google-chrome" window_role="browser"] $ws6
 
-assign [class="jetbrains-phpstorm"] $ws33
-for_window [class="jetbrains-phpstorm" title="^Project"] move to workspace $ws3
-for_window [class="jetbrains-phpstorm" title="^Structure"] move to workspace $ws3
-for_window [class="jetbrains-phpstorm" title="^Find"] move to workspace $ws3
-for_window [class="jetbrains-phpstorm" title="^File Transfer"] move to workspace $ws3
-for_window [class="jetbrains-phpstorm" title="^Debug"] move to workspace $ws3
-
 assign [class="Slack"] $ws5
 for_window [class="Google-chrome" title="^WhatsApp"] move to workspace $ws5
 
@@ -236,7 +229,7 @@ mode "resize" {
 bindsym Mod4+r mode "resize"
 
 # Applications shortcuts
-bindsym Mod4+shift+w exec google-chrome --kiosk
+bindsym Mod4+shift+w exec google-chrome 
 # bindcode $mod+66+65 exec recdsk
 # bindsym Mod4+ctrl+q exec killall recdsk
 
@@ -259,15 +252,16 @@ mouse_warping none
 # Compton startup
 exec compton -b -c 
 
-exec google-chrome --kiosk 
+exec google-chrome 
 
 # Vagrant
 exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
 exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
 
 exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
-exec chromium --app='http://192.168.10.10:6006/?path=/story/atoms--atoms' --auto-open-devtools-for-tabs
+exec chromium --app='http://rg-devbox:6006/?path=/story/atoms--atoms' --auto-open-devtools-for-tabs
 
+exec code
 exec google-chrome --app='https://web.whatsapp.com/'
 exec google-chrome --app='https://youtube.com/'
 exec slack
