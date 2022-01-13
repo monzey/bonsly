@@ -103,4 +103,6 @@ alias repack='~/dotfiles/pack'
 
 alias ls='exa'
 
-[ -f ~/.config/fzf/fzf.zsh ] && source ~/.config/fzf/fzf.zsh
+# fzf completion and key bindings
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
