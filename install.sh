@@ -39,4 +39,7 @@ chmod 755 /usr/bin/git-st
 
 ln -sf $pwd/.fonts.conf ~
 
+# google-chrome as default web browser 
+xdg-settings set default-web-browser google-chrome.desktop
+
 cd ~
