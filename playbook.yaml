@@ -17,6 +17,10 @@
           - openssh-server 
           - alsa-utils
           - autconf
+    - name: Add sid repo
+      apt_repository: 
+        repo: deb http://deb.debian.org/debian sid main
+        filename: regolith
     - name: Add regolith key
       apt_key:
         url: https://regolith-linux.github.io/package-repo/regolith.key

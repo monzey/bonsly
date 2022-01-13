@@ -106,3 +106,6 @@ alias ls='exa'
 # fzf completion and key bindings
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
+
+# rofi bins
+export PATH=$HOME/.config/rofi/bin:$PATH
