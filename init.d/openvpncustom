@@ -11,4 +11,10 @@
 # Description:       Starts vpn connection for better development
 ### END INIT INFO
 
-openvpn --config /root/.openvpn/mbertrand/mbertrand.ovpn --cd /root/.openvpn/mbertrand > /tmp/openvcustom.log &
+openvpn \
+--config /root/.openvpn/mbertrand/mbertrand.ovpn \
+--cd /root/.openvpn/mbertrand \
+--up /etc/openvpn/update-resolv-conf \
+--down /etc/openvpn/update-resolv-conf \
+--script-security 2 \
+> /tmp/openvcustom.log &
