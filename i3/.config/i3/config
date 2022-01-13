@@ -51,8 +51,7 @@ bindsym Mod4+q exec --no-startup-id ~/.config/i3/lock-2
 bindsym Mod4+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym Mod4+p exec rofi -show window
-bindsym Mod4+o exec rofi -show run
+bindsym Mod4+o exec launcher_text
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
