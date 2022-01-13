@@ -326,6 +326,8 @@
           shell: |
             chmod +x setup.sh
             echo "1" | ./setup.sh
+          args:
+            chdir: /tmp/rofi
     - name: Change chsh permissions
       replace:
         path: /etc/pam.d/chsh
