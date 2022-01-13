@@ -22,7 +22,7 @@
     - name: Install Brew
       block:
         - name: Script brew
-          shell: curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+          shell: curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | sh -s -- -y
     - name: Add sid repo
       apt_repository: 
         repo: deb http://deb.debian.org/debian sid main
