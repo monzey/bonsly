@@ -4,7 +4,7 @@
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore
-  pager = diff-so-fancy | less --tabs=4 -RFXS
+  pager = delta
 	autocrlf = input
 [alias]
   # NOTE: These aliases depend on the `git files` alias from
@@ -31,5 +31,31 @@
   prlist = !hub pr list -L 20 -b master --format='%i | %t [%H] %sH %n' --color=always -s open
 
   pr = !hub pull-request | xclip -sel clip
-[diff-so-fancy]
+[diff]
+  colorMoved = default
+[delta]
+  features = hoopoe
+  line-numbers = true
   markEmptyLines = false
+[delta "hoopoe"]
+    # author: https://github.com/clnoll
+    commit-decoration-style = bold box ul "#34fd50"
+    dark = true
+    file-decoration-style = none
+    file-style = omit
+    hunk-header-decoration-style = "#00b494" box ul
+    hunk-header-file-style = "#999999"
+    hunk-header-line-number-style = bold "#03a4ff"
+    hunk-header-style = file line-number syntax
+    line-numbers = true
+    line-numbers-left-style = black
+    line-numbers-minus-style = "#B10036"
+    line-numbers-plus-style = "#03a4ff"
+    line-numbers-right-style = black
+    line-numbers-zero-style = "#999999"
+    minus-emph-style = normal "#de004e"
+    minus-style = normal "#990017"
+    plus-emph-style = syntax "#03a4ff"
+    plus-style = syntax "#450eff"
+    side-by-side = true
+    syntax-theme = dracula
