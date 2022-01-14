@@ -22,6 +22,7 @@ stow vim
 stow nvim
 stow x
 stow zsh
+stow lazygit
 
 chsh -s $(which zsh)
 

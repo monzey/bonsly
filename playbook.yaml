@@ -19,10 +19,20 @@
           - autconf
           - procps
           - file
-    - name: Install Brew
-      block:
-        - name: Script brew
-          shell: curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | sh -s -- -y
+    - name: Add monzey to sudoers
+      shell: echo "monzey  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/monzey
+    - name: Install go
+      block: 
+        - name: Unarchive go
+          unarchive: 
+            src: https://golang.org/dl/go1.17.linux-amd64.tar.gz
+            dest: /usr/local
+            remote_src: yes
+        - name: Source go
+          shell: export PATH=/usr/local/go/bin:${PATH}
+    - name: Install lazygit
+      shell: go get github.com/jesseduffield/lazygit
+      become_user: monzey
     - name: Add sid repo
       apt_repository: 
         repo: deb http://deb.debian.org/debian sid main
@@ -151,6 +161,10 @@
           - dbus-x11 
           - libdbus-1-dev 
           - libx11-dev 
+          - xorg-dev
+          - x11proto-xext-dev
+          - libxrender-dev
+          - libxext-dev
           - libxinerama-dev 
           - libxrandr-dev 
           - libxss-dev 
@@ -174,6 +188,7 @@
           - libgtk-3-dev 
           - libxdg-basedir-dev 
           - libnotify-dev
+          - gifsicle
           - polybar
         update_cache: yes
     - name: Install antigen
@@ -209,6 +224,19 @@
         make install
       args:
         chdir: /tmp/dunst
+    - name: Install xwinwrap
+      block:
+      - name: Clone xwinwrap
+        git:
+          repo: https://github.com/ujjwal96/xwinwrap.git
+          dest: /tmp/xwinwrap
+      - name: Install xwinwrap
+        shell: |
+          make
+          make install
+          make clean
+        args:
+          chdir: /tmp/xwinwrap
     - name: Remove current rustc
       apt:
         name: rustc
@@ -225,9 +253,18 @@
         ./install-i3lock-color.sh
       args:
         chdir: /tmp/i3lock-color
+    - name: Install delta
+      block:
+        - name: Install delta globally
+          shell: cargo install git-delta
+        - name: Install delta for user
+          copy: 
+            src: /$HOME/.cargo/bin/delta
+            dest: /usr/bin/delta
+            mode: '0755'
     - name: Install alacritty
       block:
-        - name: Install alacritty globaly
+        - name: Install alacritty globally
           shell: cargo install alacritty
         - name: Install alacritty for user
           copy: 
@@ -343,8 +380,6 @@
         path: /etc/pam.d/chsh
         regexp: 'required'
         replace: 'sufficient'
-    - name: Add monzey to sudoers
-      shell: echo "monzey  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/monzey
     - name: Wrap up user install
       script: install.sh
       args:

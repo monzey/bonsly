@@ -1,0 +1,15 @@
+git:
+  paging:
+    colorarg: always
+    pager: delta --dark --paging=never
+
+reporting: "off"
+startuppopupversion: 1
+
+keybinding:
+  universal:
+    prevBlock: '<c-k>' # goto the previous block / panel
+    nextBlock: '<c-j>' # goto the next block / panel
+  commits:
+    moveDownCommit: '<left>' # move commit down one
+    moveUpCommit: '<right>' # move commit up one

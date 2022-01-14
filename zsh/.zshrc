@@ -64,7 +64,7 @@ KEYTIMEOUT=1
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-DEFAULT_USER="maxime"
+DEFAULT_USER="monzey"
 
 # auto-ls config
 auto-ls-exa () {
@@ -102,6 +102,7 @@ alias dbox='cd ~/rg/devbox > /dev/null 2>&1 && vagrant ssh'
 alias repack='~/dotfiles/pack'
 
 alias ls='exa'
+alias lg='lazygit'
 
 # fzf completion and key bindings
 source /usr/share/doc/fzf/examples/key-bindings.zsh
@@ -109,3 +110,9 @@ source /usr/share/doc/fzf/examples/completion.zsh
 
 # rofi bins
 export PATH=$HOME/.config/rofi/bin:$PATH
+
+# go bin
+export PATH=/usr/local/go/bin:$PATH
+
+# go apps
+export PATH=~/go/bin:$PATH
