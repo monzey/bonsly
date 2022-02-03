@@ -42,7 +42,7 @@
         state: present
     - name: Add regolith ppa
       apt_repository: 
-        repo: deb https://regolith-linux.github.io/package-repo/unstable/debian/bullseye/amd64 bullseye main
+        repo: deb [arch=amd64] https://regolith-release-debian-bullseye-amd64.s3.amazonaws.com bullseye main
         filename: regolith
     - name: Add spotify key
       apt_key:
@@ -185,6 +185,7 @@
           - libxdg-basedir-dev 
           - libnotify-dev
           - polybar
+          - nscd
         update_cache: yes
     - name: Install antigen
       get_url:

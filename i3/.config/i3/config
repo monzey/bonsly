@@ -242,14 +242,14 @@ exec --no-startup-id dunst
 
 # I3 gaps config
 for_window [class="^.*"] border pixel 0
-gaps inner 10
-gaps bottom 10
+gaps inner 0
+gaps bottom 0
 
 # Prevent mouse warping
 mouse_warping none
 
 # Compton startup
-exec compton -b -c 
+# exec compton -b -c 
 
 exec google-chrome 
 

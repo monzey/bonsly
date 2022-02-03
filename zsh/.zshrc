@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 source /usr/local/bin/antigen
@@ -21,44 +28,6 @@ antigen apply
 
 # source $HOME/dotfiles/.purepower
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# theme
-
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-# POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-
-# POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='black'
-# POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='009'
-# 
-# POWERLEVEL9K_DIR_HOME_BACKGROUND='009'
-# POWERLEVEL9K_DIR_HOME_FOREGROUND='black'
-# 
-# POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='196'
-# POWERLEVEL9K_DIR_DEFAULT_FOREGROUND='232'
-
-# POWERLEVEL9K_VCS_CLEAN_FOREGROUND='099'
-# POWERLEVEL9K_MODE='awesome-fontconfig'
-
-#Icon config
-POWERLEVEL9K_HOME_ICON='\Ue617'
-POWERLEVEL9K_SUB_ICON=''
-POWERLEVEL9K_DIR_ICON=''
-POWERLEVEL9K_SSH_ICON=''
-POWERLEVEL9K_SSH_ICON=''
-POWERLEVEL9K_SSH_BACKGROUND='082'
-POWERLEVEL9K_SSH_FOREGROUND='022'
-POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=''
-POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=''
-POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='040'
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='016'
-POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND='197'
-POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND='016'
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=""
-POWERLEVEL9K_VCS_GIT_GITHUB_ICON=' '
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context ssh dir dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vi_mode)
 
 KEYTIMEOUT=1
 # Set name of the theme to load. Optionally, if you set this to "random"
@@ -116,3 +85,7 @@ export PATH=/usr/local/go/bin:$PATH
 
 # go apps
 export PATH=~/go/bin:$PATH
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
