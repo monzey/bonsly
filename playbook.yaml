@@ -72,8 +72,6 @@
           - graphviz
           - htop
           - exa
-          - neovim
-          - neovim-runtime
           - i3-gaps
           - diff-so-fancy
           - bat
@@ -186,11 +184,17 @@
           - libnotify-dev
           - polybar
           - nscd
+          - fuse
         update_cache: yes
     - name: Install antigen
       get_url:
         url: git.io/antigen
         dest: /urs/local/bin/antigen
+    - name: Install nvim
+      get_url:
+        url: https://github.com/neovim/neovim/releases/download/v0.6.1/nvim.appimage
+        dest: /usr/bin/nvim
+        mode: '0655'
     - name: Add ssh directory
       file:
         path: ~/.ssh
@@ -267,6 +271,9 @@
             src: /$HOME/.cargo/bin/alacritty
             dest: /usr/bin/alacritty
             mode: '0755'
+    - name: Install ripgrep
+      apt:
+        deb: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
     - name: Install vscode
       apt:
         deb: https://az764295.vo.msecnd.net/stable/899d46d82c4c95423fb7e10e68eba52050e30ba3/code_1.63.2-1639562499_amd64.deb

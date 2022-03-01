@@ -52,6 +52,7 @@ bindsym Mod4+Shift+q kill
 
 # start rofi (a program launcher)
 bindsym Mod4+o exec launcher_text
+bindsym Mod4+BackSpace exec powermenu
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -138,16 +139,15 @@ workspace $ws5 output DP-2
 workspace $ws6 output DP-2
 workspace $ws7 output DP-1
 
-assign [class="Chromium" window_role="pop-up"] $ws1
-for_window [class="Chromium" title="^DevTools"] move to workspace $ws11
+for_window [class="Devtools"] move to workspace $ws11
 
-assign [class="Google-chrome" window_role="browser"] $ws6
+assign [class="Firefox-esr" window_role="browser"] $ws6
 
 assign [class="Slack"] $ws5
-for_window [class="Google-chrome" title="^WhatsApp"] move to workspace $ws5
+for_window [class="Firefox-esr" title="^WhatsApp"] move to workspace $ws5
 
 for_window [class="Spotify"] move to workspace $ws4
-for_window [class="Google-chrome" title="YouTube"] move to workspace $ws4
+for_window [class="Firefox-esr" title="YouTube"] move to workspace $ws4
 
 for_window [class="Code"] move to workspace $ws33
 
@@ -195,7 +195,7 @@ bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
 # mpd controls
 bindsym Mod4+equal exec mpc next
 bindsym Mod4+parenright exec mpc prev
-bindsym Mod4+BackSpace exec mpc toggle
+# bindsym Mod4+BackSpace exec mpc toggle
 
 #screenshot
 bindsym --release Mod4+s exec import png:- | xclip -selection clipboard -t image/png
@@ -228,7 +228,7 @@ mode "resize" {
 bindsym Mod4+r mode "resize"
 
 # Applications shortcuts
-bindsym Mod4+shift+w exec google-chrome 
+bindsym Mod4+shift+w exec firefox-esr 
 # bindcode $mod+66+65 exec recdsk
 # bindsym Mod4+ctrl+q exec killall recdsk
 
@@ -249,20 +249,18 @@ gaps bottom 0
 mouse_warping none
 
 # Compton startup
-# exec compton -b -c 
+exec compton 
 
-exec google-chrome 
+exec firefox-esr 
 
 # Vagrant
 exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
 exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
 
-exec chromium --app=https://dashboard.rg-supervision.local/dashboard --auto-open-devtools-for-tabs
-exec chromium --app='http://rg-devbox:6006/?path=/story/atoms--atoms' --auto-open-devtools-for-tabs
+exec firefox-esr --devtools https://dashboard.rg-supervision.local/dashboard 
+exec firefox-esr --devtools http://rg-devbox:6006/?path=/story/atoms--atoms 
 
 exec code
-exec google-chrome --app='https://web.whatsapp.com/'
-exec google-chrome --app='https://youtube.com/'
 exec slack
 exec spotify
 

@@ -3,7 +3,6 @@
 pwd=`pwd`
 
 stow alacritty
-stow autostart
 stow bat
 stow compton
 stow dunst
@@ -40,8 +39,8 @@ chmod 755 /usr/bin/git-st
 
 ln -sf $pwd/.fonts.conf ~
 
-# google-chrome as default web browser 
-xdg-settings set default-web-browser google-chrome.desktop
+# firefox as default web browser 
+xdg-settings set default-web-browser firefox-esr.desktop
 
 # alacritty as default terminal
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/alacritty 60
