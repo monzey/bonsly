@@ -38,7 +38,7 @@ set $left j
 set $right m
 
 set $mod Mod4
-set $term alacritty
+set $term kitty
 
 # use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
@@ -147,11 +147,11 @@ assign [class="Slack"] $ws5
 for_window [class="Firefox-esr" title="^WhatsApp"] move to workspace $ws5
 
 for_window [class="Spotify"] move to workspace $ws4
-for_window [class="Firefox-esr" title="YouTube"] move to workspace $ws4
+# for_window [class="Firefox-esr" title="YouTube"] move to workspace $ws4
 
 for_window [class="Code"] move to workspace $ws33
 
-bindsym Mod4+v exec $term --working-directory ~/rg/rgsupv-dashboard -e $SHELL -c "nvim"
+bindsym Mod4+v exec $term --working-directory ~/rg/rgsupv-dashboard -e $SHELL -c "nv"
 bindsym Mod4+Tab workspace back_and_forth
 
 # switch to workspace
@@ -243,25 +243,29 @@ exec --no-startup-id dunst
 # I3 gaps config
 for_window [class="^.*"] border pixel 0
 gaps inner 0
-gaps bottom 0
+# gaps top 35
+
+client.focused #555555 #555555 #ffffff #bb9af7 #bb9af7
+client.focused_inactive #555555 #555555 #ffffff #414868 #414868
+client.unfocused #555555 #555555 #ffffff #414868 #414868
 
 # Prevent mouse warping
 mouse_warping none
 
-# Compton startup
-exec compton 
+# Picom startup
+exec --no-startup-id picom -b --experimental-backends
 
 exec firefox-esr 
 
 # Vagrant
 exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
-exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && vagrant ssh"'
+exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && TERM=xterm-256color vagrant ssh"'
 
-exec firefox-esr --devtools https://dashboard.rg-supervision.local/dashboard 
-exec firefox-esr --devtools http://rg-devbox:6006/?path=/story/atoms--atoms 
-
-exec code
 exec slack
 exec spotify
+
+# Animated wallpaper
+# exec xwinwrap -ov -ni -g 1920x1080+0+0 -- mpv -wid WID -loop ~/animate
+# exec xwinwrap -ov -ni -g 1920x1080+1920+0 -- mpv -wid WID -loop ~/animate
 
 exec --no-startup-id killall i3lock

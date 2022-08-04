@@ -12,17 +12,15 @@ source /usr/local/bin/antigen
 antigen use oh-my-zsh
 
 antigen bundle git
-antigen bundle heroku
-antigen bundle vi-mode
+# antigen bundle jeffreytse/zsh-vi-mode
 antigen bundle commant-not-found
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle molovo/crash
 antigen bundle desyncr/auto-ls
-antigen bundle voronkovich/symfony.plugin.zsh
 antigen bundle lambda-mod-zsh-theme
 antigen bundle wfxr/forgit
 antigen theme romkatv/powerlevel10k
+# antigen bundle Aloxaf/fzf-tab
 
 antigen apply
 
@@ -35,21 +33,21 @@ KEYTIMEOUT=1
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 DEFAULT_USER="monzey"
 
+alias ls='lsd'
+alias lt='ls --tree'
+alias lla='ls -la'
+alias lg='lazygit'
+
 # auto-ls config
-auto-ls-exa () {
-  exa
+auto-ls-lla () {
+	lsd -la
 }
 
-auto-ls-st () {
-	git st
-}
-
-AUTO_LS_COMMANDS=(exa st)
+AUTO_LS_COMMANDS=(lla)
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 
 # Vim as default editor
 export EDITOR=vim
@@ -70,12 +68,18 @@ alias dash='cd ~/rg/rgsupv-dashboard && vim'
 alias dbox='cd ~/rg/devbox > /dev/null 2>&1 && vagrant ssh'
 alias repack='~/dotfiles/pack'
 
-alias ls='exa'
-alias lg='lazygit'
+
+alias ssh='kitty +kitten ssh'
 
 # fzf completion and key bindings
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
+
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
+--color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
+--color=fg+:#c0caf5,bg+:#1a1b26,hl+:#7dcfff
+--color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff 
+--color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a'
 
 # rofi bins
 export PATH=$HOME/.config/rofi/bin:$PATH
@@ -86,6 +90,12 @@ export PATH=/usr/local/go/bin:$PATH
 # go apps
 export PATH=~/go/bin:$PATH
 
+# Postman apps
+export PATH=/usr/bin/Postman:$PATH
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/.p10k.zsh.
+[[ ! -f ~/dotfiles/zsh/.p10k.zsh ]] || source ~/dotfiles/zsh/.p10k.zsh

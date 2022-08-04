@@ -18,10 +18,14 @@ stow tern
 stow tig
 stow tmux
 stow vim
-stow nvim
+stow lvim
 stow x
 stow zsh
 stow lazygit
+stow kitty
+stow lsd
+stow btop
+stow xplr
 
 chsh -s $(which zsh)
 

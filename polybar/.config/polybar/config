@@ -19,9 +19,10 @@ trans = #00000000
 white = #FFFFFF
 black = #000000
 
-bg = #001F1F1F
+bg-alt = #001F1F1F
+bg = #1a1b26
 fg = #FFFFFF
-fg-alt = #A9ABB0
+fg-alt = #414868
 
 acolor = #FFFFFF
 curgent = #EF5350
@@ -47,7 +48,7 @@ indigo = #3949ab
 blue = #1e88e5
 light-blue = #039be5
 cyan = #00acc1
-teal = #00897b
+teal = #73daca
 green = #43a047
 light-green = #7cb342
 lime = #c0ca33
@@ -61,11 +62,11 @@ blue-gray = #546e7a
 
 ;==========================================================
 [bar/left]
-width = 99%
+width = 100%
 height = 35
-offset-x = 0.5%
-offset-y = 0.5%
-bottom = true
+offset-x = 0%
+offset-y = 0%
+top = true
 override-redirect = true
 wm-restack = i3
 fixed-center = false
@@ -96,11 +97,11 @@ modules-right = xwindow
 ;==========================================================
 
 [bar/right]
-width = 99%
+width = 100%
 height = 35
-offset-x = 0.5%
-offset-y = 0.5%
-bottom = true
+offset-x = 0%
+offset-y = 0%
+top = true
 override-redirect = true
 wm-restack = i3
 fixed-center = false
@@ -126,7 +127,7 @@ scroll-down = i3wm-wsprev
 ;== Module Location ========================================================
 
 modules-left = cpu memory 
-modules-center = mpd
+modules-center = spotify
 modules-right = volume date 
  
 ;== Modules ========================================================
@@ -135,7 +136,7 @@ type = internal/cpu
 interval = 2
 format =  <label>
 label = %percentage-cores%
-format-underline = ${color.fg}
+format-underline = ${color.fg-alt}
 format-padding = 2
 
 [module/memory]
@@ -144,7 +145,7 @@ interval = 2
 format = ﬘ <label>
 label = %gb_used%|%gb_total% 
 format-padding = 2
-format-underline = ${color.shade2}
+format-underline = ${color.teal}
 
 [module/arch]
 type = custom/text
@@ -153,7 +154,7 @@ content = 
 content-padding = 2
 content-background = ${color.bg}
 content-foreground = ${color.fg}
-click-left = rofi -show run
+click-left = launcher_text
 
 [module/workspaces]
 type = internal/xworkspaces
@@ -190,7 +191,7 @@ label-occupied-padding = 1
 label-empty-foreground = ${color.fg}
 label-active-foreground = ${color.acolor}
 label-urgent-foreground = ${color.curgent}
-label-occupied-foreground = ${color.coccupied}
+label-occupied-foreground = ${color.teal}
 
 [module/github]
 type = internal/github
@@ -276,10 +277,10 @@ format-volume = <ramp-volume> <label-volume>
 format-volume-padding = 2
 format-volume-background = ${color.bg}
 label-volume = %percentage%%
-label-muted = "婢"
+label-muted = "婢 Muted"
 label-muted-background = ${color.bg}
 label-muted-padding = 2
-format-volume-underline = ${color.shade4}
+format-volume-underline = ${color.teal}
 
 ramp-volume-0 = 奄
 ramp-volume-1 = 奄
@@ -306,18 +307,19 @@ label-padding = 2
 label-background = ${color.bg}
 time =  %H:%M 
 date =  %b %d %Y  
-format-underline = ${color.fg}
+format-underline = ${color.fg-alt}
 
 [module/spotify]
 type = custom/script
 interval = 1
 format-prefix = " "
 format = <label>
-exec = python $HOME/.config/polybar/scripts/spotify_status.py -f '{artist}: {song}'
+exec = python3 $HOME/.config/polybar/scripts/spotify_status.py -f '{artist} · {song}'
 
 [module/xwindow]
 type = internal/xwindow
 format = <label>
+format-padding = 3
 
 [module/temperature]
 type=internal/temperature

@@ -11,8 +11,4 @@ xrdb -merge ~/.Xresources
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 xmodmap -e "keycode 62 = Escape"
 
-wal -R
-
-mopidy &
-
 exec dbus-launch i3

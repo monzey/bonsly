@@ -52,6 +52,14 @@
       apt_repository:
         repo: deb http://repository.spotify.com stable non-free
         filename: spotify
+    - name: Add gh key
+      apt_key:
+        url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+        state: present 
+    - name: Add gh ppa
+      apt_repository:
+        repo: deb [arch=amd64] https://cli.github.com/packages stable main
+        filename: githubcli
     - name: Add diff-so-fancy key
       apt_key:
         keyserver: keyserver.ubuntu.com
@@ -71,11 +79,10 @@
           - jq
           - graphviz
           - htop
-          - exa
           - i3-gaps
           - diff-so-fancy
           - bat
-          - hub
+          - gh
           - fzf
           - rofi=1.7.1-0.1
           - unzip
@@ -86,60 +93,68 @@
         name: 
           - openresolv
           - rsync
-          - libcairo2-dev 
-          - libxcb1-dev 
+          - libxext-dev 
+          - libxcb-xfixes0-dev 
+          - libxcb-shape0-dev 
+          - libxcb-render-util0-dev 
+          - libxcb-render0-dev 
+          - libxcb-present-dev 
+          - libxcb-glx0-dev 
           - libxcb-ewmh-dev 
           - libxcb-icccm4-dev 
           - libxcb-image0-dev 
           - libxcb-randr0-dev 
           - libxcb-util0-dev 
           - libxcb-xkb-dev 
-          - pkg-config 
-          - python3-xcbgen 
-          - xcb-proto 
           - libxcb-xrm-dev 
+          - libxcb-keysyms1-dev 
+          - libxcb-xinerama0-dev 
+          - libxcb-xtest0-dev 
+          - libxcb-composite0-dev 
+          - libxcb-cursor-dev 
+          - libxcb-xrm0 
+          - libxcb1-dev 
+          - libx11-xcb-dev 
+          - libxkbcommon-dev 
+          - libxkbcommon-x11-dev 
+          - libxkbcommon-x11-dev 
+          - libxkbcommon-dev 
+          - libx11-dev 
+          - libxinerama-dev 
+          - libxss-dev 
+          - libxdg-basedir-dev 
+          - libpixman-1-dev 
+          - libconfig-dev 
+          - libgl1-mesa-dev 
+          - libpcre2-dev 
+          - libpcre3-dev 
+          - libevdev-dev 
           - libasound2-dev 
           - libmpdclient-dev 
           - libiw-dev 
+          - libssl-dev
           - libcurl4-openssl-dev 
           - libpulse-dev 
-          - libxcb-keysyms1-dev 
-          - libpango1.0-dev 
-          - libxcb-util0-dev 
-          - xcb 
-          - imagemagick
-          - pkg-config 
           - libpam0g-dev 
           - libcairo2-dev 
           - libfontconfig1-dev 
-          - libxcb-composite0-dev 
           - libev-dev 
-          - libx11-xcb-dev 
-          - libxcb-xkb-dev 
-          - libxcb-xinerama0-dev 
-          - libxcb-randr0-dev 
-          - libxcb-image0-dev 
-          - libxcb-util0-dev 
-          - libxcb-xrm-dev 
-          - libxcb-xtest0-dev 
-          - libxkbcommon-dev 
-          - libxkbcommon-x11-dev 
           - libjpeg-dev
-          - libxcb-xrm-dev
-          - libxcb1-dev 
-          - libxcb-icccm4-dev 
           - libyajl-dev 
-          - libev-dev 
-          - libxcb-xkb-dev 
-          - libxcb-cursor-dev 
-          - libxkbcommon-dev 
-          - libxcb-xinerama0-dev 
-          - libxkbcommon-x11-dev 
           - libstartup-notification0-dev 
-          - libxcb-randr0-dev 
-          - libxcb-xrm0 
-          - libxcb-xrm-dev 
-          - libxcb-composite0-dev 
+          - libdbus-1-dev 
+          - libglib2.0-dev 
+          - librsvg2-2 
+          - libnotify-dev
+          - uthash-dev 
+          - meson
+          - pkg-config 
+          - python3-xcbgen 
+          - python3-pip 
+          - xcb-proto 
+          - xcb 
+          - imagemagick
+          - pkg-config 
           - sudo
           - chromium 
           - xfonts-base 
@@ -157,34 +172,17 @@
           - bison 
           - flex
           - dbus-x11 
-          - libdbus-1-dev 
-          - libx11-dev 
-          - libxinerama-dev 
-          - libxrandr-dev 
-          - libxss-dev 
-          - libglib2.0-dev 
-          - libpango1.0-dev 
-          - libgtk-3-dev 
-          - libxdg-basedir-dev 
           - dirmngr 
           - ffmpeg 
           - x11-apps 
-          - librsvg2-2 
           - mpc
           - spotify-client
-          - libdbus-1-dev 
-          - libx11-dev 
-          - libxinerama-dev 
-          - libxrandr-dev 
-          - libxss-dev 
-          - libglib2.0-dev 
-          - libpango1.0-dev 
-          - libgtk-3-dev 
-          - libxdg-basedir-dev 
-          - libnotify-dev
           - polybar
           - nscd
           - fuse
+          - ninja-build
+          - picom
+          - mpv
         update_cache: yes
     - name: Install antigen
       get_url:
@@ -192,7 +190,7 @@
         dest: /urs/local/bin/antigen
     - name: Install nvim
       get_url:
-        url: https://github.com/neovim/neovim/releases/download/v0.6.1/nvim.appimage
+        url: https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage
         dest: /usr/bin/nvim
         mode: '0655'
     - name: Add ssh directory
@@ -210,6 +208,7 @@
       become_user: monzey
     - name: Install chrome
       shell: |
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
         dpkg -i chrome.deb
       args:
@@ -242,8 +241,22 @@
         name: rustc
         state: absent
     - name: Install rust
-      shell: | 
-        curl https://sh.rustup.rs -sSf | sh -s -- -y
+      block: 
+      - name: Download rust
+        shell: | 
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+        args:
+          become_user: monzey
+      - name: Copy rust to path
+        copy: 
+          src: /$HOME/.cargo/bin/rustc
+          dest: /usr/bin/rustc
+          mode: '0755'
+    - name: Link cargo
+      copy: 
+        src: /$HOME/.cargo/bin/cargo
+        dest: /usr/bin/cargo
+        mode: '0755'
     - name: Clone i3lock-color
       git:
         repo: https://github.com/Raymo111/i3lock-color.git
@@ -253,6 +266,10 @@
         ./install-i3lock-color.sh
       args:
         chdir: /tmp/i3lock-color
+    - name: Install xplr
+      community.general.cargo: 
+        name: xplr
+      become_user: monzey
     - name: Install delta
       block:
         - name: Install delta globally
@@ -262,6 +279,46 @@
             src: /$HOME/.cargo/bin/delta
             dest: /usr/bin/delta
             mode: '0755'
+    - name: Install neovide
+      block:
+        - name: Clone neovide
+          git:
+            repo: https://github.com/neovide/neovide
+            dest: /tmp/neovide
+        - name: Build neovide
+          shell: |
+            cargo build --release
+          args:
+            chdir: /tmp/neovide
+        - name: Copy neovide to path
+          copy: 
+            src: /tmp/neovide/target/release/neovide
+            dest: /usr/bin/neovide
+            mode: '0755'
+    - name: Install btop
+      block:
+        - name: Download btop
+          get_url: 
+            url: https://github.com/aristocratos/btop/releases/download/v1.2.5/btop-x86_64-linux-musl.tbz 
+            dest: /tmp/btop.tbz
+        - name: Unarchive btop
+          shell: mkdir btop && tar -xjf btop.tbz -C btop
+          args:
+            chdir: /tmp
+        - name: Install btop exe
+          shell: make install
+          args:
+            chdir: /tmp/btop
+    - name: Install kitty
+      block:
+      - name: Download kitty
+        shell: curl -l https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin dest=/usr/bin launch=n
+      - name: Change kitty ownership
+        file: 
+          src: /usr/bin/kitty.app/bin/kitty
+          dest: /usr/bin/kitty
+          mode: '0755'
+          state: link
     - name: Install alacritty
       block:
         - name: Install alacritty globally
@@ -342,10 +399,14 @@
     - name: Update fonts cache
       shell: fc-cache -fv
     - name: Install VPN
-      file:
-        src: "{{ playbook_dir }}/init.d/openvpncustom"
-        dest: /etc/init.d/openvpncustom
-        state: link
+      block:
+        - name: Copy script to init.d
+          file:
+            src: "{{ playbook_dir }}/init.d/openvpncustom"
+            dest: /etc/init.d/openvpncustom
+            state: link
+        - name: Add script to startup
+          shell: update-rc.d openvpncustom defaults
     - name: Install nvm
       shell: |
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash

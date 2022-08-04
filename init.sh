@@ -8,6 +8,7 @@ installAnsible () {
   apt install ansible -y
 
   # launch playbook
+  ansible-galaxy collection install community.general
   ansible-playbook playbook.yaml --ask-become-pass -vvv
 }
 
