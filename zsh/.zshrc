@@ -33,14 +33,14 @@ KEYTIMEOUT=1
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 DEFAULT_USER="monzey"
 
-alias ls='lsd'
+alias ls='ls'
 alias lt='ls --tree'
 alias lla='ls -la'
 alias lg='lazygit'
 
 # auto-ls config
 auto-ls-lla () {
-	lsd -la
+	ls -la
 }
 
 AUTO_LS_COMMANDS=(lla)
@@ -99,3 +99,6 @@ POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 # To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/.p10k.zsh.
 [[ ! -f ~/dotfiles/zsh/.p10k.zsh ]] || source ~/dotfiles/zsh/.p10k.zsh
+
+# Sart sway
+# [ "$(tty)" = "/dev/tty1" ] && exec sway -d 2> ~/sway.log

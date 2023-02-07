@@ -102,7 +102,7 @@ lvim.builtin.telescope.defaults.mappings = {
 lvim.builtin.terminal.direction = "horizontal"
 
 lvim.builtin.nvimtree.setup.view.side = "right"
-lvim.builtin.nvimtree.show_icons.git = 0
+-- lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.nvimtree.setup.update_focused_file = {
   update_cwd = true,
@@ -153,11 +153,10 @@ lvim.builtin.dap.active = true
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
-lvim.builtin.notify.active = true
+lvim.builtin.alpha.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.dashboard.footer = ""
-lvim.builtin.dashboard.custom_header = {
+lvim.builtin.alpha.footer = ""
+lvim.builtin.alpha.custom_header = {
 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⡀⡢⡊⢄⠄⢀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ",
 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠄⠀⠀⢢⢊⢆⣃⢇⢎⡢⡩⡣⣑⢢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ",
 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⡀⠠⢄⢠⢰⠕⠁⠀⠀⠈⡌⡲⡘⡔⢕⢜⠜⡜⡔⡕⡱⡡⡠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ",

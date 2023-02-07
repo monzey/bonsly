@@ -16,7 +16,7 @@
           - cmake-data 
           - openssh-server 
           - alsa-utils
-          - autconf
+          - autoconf
           - procps
           - file
     - name: Add monzey to sudoers
@@ -30,9 +30,6 @@
             remote_src: yes
         - name: Source go
           shell: export PATH=/usr/local/go/bin:${PATH}
-    - name: Install lazygit
-      shell: go get github.com/jesseduffield/lazygit
-      become_user: monzey
     - name: Add sid repo
       apt_repository: 
         repo: deb http://deb.debian.org/debian sid main
@@ -60,14 +57,6 @@
       apt_repository:
         repo: deb [arch=amd64] https://cli.github.com/packages stable main
         filename: githubcli
-    - name: Add diff-so-fancy key
-      apt_key:
-        keyserver: keyserver.ubuntu.com
-        id: 4466B73F97EF279EC64D8A169E8A0C808486162E
-    - name: Add diff-so-fancy ppa
-      apt_repository:
-        repo: deb http://ppa.launchpad.net/aos1/diff-so-fancy/ubuntu focal main
-        filename: diffsofancy
     - name: Install dev utils
       apt:
         name:
@@ -76,16 +65,13 @@
           - ranger 
           - silversearcher-ag 
           - openvpn
-          - jq
-          - graphviz
-          - htop
-          - i3-gaps
-          - diff-so-fancy
+          - sway
+          - xwayland
           - bat
           - gh
           - fzf
-          - rofi=1.7.1-0.1
           - unzip
+          - rofi
           - zip
         update_cache: yes
     - name: Install secondary deps
@@ -149,6 +135,7 @@
           - uthash-dev 
           - meson
           - pkg-config 
+          - python3 
           - python3-xcbgen 
           - python3-pip 
           - xcb-proto 
@@ -165,7 +152,6 @@
           - cargo 
           - tig 
           - feh 
-          - tmux 
           - compton 
           - suckless-tools 
           - xclip 
@@ -181,16 +167,15 @@
           - nscd
           - fuse
           - ninja-build
-          - picom
           - mpv
         update_cache: yes
     - name: Install antigen
       get_url:
         url: git.io/antigen
-        dest: /urs/local/bin/antigen
+        dest: /usr/local/bin/antigen
     - name: Install nvim
       get_url:
-        url: https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage
+        url: https://github.com/neovim/neovim/releases/download/v0.8.3/nvim.appimage
         dest: /usr/bin/nvim
         mode: '0655'
     - name: Add ssh directory
@@ -223,19 +208,6 @@
         make install
       args:
         chdir: /tmp/dunst
-    - name: Install xwinwrap
-      block:
-      - name: Clone xwinwrap
-        git:
-          repo: https://github.com/ujjwal96/xwinwrap.git
-          dest: /tmp/xwinwrap
-      - name: Install xwinwrap
-        shell: |
-          make
-          make install
-          make clean
-        args:
-          chdir: /tmp/xwinwrap
     - name: Remove current rustc
       apt:
         name: rustc
@@ -257,19 +229,6 @@
         src: /$HOME/.cargo/bin/cargo
         dest: /usr/bin/cargo
         mode: '0755'
-    - name: Clone i3lock-color
-      git:
-        repo: https://github.com/Raymo111/i3lock-color.git
-        dest: /tmp/i3lock-color
-    - name: Install i3lock-color
-      shell: |
-        ./install-i3lock-color.sh
-      args:
-        chdir: /tmp/i3lock-color
-    - name: Install xplr
-      community.general.cargo: 
-        name: xplr
-      become_user: monzey
     - name: Install delta
       block:
         - name: Install delta globally
@@ -319,15 +278,6 @@
           dest: /usr/bin/kitty
           mode: '0755'
           state: link
-    - name: Install alacritty
-      block:
-        - name: Install alacritty globally
-          shell: cargo install alacritty
-        - name: Install alacritty for user
-          copy: 
-            src: /$HOME/.cargo/bin/alacritty
-            dest: /usr/bin/alacritty
-            mode: '0755'
     - name: Install ripgrep
       apt:
         deb: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
@@ -398,6 +348,12 @@
         - fonts/*
     - name: Update fonts cache
       shell: fc-cache -fv
+    - name: Install cursor theme
+      copy:
+        src: "{{ item }}"
+        dest: /usr/share/icons/default
+      with_fileglob:
+        - cursor/*
     - name: Install VPN
       block:
         - name: Copy script to init.d

@@ -8,7 +8,7 @@ stow compton
 stow dunst
 stow feh
 stow git
-stow i3
+stow sway
 stow ncmpcpp
 stow polybar
 stow qutebrowser
@@ -29,12 +29,6 @@ stow xplr
 
 chsh -s $(which zsh)
 
-folder=`~/.tmux/plugins/tpm`
-
-if [ ! -d "$folder" ] ; then
-  git clone https://github.com/tmux-plugins/tpm "$folder"
-fi
-
 mkdir -p ~/.icons/cursor-default-theme
 cp -r cursor/* ~/.icons/cursor-default-theme
 
@@ -47,6 +41,6 @@ ln -sf $pwd/.fonts.conf ~
 xdg-settings set default-web-browser firefox-esr.desktop
 
 # alacritty as default terminal
-sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/alacritty 60
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 60
 
 cd ~
