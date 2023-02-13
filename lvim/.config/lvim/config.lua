@@ -20,7 +20,8 @@ lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "tokyonight"
 vim.g.tokyonight_style = "night"
-vim.g.neovide_transparency = 0.9
+vim.g.neovide_transparency = 1
+vim.opt.clipboard = 'unnamedplus'
 
 local set = vim.opt -- set options
 

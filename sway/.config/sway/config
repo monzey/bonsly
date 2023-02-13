@@ -34,7 +34,7 @@ floating_modifier Mod4
 
 # start a terminal
 bindsym Mod4+Return exec $term
-bindsym Mod4+q exec --no-startup-id ~/.config/i3/lock-2
+bindsym Mod4+q exec --no-startup-id ~/.config/sway/lock
 
 # kill focused window
 bindsym Mod4+Shift+q kill

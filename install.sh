@@ -2,7 +2,6 @@
 
 pwd=`pwd`
 
-stow alacritty
 stow bat
 stow compton
 stow dunst
@@ -11,7 +10,6 @@ stow git
 stow sway
 stow ncmpcpp
 stow polybar
-stow qutebrowser
 stow ranger
 stow rofi
 stow tern
@@ -25,7 +23,7 @@ stow lazygit
 stow kitty
 stow lsd
 stow btop
-stow xplr
+stow hyprpaper
 
 chsh -s $(which zsh)
 

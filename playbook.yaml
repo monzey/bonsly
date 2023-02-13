@@ -79,6 +79,8 @@
         name: 
           - openresolv
           - rsync
+          - wayland-protocols
+          - libwayland-dev
           - libxext-dev 
           - libxcb-xfixes0-dev 
           - libxcb-shape0-dev 
@@ -123,6 +125,7 @@
           - libpulse-dev 
           - libpam0g-dev 
           - libcairo2-dev 
+          - libpango1.0-dev 
           - libfontconfig1-dev 
           - libev-dev 
           - libjpeg-dev
@@ -253,6 +256,22 @@
           copy: 
             src: /tmp/neovide/target/release/neovide
             dest: /usr/bin/neovide
+            mode: '0755'
+    - name: Install hyprpaper
+      block:
+        - name: Clone hyprpaper
+          git:
+            repo: https://github.com/hyprwm/hyprpaper
+            dest: /tmp/hyprpaper
+        - name: Build hyprpaper
+          shell: |
+            make all
+          args:
+            chdir: /tmp/hyprpaper
+        - name: Copy hyprpaper to path
+          copy: 
+            src: /tmp/hyprpaper/build/hyprpaper
+            dest: /usr/bin/hyprpaper
             mode: '0755'
     - name: Install btop
       block:
