@@ -1,0 +1,10 @@
+lastupdatecheck: 0
+recentrepos:
+- /home/monzey/rg/rgsupv-dashboard
+- /home/monzey/dotfiles
+startuppopupversion: 5
+customcommandshistory:
+- git checkout origin master
+- git push monzey recommandations
+- git push monzey pedigree-layout-finitions
+hidecommandlog: false

@@ -1,0 +1,37 @@
+bind refs P ?!git push "%(prompt Remote name: )" %(branch)
+bind refs p ?!git pull "%(prompt Remote name: )" %(branch)
+bind refs M ?!git pull %(remote) master
+bind main c ?!git checkout %(commit)
+bind status d ?!rm %(file)
+bind generic H !git log --author=%(prompt) --name-status
+bind refs f ?!git fetch --all
+bind generic N ?!git checkout -b "%(prompt New branch name: )"
+
+# Neonwolf Color Scheme for Tig
+#
+# Based mostly on the colors from the badwolf airline theme
+#
+# Github: https://github.com/h3xx/tig-colors-neonwolf
+#
+
+# disable importing colors from git config
+# (breaks main-ref coloring, probably others)
+set git-colors = no
+
+# color default         white   black
+color   cursor          black   green
+color   search-result   black   yellow
+# color author          green   black
+# color status          green   black
+color   line-number     red     black
+color   title-focus     black   yellow
+color   title-blur      black   magenta
+# Diff colors
+color diff-header       yellow  default
+color diff-index        blue    default
+color diff-chunk        magenta default
+color "Reported-by:"    green   default
+# View-specific color
+color tree.date         black   cyan    bold
+
+# vi: ts=8 sts=8 sw=8 noet

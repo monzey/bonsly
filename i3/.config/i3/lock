@@ -1,0 +1,14 @@
+#!/bin/bash
+# create a temp file
+#img=$(mktemp /tmp/XXXXXXXXXX.png)
+# Take a screenshot of current desktop
+#grim $img 
+
+img=$HOME/dotfiles/feh/wall
+pix=/tmp/lock.png
+# Pixelate the screenshot
+convert $img -scale 10% -scale 1000% $pix
+# Run swaylock with custom background
+swaylock -u -i $pix & sleep 1 && xset dpms force off
+# Remove the tmp file
+#rm $img

@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# bin/desktop_record.sh
+#
+# https://ffmpeg.org/ffmpeg-devices.html#x11grab
+
+NOW=$(date +"%Y-%m-%d-%H-%M")
+ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 /tmp/"screencast_$NOW.mp4"
