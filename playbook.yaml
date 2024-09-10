@@ -37,22 +37,6 @@
     - name: Add sid repo
       apt_repository: 
         repo: deb http://deb.debian.org/debian sid main
-    - name: Add regolith key
-      apt_key:
-        url: https://regolith-linux.github.io/package-repo/regolith.key
-        state: present
-    - name: Add regolith ppa
-      apt_repository:
-        repo: deb [arch=amd64] https://regolith-release-debian-bullseye-amd64.s3.amazonaws.com bullseye main
-        filename: regolith
-    - name: Add spotify key
-      apt_key:
-        url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
-        state: present 
-    - name: Add spotify ppa
-      apt_repository:
-        repo: deb http://repository.spotify.com stable non-free
-        filename: spotify
     - name: Add gh key
       apt_key:
         url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
@@ -69,9 +53,6 @@
           - ranger 
           - silversearcher-ag 
           - openvpn
-          - sway
-          - swaylock
-          - xwayland
           - bat
           - gh
           - fzf
@@ -143,10 +124,7 @@
           - libnotify-dev
           - uthash-dev 
           - meson
-          - pkg-config 
-          - python3 
-          - python3-xcbgen 
-          - python3-pip 
+          - pkg-config
           - xcb-proto 
           - xcb 
           - imagemagick
@@ -271,22 +249,6 @@
             src: /tmp/neovide/target/release/neovide
             dest: /usr/bin/neovide
             mode: '0755'
-    - name: Install hyprpaper
-      block:
-        - name: Clone hyprpaper
-          git:
-            repo: https://github.com/hyprwm/hyprpaper
-            dest: /tmp/hyprpaper
-        - name: Build hyprpaper
-          shell: |
-            make all
-          args:
-            chdir: /tmp/hyprpaper
-        - name: Copy hyprpaper to path
-          copy: 
-            src: /tmp/hyprpaper/build/hyprpaper
-            dest: /usr/bin/hyprpaper
-            mode: '0755'
     - name: Install btop
       block:
         - name: Download btop
@@ -326,48 +288,6 @@
     - name: Install slack
       apt:
         deb: https://downloads.slack-edge.com/releases/linux/4.23.0/prod/x64/slack-desktop-4.23.0-amd64.deb
-    - name: Install virtualbox
-      block:
-        - name: Add vbox 2016 key
-          apt_key:
-            url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
-            state: present
-        - name: Add vbox key
-          apt_key:
-            url: https://www.virtualbox.org/download/oracle_vbox.asc
-            state: present
-        - name: Add vbox repo
-          apt_repository: 
-            repo: deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib
-        - name: Install vbox
-          apt:
-            name: virtualbox-6.1
-            update_cache: yes
-        - name: Download extension pack
-          get_url:
-            url: https://download.virtualbox.org/virtualbox/6.1.30/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack
-            dest: /tmp/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack
-        - name: Install extension pack
-          shell: echo "y" | vboxmanage extpack install /tmp/Oracle_VM_VirtualBox_Extension_Pack-6.1.30.vbox-extpack    
-    - name: Install vagrant
-      block:
-        - name: Add vagrant repo key
-          apt_key:
-            url: https://apt.releases.hashicorp.com/gpg
-        - name: Add vagrant repo
-          apt_repository:
-            repo: deb [arch=amd64] https://apt.releases.hashicorp.com bullseye main
-        - name: Install vagrant package
-          apt:
-            name: vagrant
-            update_cache: yes
-    - name: Install devbox
-      block:
-        - name: Clone devbox repo
-          git:
-            repo: https://github.com/rgsystemes/devbox.git
-            dest: /$HOME/devbox
-          become_user: monzey
     - name: Recdsk
       copy:
         src: recdsk
