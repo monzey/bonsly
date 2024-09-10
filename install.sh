@@ -7,9 +7,7 @@ stow compton
 stow dunst
 stow feh
 stow git
-stow sway
 stow i3
-stow ncmpcpp
 stow polybar
 stow ranger
 stow rofi
@@ -22,7 +20,6 @@ stow lazygit
 stow kitty
 stow lsd
 stow btop
-stow hyprpaper
 stow plasma
 
 chsh -s $(which zsh)
