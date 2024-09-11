@@ -33,14 +33,14 @@ KEYTIMEOUT=1
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 DEFAULT_USER="monzey"
 
-alias ls='lsd'
-alias lt='ls --tree'
+alias ls='exa'
+alias lt='exa --tree'
 alias lla='ls -la'
 alias lg='lazygit'
 
 # auto-ls config
 auto-ls-lla () {
-  lsd -la
+  exa -la
 }
 
 AUTO_LS_COMMANDS=(lla)

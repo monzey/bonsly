@@ -34,17 +34,6 @@
             remote_src: yes
         - name: Source go
           shell: export PATH=/usr/local/go/bin:${PATH}
-    - name: Add sid repo
-      apt_repository: 
-        repo: deb http://deb.debian.org/debian sid main
-    - name: Add gh key
-      apt_key:
-        url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-        state: present 
-    - name: Add gh ppa
-      apt_repository:
-        repo: deb [arch=amd64] https://cli.github.com/packages stable main
-        filename: githubcli
     - name: Install dev utils
       apt:
         name:
@@ -54,84 +43,27 @@
           - silversearcher-ag 
           - openvpn
           - bat
-          - gh
           - fzf
+          - exa
           - unzip
           - zip
-          - lsd
         update_cache: yes
     - name: Install secondary deps
       apt:
         name: 
+          - i3
+          - dmenu
           - openresolv
           - rsync
-          - wayland-protocols
-          - libpam0g-dev 
-          - libwayland-dev
-          - libxext-dev 
-          - libxcb-xfixes0-dev 
-          - libxcb-shape0-dev 
-          - libxcb-render-util0-dev 
-          - libxcb-render0-dev 
-          - libxcb-present-dev 
-          - libxcb-glx0-dev 
-          - libxcb-ewmh-dev 
-          - libxcb-icccm4-dev 
-          - libxcb-image0-dev 
-          - libxcb-randr0-dev 
-          - libxcb-util0-dev 
-          - libxcb-xkb-dev 
-          - libxcb-xrm-dev 
-          - libxcb-keysyms1-dev 
-          - libxcb-xinerama0-dev 
-          - libxcb-xtest0-dev 
-          - libxcb-composite0-dev 
-          - libxcb-cursor-dev 
-          - libxcb-xrm0 
-          - libxcb1-dev 
-          - libx11-xcb-dev 
-          - libxkbcommon-dev 
-          - libxkbcommon-x11-dev 
-          - libxkbcommon-x11-dev 
-          - libxkbcommon-dev 
-          - libx11-dev 
-          - libxinerama-dev 
-          - libxss-dev 
-          - libxdg-basedir-dev 
-          - libpixman-1-dev 
-          - libconfig-dev 
-          - libgl1-mesa-dev 
-          - libpcre2-dev 
-          - libpcre3-dev 
-          - libevdev-dev 
-          - libasound2-dev 
-          - libmpdclient-dev 
-          - libiw-dev 
-          - libssl-dev
-          - libcurl4-openssl-dev 
-          - libpulse-dev 
-          - libpam0g-dev 
-          - libcairo2-dev 
-          - libpango1.0-dev 
-          - libfontconfig1-dev 
-          - libev-dev 
-          - libjpeg-dev
-          - libyajl-dev 
-          - libstartup-notification0-dev 
-          - libdbus-1-dev 
-          - libglib2.0-dev 
-          - librsvg2-2 
-          - libnotify-dev
           - uthash-dev 
           - meson
           - pkg-config
           - xcb-proto 
           - xcb 
           - imagemagick
-          - pkg-config 
           - sudo
           - chromium 
-          - firefox 
+          - firefox-esr
           - xfonts-base 
           - xserver-xorg-input-all 
           - xinit 
@@ -152,8 +84,6 @@
           - mpc
           - polybar
           - nscd
-          - fuse
-          - ninja-build
           - mpv
         update_cache: yes
     - name: Install antigen
@@ -224,30 +154,35 @@
             src: /$HOME/.cargo/bin/delta
             dest: /usr/bin/delta
             mode: '0755'
-    - name: Install kickoff
-      block:
-        - name: Install kickoff globally
-          shell: cargo install kickoff
-        - name: Install kickoff for user
-          copy: 
-            src: /$HOME/.cargo/bin/kickoff
-            dest: /usr/bin/kickoff
-            mode: '0755'
     - name: Install neovide
       block:
-        - name: Clone neovide
-          git:
-            repo: https://github.com/neovide/neovide
-            dest: /tmp/neovide
-        - name: Build neovide
-          shell: |
-            cargo build --release
+        - name: Download neovide
+          get_url: 
+            url: https://github.com/neovide/neovide/releases/download/0.13.3/neovide-linux-x86_64.tar.gz
+            dest: /tmp/neovide.tar.gz
+        - name: Unarchive neovide
+          shell: mkdir neovide && tar -zxvf neovide.tar.gz -C neovide
           args:
-            chdir: /tmp/neovide
-        - name: Copy neovide to path
+            chdir: /tmp
+        - name: Install neovide
           copy: 
-            src: /tmp/neovide/target/release/neovide
+            src: /tmp/neovide/neovide
             dest: /usr/bin/neovide
+            mode: '0755'
+    - name: Install lazygit
+      block:
+        - name: Download lazygit
+          get_url: 
+            url: https://github.com/jesseduffield/lazygit/releases/download/v0.44.0/lazygit_0.44.0_Linux_x86_64.tar.gz
+            dest: /tmp/lazygit.tar.gz
+        - name: Unarchive lazygit
+          shell: mkdir lazygit && tar -zxvf lazygit.tar.gz -C lazygit
+          args:
+            chdir: /tmp
+        - name: Install lazygit
+          copy: 
+            src: /tmp/lazygit/lazygit
+            dest: /usr/bin/lazygit
             mode: '0755'
     - name: Install btop
       block:
@@ -275,16 +210,7 @@
           state: link
     - name: Install ripgrep
       apt:
-        deb: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-    - name: Install vscode
-      apt:
-        deb: https://az764295.vo.msecnd.net/stable/899d46d82c4c95423fb7e10e68eba52050e30ba3/code_1.63.2-1639562499_amd64.deb
-    - name: Install libappindicator
-      apt:
-        deb: http://ftp.fr.debian.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
-    - name: Install libindicator
-      apt:
-        deb: http://ftp.fr.debian.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-4_amd64.deb
+        deb: https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep_14.1.0-1_amd64.deb
     - name: Install slack
       apt:
         deb: https://downloads.slack-edge.com/releases/linux/4.23.0/prod/x64/slack-desktop-4.23.0-amd64.deb
@@ -335,26 +261,6 @@
         repo: https://github.com/monzey/dotfiles.git
         dest: $HOME/dotfiles
       become_user: monzey
-    - name: Install ly
-      block:
-        - name: Clone ly repo
-          git:
-            repo: https://github.com/fairyglade/ly.git
-            dest: /tmp/ly
-        - name: Compile Ly
-          shell: |
-            make
-            make install installsystemd
-          args:
-            chdir: /tmp/ly
-        - name: Enable Ly
-          shell: |
-            systemctl ienable ly.service
-    - name: Change chsh permissions
-      replace:
-        path: /etc/pam.d/chsh
-        regexp: 'required'
-        replace: 'sufficient'
     - name: Wrap up user install
       script: install.sh
       args:
