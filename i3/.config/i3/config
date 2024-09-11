@@ -38,7 +38,6 @@ bindsym Mod4+Return exec $term
 bindsym Mod4+Shift+q kill
 
 # start rofi (a program launcher)
-# bindsym Mod4+o exec kickoff
 bindsym Mod4+BackSpace exec powermenu
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -117,9 +116,9 @@ set $ws9 "9"
 set $ws10 "10"
 
 set $s0 "eDP-1"
-set $s1 "DP-1-2"
-set $s2 "DP-1-1"
-set $s3 "DP-1-3"
+set $s1 "DP-2-2"
+set $s2 "DP-2-1"
+set $s3 "DP-2-3"
 
 workspace $ws1 output $s2
 workspace $ws2 output $s2
@@ -132,12 +131,7 @@ workspace $ws5 output $s3
 workspace $ws6 output $s2
 workspace $ws7 output $s1
 
-#output eDP-1 pos 0 0 res 1920x1080
-# output DP-6 pos 1920 0 res 1920x1080
-# output DP-5 pos 3840 0 res 1920x1080
-# output DP-7 pos 5760 0 res 1920x1080
-
-# output DP-7 transform 270
+exec --no-startup-id "xrandr --output DP-2-3 --rotate left --output eDP-1 --pos 0x0 --output DP-2-2 --right-of eDP-1 --output DP-2-1 --right-of DP-2-2 --output DP-2-3 --right-of DP-2-1"
 
 default_border none
 
@@ -192,11 +186,6 @@ bindsym Mod4+Shift+Ctrl+q [class=".*"] kill
 # bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 2dB-
 # bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
 
-# mpd controls
-bindsym Mod4+equal exec mpc next
-bindsym Mod4+parenright exec mpc prev
-# bindsym Mod4+BackSpace exec mpc toggle
-
 #screenshot
 bindsym --release Mod4+s exec spectacle -r
 
@@ -230,7 +219,7 @@ gaps inner 10
 bindsym Mod4+r mode "resize"
 
 # Applications shortcuts
-bindsym Mod4+shift+w exec firefox-esr 
+bindsym Mod4+shift+w exec firefox 
 # bindcode $mod+66+65 exec recdsk
 # bindsym Mod4+ctrl+q exec killall recdsk
 
@@ -242,42 +231,20 @@ exec --no-startup-id dunst
 # Prevent mouse warping
 mouse_warping none
 
-exec --no-startup-id picom
+exec --no-startup-id compton
 exec --no-startup-id xmodmap -e "keycode 62 = Escape"
 exec --no-startup-id setxkbmap fr
-exec --no-startup-id setxkbmap -option ctrl:nocaps
+exec --no-startup-id setxkbmap -option ctrl:swapcaps
 
 exec firefox 
 
 # Vagrant
-exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant rsync-auto"'
-exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "vagrant up && TERM=xterm-256color vagrant ssh"'
+exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "docker compose up -d && docker ssh"'
 
 exec slack
 exec spotify
 
 exec python3 $HOME/dotfiles/scripts/inactive_window_transparency.py
-
-# Plasma compatibility improvements
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="task_dialog"] floating enable
-
-for_window [class="yakuake"] floating enable
-for_window [class="systemsettings"] floating enable
-for_window [class="plasmashell"] floating enable;
-for_window [class="Plasma"] floating enable; border none
-for_window [title="plasma-desktop"] floating enable; border none
-for_window [title="win7"] floating enable; border none
-for_window [class="krunner"] floating enable; border none
-for_window [class="Kmix"] floating enable; border none
-for_window [class="Klipper"] floating enable; border none
-for_window [class="Plasmoidviewer"] floating enable; border none
-for_window [class="(?i)*nextcloud*"] floating disable
-for_window [class="plasmashell" window_type="notification"] border none, move position 70 ppt 81 ppt
-no_focus [class="plasmashell" window_type="notification"]
-
-# using plasma's logout screen instead of i3's
-bindsym $mod+Shift+e exec --no-startup-id qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 # volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"
@@ -285,15 +252,13 @@ bindsym XF86AudioLowerVolume exec --no-startup-id qdbus org.kde.kglobalaccel /co
 bindsym XF86AudioMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mute"
 bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mic_mute"
 
-bindsym $mod+q exec qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock
-
-# kill plasma window
-for_window [title="Desktop @ QRect.*"] kill; floating enable; border none
-
-# wallpaper
+bindsym $mod+o exec "dmenu_run" 
+bindsym $mod+q exec "i3lock -c 000000" 
 bindsym $mod+asterisk exec setxkbmap -option ctrl:swapcaps
 
-exec --no-startup-id $HOME/dotfiles/animate/loop_pngs.sh $HOME/dotfiles/animate/anime_rain
+exec --no-startup-id "feh --bg-center $HOME/wall"
+
+# exec --no-startup-id $HOME/dotfiles/animate/loop_pngs.sh $HOME/dotfiles/animate/anime_rain
 
 # bar {
 #     status_command i3status
