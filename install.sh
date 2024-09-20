@@ -3,6 +3,8 @@
 sudo nixos-generate-config
 nix-shell -p stow
 
+sudo rm /etc/nixos/configuration.nix
+
 pwd=`pwd`
 
 # stow bat
