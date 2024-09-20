@@ -66,8 +66,8 @@ alias gnm='git fetch origin && git checkout origin/master && git checkout -b'
 alias gnb='git fetch origin && git checkout `(git branch -a) | fzf` && git checkout -b'
 alias gdel='git branch -D `(git branch) | fzf`'
 
-alias core='cd ~/rg/rgsupv-core && nv'
-alias dash='cd ~/rg/rgsupv-dashboard && nv'
+alias core='nv ~/rg/rgsupv-core'
+alias dash='nv ~/rg/rgsupv-dashboard'
 alias dbox='cd ~/rg/devbox > /dev/null 2>&1 && TERM=xterm-256color vagrant ssh'
 
 alias ssh='kitty +kitten ssh'

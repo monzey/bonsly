@@ -16,5 +16,9 @@ tmux/.tmux/plugins
 /* Ranger */
 ranger/.config/ranger/bookmarks
 ranger/.config/ranger/history
+ranger/.config/ranger/plugins/__pycache__
+
+/* Btop */
+btop/.config/btop/btop.log
 
 error.log

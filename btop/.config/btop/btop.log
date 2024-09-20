@@ -162,3 +162,33 @@
 2024/02/05 (16:07:42) | DEBUG: Using locale en_US.UTF-8
 2024/02/05 (16:07:42) | INFO: Running on /dev/pts/7
 2024/02/05 (16:07:42) | DEBUG: Loading theme file: /home/monzey/.config/btop/themes/tokyonight.theme
+
+2024/09/11 (15:46:25) | ===> btop++ v.1.2.5
+2024/09/11 (15:46:25) | INFO: Logger set to DEBUG
+2024/09/11 (15:46:25) | DEBUG: Using locale fr_FR.UTF-8
+2024/09/11 (15:46:25) | INFO: Running on /dev/pts/1
+2024/09/11 (15:46:25) | DEBUG: Loading theme file: /home/monzey/.config/btop/themes/tokyonight.theme
+
+2024/09/12 (12:41:42) | ===> btop++ v.1.2.5
+2024/09/12 (12:41:42) | INFO: Logger set to DEBUG
+2024/09/12 (12:41:42) | DEBUG: Using locale fr_FR.UTF-8
+2024/09/12 (12:41:42) | INFO: Running on /dev/pts/3
+2024/09/12 (12:41:42) | DEBUG: Loading theme file: /home/monzey/.config/btop/themes/tokyonight.theme
+
+2024/09/13 (14:01:22) | ===> btop++ v.1.2.5
+2024/09/13 (14:01:22) | INFO: Logger set to DEBUG
+2024/09/13 (14:01:22) | DEBUG: Using locale fr_FR.UTF-8
+2024/09/13 (14:01:22) | INFO: Running on /dev/pts/2
+2024/09/13 (14:01:22) | DEBUG: Loading theme file: /home/monzey/.config/btop/themes/tokyonight.theme
+
+2024/09/16 (15:46:12) | ===> btop++ v.1.2.5
+2024/09/16 (15:46:12) | INFO: Logger set to DEBUG
+2024/09/16 (15:46:12) | DEBUG: Using locale fr_FR.UTF-8
+2024/09/16 (15:46:12) | INFO: Running on /dev/pts/0
+2024/09/16 (15:46:12) | DEBUG: Loading theme file: /home/monzey/.config/btop/themes/tokyonight.theme
+
+2024/09/18 (09:13:39) | ===> btop++ v.1.2.5
+2024/09/18 (09:13:39) | INFO: Logger set to DEBUG
+2024/09/18 (09:13:39) | DEBUG: Using locale fr_FR.UTF-8
+2024/09/18 (09:13:39) | INFO: Running on /dev/pts/0
+2024/09/18 (09:13:39) | DEBUG: Loading theme file: /home/monzey/.config/btop/themes/tokyonight.theme

@@ -137,7 +137,7 @@ default_border none
 
 for_window [class="Devtools"] move to workspace $ws11
 
-assign [class="Firefox" window_role="browser"] $ws6
+assign [class="Firefox-esr" window_role="browser"] $ws6
 
 assign [class="Slack"] $ws5
 
@@ -219,11 +219,12 @@ gaps inner 10
 bindsym Mod4+r mode "resize"
 
 # Applications shortcuts
-bindsym Mod4+shift+w exec firefox 
+bindsym Mod4+shift+w exec firefox-esr 
 # bindcode $mod+66+65 exec recdsk
 # bindsym Mod4+ctrl+q exec killall recdsk
 
-bindcode $mod+35 exec $term --working-directory ~/dotfiles -e $SHELL -c "nvim"
+bindcode $mod+35 exec $term --working-directory ~/dotfiles -e $SHELL -c "lvim"
+bindcode $mod+v exec lvim /home/rg/rgsupv-dashboard
 
 # Dunst
 exec --no-startup-id dunst 
@@ -236,29 +237,22 @@ exec --no-startup-id xmodmap -e "keycode 62 = Escape"
 exec --no-startup-id setxkbmap fr
 exec --no-startup-id setxkbmap -option ctrl:swapcaps
 
-exec firefox 
+exec firefox-esr 
 
 # Vagrant
-exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "docker compose up -d && docker ssh"'
+exec --no-startup-id i3-msg 'workspace codesec; exec $term --working-directory ~/rg/devbox -e $SHELL -c "docker compose up -d && ssh dev@localhost -p 8888 -i ~/.ssh/id_rsa"'
+exec --no-startup-id i3-msg 'workspace code; exec google-chrome --new-window http://dashboard.rg-supervision.local'
 
-exec slack
-exec spotify
+exec --no-startup-id i3-msg 'workspace irssi; exec google-chrome --new-window rgsystem.slack.com'
+exec --no-startup-id i3-msg 'workspace music; exec google-chrome --new-window youtube.com'
 
 exec python3 $HOME/dotfiles/scripts/inactive_window_transparency.py
-
-# volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"
-bindsym XF86AudioLowerVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"
-bindsym XF86AudioMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mute"
-bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mic_mute"
 
 bindsym $mod+o exec "dmenu_run" 
 bindsym $mod+q exec "i3lock -c 000000" 
 bindsym $mod+asterisk exec setxkbmap -option ctrl:swapcaps
 
 exec --no-startup-id "feh --bg-center $HOME/wall"
-
-# exec --no-startup-id $HOME/dotfiles/animate/loop_pngs.sh $HOME/dotfiles/animate/anime_rain
 
 # bar {
 #     status_command i3status

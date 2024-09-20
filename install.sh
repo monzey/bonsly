@@ -2,25 +2,22 @@
 
 pwd=`pwd`
 
+nix-shell -p stow
+
 stow bat
-stow compton
 stow dunst
 stow feh
 stow git
-stow i3
-stow polybar
 stow ranger
 stow rofi
-stow tern
-stow tig
-stow vim
-stow lvim
+stow nvim
 stow zsh
 stow lazygit
 stow kitty
 stow lsd
 stow btop
-stow plasma
+stow scripts -t /usr
+stow nix -t /etc
 
 chsh -s $(which zsh)
 
@@ -35,7 +32,9 @@ xdg-settings set default-web-browser firefox-esr.desktop
 # copy wallpaper
 cp wall.png ~/
 
-# alacritty as default terminal
+# kitty as default terminal
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 60
+
+sudo nixos-rebuild switch
 
 cd ~
