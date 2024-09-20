@@ -3,7 +3,7 @@
 {
   # Paramètres de base de NixOS
   imports = [ 
-    ./hardware-configuration.nix
+    /etc/nixos/hardware-configuration.nix
   ];
 
   # Nom de la machine
@@ -25,20 +25,20 @@
   };
 
   # Gestionnaire de login pour Wayland (Greetd)
-  services.greetd = {
-    enable = true;
-    defaultSession = "Hyprland";
-  };
+  # services.greetd = {
+  #   enable = true;
+  #   defaultSession = "Hyprland";
+  # };
 
   # Notifications avec Mako
-  services.mako = {
-    enable = true;
-  };
+  # services.mako = {
+  #   enable = true;
+  # };
 
   # Installation de logiciels essentiels
   environment.systemPackages = with pkgs; [
-    neovide      
-    mako         
+    # neovide      
+    # mako         
     hyprland     
     kitty
     waybar       
