@@ -13,16 +13,21 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Configuration Wayland et Hyprland
-  services.wayland = {
-    enable = true;
+  programs.hyprland.enable = true; # enable Hyprland
 
-    # Hyprland - Compositeur Wayland
-    compositor = {
-      hyprland.enable = true;
-      hyprland.configFile = "/etc/hypr/hyprland.conf";  # Vous pouvez personnaliser le fichier de configuration
-    };
-  };
+  # Optional, hint Electron apps to use Wayland:
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # Configuration Wayland et Hyprland
+  # services.wayland = {
+  #   enable = true;
+  #
+  #   # Hyprland - Compositeur Wayland
+  #   compositor = {
+  #     hyprland.enable = true;
+  #     hyprland.configFile = "/etc/hypr/hyprland.conf";  # Vous pouvez personnaliser le fichier de configuration
+  #   };
+  # };
 
   # Gestionnaire de login pour Wayland (Greetd)
   # services.greetd = {
@@ -39,9 +44,9 @@
   environment.systemPackages = with pkgs; [
     # neovide      
     # mako         
-    hyprland     
+    # hyprland     
     kitty
-    waybar       
+    # waybar       
     networkmanager  
   ];
 
