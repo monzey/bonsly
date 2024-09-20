@@ -1,4 +1,4 @@
-#! /bin/bash 
+#! /bin/sh
 
 sudo nixos-generate-config
 nix-shell -p stow
