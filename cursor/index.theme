@@ -1,5 +1,4 @@
 [Icon Theme]
-Name = Breeze-Adapta
-Comment = Multisized  X11 Mouse Theme Modified by Mustafa Özhan
-Example=default
-Inherits=core
+Name=Bibata-Modern-Classic
+Comment=Black and rounded edge Bibata (v2.0.6). XCursors
+Inherits="hicolor"

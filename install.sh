@@ -23,10 +23,10 @@ sudo stow hyprland
 # curl -L git.io/antigen > $HOME/.antigen.zsh
 
 chsh -s $(which zsh)
-#
-# mkdir -p ~/.icons/default
-# cp -r cursor/* ~/.icons/default
-#
+
+mkdir -p ~/.local/share/icons/Bibata
+cp -r cursor/* ~/.local/share/icons/Bibata
+
 # copy wallpaper
 cp wall.png ~/
 sudo mkdir -p /usr/share/backgrounds/
