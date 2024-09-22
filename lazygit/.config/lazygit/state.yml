@@ -1,10 +1,9 @@
 lastupdatecheck: 0
 recentrepos:
-    - /home/monzey/rg/rgsupv-dashboard
     - /home/monzey/dotfiles
-    - /home/monzey/evabia
+    - /home/monzey/rg/rgsupv-dashboard
 startuppopupversion: 5
-lastversion: 0.44.0
+lastversion: 0.42.0
 customcommandshistory:
     - git push alexis feat-10106-login
     - git remote add alexis git@github.com:alexis-mateo/rgsupv-dashboard.git
@@ -13,10 +12,9 @@ customcommandshistory:
     - git checkout origin master
     - git push monzey recommandations
     - git push monzey pedigree-layout-finitions
-hidecommandlog: false
+hidecommandlog: true
 ignorewhitespaceindiffview: false
 diffcontextsize: 3
-renamesimilaritythreshold: 50
 localbranchsortorder: recency
 remotebranchsortorder: alphabetical
 gitlogorder: topo-order

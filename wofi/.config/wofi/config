@@ -1,0 +1,16 @@
+# ~/.config/wofi/config
+style = "dmenu"
+
+# Pour un affichage plein écran
+width = 100%
+height = 100%
+
+# Couleurs et styles
+background = "#1e1e2f"
+foreground = "#ffffff"
+border = "0"
+padding = "0"
+font = "sans-serif 12"
+
+# Autres options
+vertical = false

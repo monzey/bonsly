@@ -12,11 +12,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "muk";
-  networking.wireless.enable = true;
+  #networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
 
   time.timeZone = "Europe/Paris";
 
@@ -31,33 +34,73 @@
     LS_PAPER = "fr_FR.UTF-8";
     LS_TELEPHONE = "fr_FR.UTF-8";
     LS_TIME = "fr_FR.UTF-8";
-  } 
+  }; 
 
   console.keyMap = "fr";
 
-  user.users.monzey = {
+  users.users.monzey = {
     isNormalUser = true;
     description = "monzey";
     extraGroups = [ "wheel" "networkmanager" ];
-  }
+    shell = pkgs.zsh;
+  };
+
+  # users.groups.keyd = { };
+  # users.users.keyd = {
+  #   isSystemUser = true;
+  #   group = "keyd";
+  #   createHome = false;
+  #   shell = pkgs.bash;
+  # };
 
   services.dbus.enable = true;   # Nécessaire pour le fonctionnement de nombreux composants sous Wayland
   services.udev.packages = [ pkgs.libinput ];  # Nécessaire pour les périphériques d'entrée sous Wayland
+  services.greetd = {
+    enable = true;
+  };
 
   boot.kernelModules = [ "kvm-intel" ];  # Pour Intel, remplacez par "kvm-amd" si vous avez un processeur AMD
 
   nixpkgs.config.allowUnfree = true;
 
+  fonts.packages = [
+    pkgs.fira-code-nerdfont
+  ];
+
+  programs.regreet.enable = true; # enable Hyprland
   programs.hyprland.enable = true; # enable Hyprland
+  programs.zsh.enable = true; # enable Hyprland
 
   # Optional, hint Electron apps to use Wayland:
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Installation de logiciels essentiels
   environment.systemPackages = with pkgs; [
-    # neovide      
-    # mako         
+    git
+    stow
+    mako         
+    wofi
+    dunst
+    kmonad
+    wl-clipboard
+    waybar       
+    greetd.regreet
     kitty
-    # waybar       
+    chromium
+    firefox
+    neovide      
+    neovim
+    lazygit
+    fzf
+    delta
+    fira-code-nerdfont
+    ranger
+    antigen
+    eza
+    hyprpaper
+    ripgrep
+    slack
+    bat
+    btop
   ];
 }
