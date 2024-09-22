@@ -7,12 +7,11 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-source /usr/local/bin/antigen
+source ~/.antigen.zsh
 
 antigen use oh-my-zsh
 
 antigen bundle git
-# antigen bundle jeffreytse/zsh-vi-mode
 antigen bundle commant-not-found
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -33,14 +32,14 @@ KEYTIMEOUT=1
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 DEFAULT_USER="monzey"
 
-alias ls='exa'
-alias lt='exa --tree'
+alias ls='eza'
+alias lt='eza --tree'
 alias lla='ls -la'
 alias lg='lazygit'
 
 # auto-ls config
 auto-ls-lla () {
-  exa -la
+  eza -la
 }
 
 AUTO_LS_COMMANDS=(lla)
@@ -73,8 +72,7 @@ alias dbox='cd ~/rg/devbox > /dev/null 2>&1 && TERM=xterm-256color vagrant ssh'
 alias ssh='kitty +kitten ssh'
 
 # fzf completion and key bindings
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+eval "$(fzf --zsh)"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
 --color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
