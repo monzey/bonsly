@@ -80,7 +80,7 @@
     mako         
     wofi
     dunst
-    kmonad
+    brightnessctl
     wl-clipboard
     waybar       
     greetd.regreet
