@@ -2,8 +2,8 @@
 style = "dmenu"
 
 # Pour un affichage plein écran
-width = 100%
-height = 100%
+width = 90%
+height = 90%
 
 # Couleurs et styles
 background = "#1e1e2f"

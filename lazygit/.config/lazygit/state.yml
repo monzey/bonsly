@@ -12,7 +12,7 @@ customcommandshistory:
     - git checkout origin master
     - git push monzey recommandations
     - git push monzey pedigree-layout-finitions
-hidecommandlog: true
+hidecommandlog: false
 ignorewhitespaceindiffview: false
 diffcontextsize: 3
 localbranchsortorder: recency

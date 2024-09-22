@@ -45,18 +45,12 @@
     shell = pkgs.zsh;
   };
 
-  # users.groups.keyd = { };
-  # users.users.keyd = {
-  #   isSystemUser = true;
-  #   group = "keyd";
-  #   createHome = false;
-  #   shell = pkgs.bash;
-  # };
-
   services.dbus.enable = true;   # Nécessaire pour le fonctionnement de nombreux composants sous Wayland
   services.udev.packages = [ pkgs.libinput ];  # Nécessaire pour les périphériques d'entrée sous Wayland
-  services.greetd = {
-    enable = true;
+  services.greetd.enable = true;
+
+  services.openvpn.servers = {
+    dev = { config = "config /root/openvpn/mbertrand.ovpn"; };
   };
 
   boot.kernelModules = [ "kvm-intel" ];  # Pour Intel, remplacez par "kvm-amd" si vous avez un processeur AMD
@@ -67,12 +61,16 @@
     pkgs.fira-code-nerdfont
   ];
 
-  programs.regreet.enable = true; # enable Hyprland
-  programs.hyprland.enable = true; # enable Hyprland
-  programs.zsh.enable = true; # enable Hyprland
+  programs.regreet.enable = true; 
+  programs.regreet.settings = /home/monzey/.config/regreet/regreet.toml; 
+  programs.hyprland.enable = true; 
+  programs.zsh.enable = true; 
+
+  virtualisation.docker.enable = true;
 
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.XKB_DEFAULT_LAYOUT = "fr";
 
   # Installation de logiciels essentiels
   environment.systemPackages = with pkgs; [
