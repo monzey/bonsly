@@ -1,30 +1,13 @@
 # Monzey's dotfiles
 
-Currently supports the following confs:
-+ alacritty
-+ dunst
-+ feh
-+ i3
-+ ncmpcpp
-+ polybar
-+ qutebrowser
-+ ranger
-+ rofi
-+ st
-+ tig
-+ tmux
-+ vim
-+ x
-+ zsh
-
-## From a fresh install of debian 11 bullseye
+## From a fresh install of nixos
 
 ```bash
-  apt install git
+  nix-shell -p git
   git clone https://github.com/monzey/dotfiles.git
   cd dotfiles
-  chmod a+x init.sh
-  ./init.sh
+  chmod a+x install.sh
+  ./install.sh
 ```
 
 That's it !
