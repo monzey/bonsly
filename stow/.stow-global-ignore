@@ -16,3 +16,6 @@ _darcs
 
 .+~          # emacs backup files
 \#.*\#       # emacs autosave files
+
+id_25519
+*.log
