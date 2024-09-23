@@ -16,6 +16,7 @@ sudo stow zsh
 sudo stow lazygit
 sudo stow kitty
 sudo stow btop
+sudo stow mako
 sudo stow scripts -t /usr
 sudo stow nixos -t /etc
 sudo stow hyprland

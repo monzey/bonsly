@@ -2,15 +2,15 @@
 style = "dmenu"
 
 # Pour un affichage plein écran
-width = 90%
-height = 90%
+# width = 90%
+# height = 90%
 
 # Couleurs et styles
 background = "#1e1e2f"
 foreground = "#ffffff"
 border = "0"
 padding = "0"
-font = "sans-serif 12"
+font = "FiraCode Nerd Font 12"
 
 # Autres options
 vertical = false
