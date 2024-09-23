@@ -14,6 +14,11 @@
   networking.hostName = "muk";
   #networking.wireless.enable = true;
   networking.networkmanager.enable = true;
+  networking.extraHosts =
+    ''
+    127.0.0.1 api.rg-supervision.local
+    127.0.0.1 dashboard.rg-supervision.local
+    '';
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
@@ -50,7 +55,10 @@
   services.greetd.enable = true;
 
   services.openvpn.servers = {
-    dev = { config = "config /root/openvpn/mbertrand.ovpn"; };
+    dev = { 
+      config = "config /root/openvpn/mbertrand.ovpn"; 
+      updateResolvConf = true;
+    };
   };
 
   boot.kernelModules = [ "kvm-intel" ];  # Pour Intel, remplacez par "kvm-amd" si vous avez un processeur AMD
