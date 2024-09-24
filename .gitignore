@@ -22,3 +22,6 @@ ranger/.config/ranger/plugins/__pycache__
 btop/.config/btop/btop.log
 
 error.log
+
+/* Lazygit */
+lazygit/.config/lazygit/state.yml
