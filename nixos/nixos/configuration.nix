@@ -71,6 +71,7 @@
 
   programs.regreet.enable = true; 
   programs.regreet.settings = /home/monzey/.config/regreet/regreet.toml; 
+  programs.regreet.cageArgs = ["-s" "-m" "last"];
   programs.hyprland.enable = true; 
   programs.hyprlock.enable = true; 
   programs.zsh.enable = true; 
@@ -109,5 +110,8 @@
     slack
     bat
     btop
+    hyprshot
+    xdg-desktop-portal-hyprland
+    nodejs_20
   ];
 }

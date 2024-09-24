@@ -5,6 +5,8 @@ recentrepos:
 startuppopupversion: 5
 lastversion: 0.42.0
 customcommandshistory:
+    - git merge origin/feat-6563-webpack
+    - git merge origin feat-6563-webpack
     - git push alexis feat-10106-login
     - git remote add alexis git@github.com:alexis-mateo/rgsupv-dashboard.git
     - git fetch origin
