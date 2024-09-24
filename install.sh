@@ -22,8 +22,6 @@ sudo stow hyprland
 
 curl -L git.io/antigen > $HOME/.antigen.zsh
 
-chsh -s $(which zsh)
-
 mkdir -p ~/.local/share/icons/Bibata
 cp -r cursor/* ~/.local/share/icons/Bibata
 
@@ -33,3 +31,5 @@ sudo mkdir -p /usr/share/backgrounds/
 sudo cp wall.png /usr/share/backgrounds/greeter
 
 sudo nixos-rebuild switch
+
+chsh -s $(which zsh)

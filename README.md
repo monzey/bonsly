@@ -4,7 +4,7 @@
 ## From a fresh install of nixos
 
 ```bash
-  nix-shell -p git
+  nix-shell -p git stow
   git clone https://github.com/monzey/dotfiles.git
   cd dotfiles
   chmod a+x install.sh
