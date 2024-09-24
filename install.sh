@@ -6,7 +6,6 @@ sudo rm -rf /etc/nixos/configuration.nix
 sudo rm -rf /etc/hypr/hyprland.conf
 
 sudo stow bat
-sudo stow dunst
 sudo stow git
 sudo stow ranger
 sudo stow wofi
