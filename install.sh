@@ -21,7 +21,7 @@ sudo stow scripts -t /usr
 sudo stow nixos -t /etc
 sudo stow hyprland
 
-# curl -L git.io/antigen > $HOME/.antigen.zsh
+curl -L git.io/antigen > $HOME/.antigen.zsh
 
 chsh -s $(which zsh)
 
