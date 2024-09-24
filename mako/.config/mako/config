@@ -5,6 +5,7 @@ font=FiraCode Nerd Font
 border-radius=5
 padding=15
 default-timeout=5000
+anchor=top-center
 
 [urgency=low]
 border-color=#282a36
