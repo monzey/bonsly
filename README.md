@@ -1,4 +1,5 @@
 # Monzey's dotfiles
+![Alt text](./preview.png?raw=true "Title")
 
 ## From a fresh install of nixos
 

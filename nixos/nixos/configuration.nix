@@ -113,5 +113,6 @@
     hyprshot
     xdg-desktop-portal-hyprland
     nodejs_20
+    neofetch
   ];
 }
