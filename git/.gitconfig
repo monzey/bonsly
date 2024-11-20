@@ -2,7 +2,7 @@
 	email = maxi.bertrand@gmail.com
 	name = Maxime Bertrand
 [core]
-	editor = /usr/bin/nvim
+	editor = neovide
 	excludesfile = ~/.gitignore
   pager = delta
 	autocrlf = input

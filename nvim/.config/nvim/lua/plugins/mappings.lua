@@ -11,6 +11,7 @@ return {
           ["<A-l>"] = { "<C-w>k", desc = "Move to up window" },
           ["<C-K>"] = { "<cmd>bnext<cr>", desc = "Move to next buffer" },
           ["<C-J>"] = { "<cmd>bprevious<cr>", desc = "Move to previous buffer" },
+          ["<Leader>s"] = { "<cmd>Spectre<cr>", desc = "Search globally" },
         },
       },
     },

@@ -61,6 +61,17 @@
     };
   };
 
+  services.kanata.enable = true;
+  services.kanata.keyboards.default.config = ''
+    (defsrc
+      rshift
+      caps)
+    
+    (deflayermap (default-layer)
+      rshift esc
+      caps lctl)
+  '';
+
   boot.kernelModules = [ "kvm-intel" ];  # Pour Intel, remplacez par "kvm-amd" si vous avez un processeur AMD
 
   nixpkgs.config.allowUnfree = true;
@@ -75,11 +86,17 @@
   programs.hyprland.enable = true; 
   programs.hyprlock.enable = true; 
   programs.zsh.enable = true; 
+  programs.steam.enable = true;
 
   virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.guest.enable = true;
+  users.extraGroups.vboxusers.members = [ "monzey" ];
 
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.EDITOR = "neovide";
   environment.sessionVariables.XKB_DEFAULT_LAYOUT = "fr";
 
   # Installation de logiciels essentiels
@@ -112,7 +129,24 @@
     btop
     hyprshot
     xdg-desktop-portal-hyprland
+    pipewire
+    wireplumber
+    discord
     nodejs_20
     neofetch
+    wine-wayland
+    mgba
+    unzip
+    xplr
+    oxker
+    gccgo
+    steamcmd
+    steam-tui
+    superfile
+    openconnect
+    globalprotect-openconnect
+    vscode
+    cassandra
+    figma-linux
   ];
 }
