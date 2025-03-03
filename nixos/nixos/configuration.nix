@@ -18,6 +18,7 @@
     ''
     127.0.0.1 api.rg-supervision.local
     127.0.0.1 dashboard.rg-supervision.local
+    127.0.0.1 zaza.rg-supervision.local
     '';
 
   sound.enable = true;
@@ -89,10 +90,6 @@
   programs.steam.enable = true;
 
   virtualisation.docker.enable = true;
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-  virtualisation.virtualbox.guest.enable = true;
-  users.extraGroups.vboxusers.members = [ "monzey" ];
 
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -116,6 +113,7 @@
     neovide      
     neovim
     lazygit
+    gnumake
     fzf
     delta
     fira-code-nerdfont
@@ -135,11 +133,14 @@
     nodejs_20
     neofetch
     wine-wayland
-    mgba
     unzip
+    grim
+    slurp
     xplr
     oxker
     gccgo
+    go_1_21
+    mkcert
     steamcmd
     steam-tui
     superfile

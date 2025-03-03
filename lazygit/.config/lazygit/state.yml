@@ -1,10 +1,27 @@
-lastupdatecheck: 0
+lastupdatecheck: 1736948731
 recentrepos:
     - /home/monzey/dotfiles
     - /home/monzey/rg/rgsupv-dashboard
+    - /home/monzey/metamorph
+    - /home/monzey/rg/rgsupv-core
+    - /home/monzey/rg/ansible-roles
+    - /home/monzey/rg/lana-rhoades
+    - /home/monzey/juicyx/juicyx-api
+    - /home/monzey/rg/zaza
+    - /home/monzey/rsute
+    - /home/monzey/weavile
 startuppopupversion: 5
 lastversion: 0.42.0
 customcommandshistory:
+    - git commit --amend
+    - git pull origin master
+    - git reset HEAD~1
+    - git reset HEAD~7
+    - git push monzey zaza
+    - git commit amend
+    - 'git push monzey '
+    - git push monzey
+    - git fetch origin --prune
     - git merge origin/feat-6563-webpack
     - git merge origin feat-6563-webpack
     - git push alexis feat-10106-login
