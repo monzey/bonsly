@@ -1,11 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-  imports = [ 
-    /etc/nixos/hardware-configuration.nix
-  ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  system.stateVersion = "24.05";  # Version de NixOS à ajuster selon votre version
+  system.stateVersion = "24.05";
 
   # Configurations basiques du système
   boot.loader.systemd-boot.enable = true;
@@ -139,7 +137,6 @@
     xplr
     oxker
     gccgo
-    go_1_21
     mkcert
     steamcmd
     steam-tui
