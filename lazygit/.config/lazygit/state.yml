@@ -1,10 +1,10 @@
 lastupdatecheck: 1736948731
 recentrepos:
     - /home/monzey/dotfiles
-    - /home/monzey/ponyta
-    - /home/monzey/rg/rgsupv-dashboard
-    - /home/monzey/metamorph
     - /home/monzey/rg/rgsupv-core
+    - /home/monzey/rg/rgsupv-dashboard
+    - /home/monzey/ponyta
+    - /home/monzey/metamorph
     - /home/monzey/rg/ansible-roles
     - /home/monzey/rg/lana-rhoades
     - /home/monzey/juicyx/juicyx-api

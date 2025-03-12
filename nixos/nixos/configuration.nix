@@ -17,6 +17,7 @@
     127.0.0.1 api.rg-supervision.local
     127.0.0.1 dashboard.rg-supervision.local
     127.0.0.1 zaza.rg-supervision.local
+    127.0.0.1 local.staging.rg.gg
     '';
 
   sound.enable = true;
@@ -109,6 +110,7 @@
     chromium
     firefox
     neovide      
+    acpi
     neovim
     lazygit
     gnumake
