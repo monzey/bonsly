@@ -1,0 +1,26 @@
+#! /bin/sh
+
+set -e
+
+sudo ln -sF $HOME/.config/home-manager $(pwd)/home-manager
+
+if ! command -v nix &> /dev/null; then
+  echo "Nix n'est pas installé. Installation en cours..."
+  sh <(curl -L https://nixos.org/nix/install) --daemon
+  source ~/.nix-profile/etc/profile.d/nix.sh
+fi
+
+if [ -f "/etc/NIXOS" ]; then
+  flake_path="$HOME/bonsly/nixos"
+  echo "NixOS détecté, installation complète avec configuration système et utilisateur."
+  echo "Génération de hardware-configuration.nix..."
+  nixos-generate-config --dir "$(pwd)/nixos"
+  sudo nixos-rebuild switch --flake "$flake_path#$(hostname)"
+fi
+
+if ! command -v home-manager &> /dev/null; then
+  echo "Installation de home-manager..."
+  nix-channel --add https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz home-manager && \
+  nix-channel --update && \
+  nix-shell '<home-manager>' -A install
+fi

@@ -7,15 +7,18 @@ compile-cache
 packages
 
 /* Ranger */
-ranger/.config/ranger/bookmarks
-ranger/.config/ranger/tagged
-ranger/.config/ranger/history
-ranger/.config/ranger/plugins/__pycache__
+home-manager/configs/ranger/bookmarks
+home-manager/configs/ranger/tagged
+home-manager/configs/ranger/history
+home-manager/configs/ranger/plugins/__pycache__
 
 /* Btop */
-btop/.config/btop/btop.log
+home-manager/configs/btop/btop.log
 
 error.log
 
 /* Lazygit */
-lazygit/.config/lazygit/state.yml
+home-manager/configs/lazygit/state.yml
+
+/* ssh */
+home-manager/configs/ssh/id_ed25519
