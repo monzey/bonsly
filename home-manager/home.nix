@@ -64,6 +64,7 @@
     discord
     neofetch
     unzip
+    xplr
     grim
     slurp
     oxker
@@ -100,7 +101,7 @@
     ".config/mako" = { source = ./configs/mako; recursive = true; };
     ".config/rofi" = { source = ./configs/rofi; recursive = true; };
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
-    ".config/ranger" = { source = ./configs/ranger; recursive = true; };
+    ".config/xplr" = { source = ./configs/xplr; recursive = true; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };

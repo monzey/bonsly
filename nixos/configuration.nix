@@ -52,6 +52,8 @@
     shell = pkgs.zsh;
   };
 
+  virtualisation.docker.enable = true;
+
 # @TODO handle this properly
   programs.zsh.enable = true;
 
