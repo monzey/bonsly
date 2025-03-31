@@ -2,7 +2,7 @@
 
 set -e
 
-sudo ln -sF $HOME/.config/home-manager $(pwd)/home-manager
+sudo ln -sF $(pwd)/home-manager $HOME/.config/home-manager
 
 if ! command -v nix &> /dev/null; then
   echo "Nix n'est pas installé. Installation en cours..."

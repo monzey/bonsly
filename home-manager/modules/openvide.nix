@@ -3,7 +3,7 @@
 let
   updateScript = pkgs.writeShellScriptBin "openvide" ''
     #!/bin/bash
-    neovide -- --cmd "cd $(cd ~ && find . -maxdepth 2 -type d | dmenu)"
+    neovide -- --cmd "cd $(cd ~ && find . -maxdepth 3 -type d | dmenu)"
   '';
 in
 {
