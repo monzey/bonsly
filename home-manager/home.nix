@@ -1,9 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, unstablePkgs, ... }:
 
 {
   imports = [
     ./modules/zsh.nix
-    ./modules/ly.nix
     ./modules/hyprland.nix
     # @TODO handle this properly
     # ./modules/kanata.nix
@@ -19,6 +18,7 @@
   # manage.
   home.username = "monzey";
   home.homeDirectory = "/home/monzey";
+  zoapza
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -35,14 +35,14 @@
     git
     mako         
     rofi-wayland
+    teams-for-linux
     brightnessctl
     wl-clipboard
     waybar       
     kitty
     chromium
     firefox
-    neovide      
-    neovim
+    neovide
     acpi
     (lazygit.overrideAttrs (oldAttrs: {
       version = "0.48.0";
@@ -70,7 +70,6 @@
     oxker
     docker
     mkcert
-    vscode
     cassandra
     figma-linux
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -85,6 +84,9 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+
+    unstablePkgs.vscode
+    unstablePkgs.neovim
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
