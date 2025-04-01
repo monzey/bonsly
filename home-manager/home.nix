@@ -18,7 +18,6 @@
   # manage.
   home.username = "monzey";
   home.homeDirectory = "/home/monzey";
-  zoapza
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -33,6 +32,8 @@
   # environment.
   home.packages = with pkgs; [
     git
+    qemu
+    quickemu
     mako         
     rofi-wayland
     teams-for-linux
