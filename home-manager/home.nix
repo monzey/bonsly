@@ -7,9 +7,12 @@
     # @TODO handle this properly
     # ./modules/kanata.nix
     ./modules/i18n.nix
-    ./modules/update.nix
-    ./modules/openvide.nix
     ./modules/rofi.nix
+
+    ./scripts/update.nix
+    ./scripts/openvide.nix
+    ./scripts/node.nix
+    ./scripts/rust.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -125,13 +128,9 @@
   # located at either
   #
   #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
   # or
-  #
   #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
   # or
-  #
   #  /etc/profiles/per-user/monzey/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
