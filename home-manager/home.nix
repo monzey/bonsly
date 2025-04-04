@@ -1,4 +1,4 @@
-{ config, pkgs, unstablePkgs, ... }:
+{ config, inputs, pkgs, unstablePkgs, ... }:
 
 {
   imports = [
@@ -13,6 +13,8 @@
     ./scripts/openvide.nix
     ./scripts/node.nix
     ./scripts/rust.nix
+
+    inputs.hyprpanel.homeManagerModules.hyprpanel
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -37,7 +39,7 @@
     git
     qemu
     quickemu
-    mako         
+    # mako         
     rofi-wayland
     teams-for-linux
     brightnessctl
@@ -76,6 +78,9 @@
     mkcert
     cassandra
     figma-linux
+    pipewire
+    wireplumber
+    pavucontrol
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -104,7 +109,7 @@
     ".config/btop" = { source = ./configs/btop; recursive = true; };
     ".config/kitty" = { source = ./configs/kitty; recursive = true; };
     ".config/lazygit" = { source = ./configs/lazygit; recursive = true; };
-    ".config/mako" = { source = ./configs/mako; recursive = true; };
+    # ".config/mako" = { source = ./configs/mako; recursive = true; };
     ".config/rofi" = { source = ./configs/rofi; recursive = true; };
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
@@ -119,6 +124,50 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+
+  programs.hyprpanel = {
+    # Enable the module.
+    # Default: false
+    enable = true;
+
+    # Add '/nix/store/.../hyprpanel' to your
+    # Hyprland config 'exec-once'.
+    # Default: false
+    hyprland.enable = true;
+
+    # Fix the overwrite issue with HyprPanel.
+    # See below for more information.
+    # Default: false
+    overwrite.enable = true;
+
+    settings = {
+      bar.customModules.updates.pollingInterval = 1440000;
+      theme.bar.floating = false;
+      scalingPriority = "gdk";
+      theme.bar.scaling = 75;
+      bar.media.show_active_only = true;
+      theme.bar.transparent = true;
+      theme.bar.buttons.y_margins = "0.3em";
+      theme.osd.scaling = 100;
+      theme.bar.menus.menu.dashboard.scaling = 75;
+      theme.bar.menus.menu.bluetooth.scaling = 95;
+      theme.bar.menus.menu.network.scaling = 95;
+      theme.bar.menus.menu.volume.scaling = 95;
+      theme.bar.menus.menu.media.scaling = 95;
+      theme.bar.menus.menu.dashboard.confirmation_scaling = 95;
+      menus.dashboard.shortcuts.left.shortcut1.command = "firefox";
+      menus.dashboard.shortcuts.left.shortcut1.icon = "";
+      menus.dashboard.shortcuts.left.shortcut1.tooltip = "Firefox";
+      menus.dashboard.directories.enabled = false;
+      menus.dashboard.shortcuts.right.shortcut3.command = "hyprshot -m window";
+      menus.dashboard.shortcuts.left.shortcut4.command = "wofi --show drun";
+      theme.osd.enable = true;
+      theme.osd.location = "bottom";
+      theme.osd.orientation = "horizontal";
+      theme.osd.margins = "0px 5px 10px 0px";
+      menus.power.lowBatteryNotification = true;
+    };
   };
 
   # Home Manager can also manage your environment variables through
