@@ -39,8 +39,8 @@
     git
     qemu
     quickemu
-    # mako         
     rofi-wayland
+    hypridle
     teams-for-linux
     brightnessctl
     wl-clipboard
@@ -72,6 +72,7 @@
     unzip
     xplr
     grim
+    mako
     slurp
     oxker
     docker
@@ -109,7 +110,7 @@
     ".config/btop" = { source = ./configs/btop; recursive = true; };
     ".config/kitty" = { source = ./configs/kitty; recursive = true; };
     ".config/lazygit" = { source = ./configs/lazygit; recursive = true; };
-    # ".config/mako" = { source = ./configs/mako; recursive = true; };
+    ".config/mako" = { source = ./configs/mako; recursive = true; };
     ".config/rofi" = { source = ./configs/rofi; recursive = true; };
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
@@ -129,7 +130,7 @@
   programs.hyprpanel = {
     # Enable the module.
     # Default: false
-    enable = true;
+    enable = false;
 
     # Add '/nix/store/.../hyprpanel' to your
     # Hyprland config 'exec-once'.
