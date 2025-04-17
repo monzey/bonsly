@@ -18,20 +18,20 @@
 
   system.stateVersion = "24.05";
 
-  # Configurations basiques du système
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = [ "kvm-intel" ];
 
   networking.hostName = "muk";
-  #networking.wireless.enable = true;
   networking.networkmanager.enable = true;
-  networking.extraHosts =
+  networking.extraHosts = 
     ''
-    127.0.0.1 api.rg-supervision.local
-    127.0.0.1 dashboard.rg-supervision.local
-    127.0.0.1 zaza.rg-supervision.local
-    127.0.0.1 local.staging.rg.gg
-    '';
+      127.0.0.1 api.rg-supervision.local
+      127.0.0.1 dashboard.rg-supervision.local
+      127.0.0.1 zaza.rg-supervision.local
+      127.0.0.1 local.staging.rg.gg
+    ''
+  ;
 
   console.keyMap = "fr";
 
@@ -39,9 +39,12 @@
   hardware.pulseaudio.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
   programs.hyprland.enable = true;
   programs.hyprlock.enable = true;
+
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "monzey" ];
 
   time.timeZone = "Europe/Paris";
 
@@ -54,9 +57,14 @@
 
   virtualisation.docker.enable = true;
 
-# @TODO handle this properly
-  programs.zsh.enable = true;
+  services.openvpn.servers = {
+    dev = {
+      config = "config /root/openvpn/mbertrand.ovpn";
+      updateResolvConf = true;
+    };
+  };
 
+  services.blueman.enable = true;
   services.dbus.enable = true;
   services.udev.packages = [ pkgs.libinput ];  
 
@@ -72,13 +80,6 @@
       caps lctl)
   '';
 
-  services.openvpn.servers = {
-    dev = { 
-      config = "config /root/openvpn/mbertrand.ovpn"; 
-      updateResolvConf = true;
-    };
-  };
-
   services.greetd = {
     enable = true;
     settings = rec {
@@ -90,7 +91,8 @@
     };
   };
 
-  boot.kernelModules = [ "kvm-intel" ];  # Pour Intel, remplacez par "kvm-amd" si vous avez un processeur AMD
+  # @TODO handle this properly
+  programs.zsh.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
