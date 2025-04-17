@@ -22,3 +22,6 @@ home-manager/configs/lazygit/state.yml
 
 /* ssh */
 home-manager/configs/ssh/id_ed25519
+
+/* openvpn */
+home-manager/configs/openvpn/conf.ovpn
