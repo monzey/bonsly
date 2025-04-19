@@ -60,6 +60,9 @@
       --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff 
       --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a'
 
+      # NNN
+      export NNN_OPTS="cErxH"
+
       # NVM
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
