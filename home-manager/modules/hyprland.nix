@@ -7,7 +7,7 @@
     wlroots
     xwayland
     hyprpaper
-    xdg-desktop-portal
+    xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
     hyprshot
     pipewire

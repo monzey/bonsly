@@ -5,7 +5,7 @@ let
     #!/bin/bash
     selection=$(cd ~ && find . -maxdepth 3 -type d | dmenu | xargs)
     if [[ -n "$selection" ]]; then
-      code "$selection"
+      cd "$selection" && neovide 
     fi
   '';
 in

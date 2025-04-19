@@ -26,11 +26,12 @@
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
-    systemd
+    clevis
     git
-    qemu
-    quickemu
+    gcc
+    obs-studio
     rofi-wayland
+    waybar
     hypridle
     teams-for-linux
     brightnessctl
@@ -53,7 +54,7 @@
     gnumake
     delta
     fira-code-nerdfont
-    ranger
+    nnn
     ripgrep
     slack
     bat
@@ -74,12 +75,16 @@
     wireplumber
     pavucontrol
     ferdium
+    nodejs_22
+    vlc
+    ffmpeg
 
     unstablePkgs.vscode
     unstablePkgs.neovim
   ];
 
   home.file = {
+    ".config/nixpkgs" = { source = ./configs/nixpkgs; recursive = true; };
     ".config/bat" = { source = ./configs/bat; recursive = true; };
     ".config/btop" = { source = ./configs/btop; recursive = true; };
     ".config/kitty" = { source = ./configs/kitty; recursive = true; };
@@ -89,6 +94,8 @@
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
+    ".config/waybar" = { source = ./configs/waybar; recursive = true; };
+    ".config/obs-studio" = { source = ./configs/obs; recursive = true; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };

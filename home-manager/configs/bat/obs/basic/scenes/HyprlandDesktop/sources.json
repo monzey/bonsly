@@ -1,0 +1,13 @@
+{
+  "sources": [
+    {
+      "name": "ScreenCapture",
+      "id": "xshm_input",
+      "settings": {
+        "screen": 0,
+        "show_cursor": true
+      },
+      "enabled": true
+    }
+  ]
+}
