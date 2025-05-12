@@ -3,82 +3,38 @@
 let
   updateScript = pkgs.writeShellScriptBin "merge" ''
 #!/bin/bash
+  set -e
 
-set -e
+          git fetch origin -p --no-tags
+          git checkout -b tmp origin/master
 
-REMOTE="origin"
-BASE_BRANCH="master"
-TMP_BRANCH="tmp-conflict-check"
+          branches_to_merge=""
+          branches=$(git branch -a | grep -iE "remotes/origin/(feat-|fix-|ops-)")
 
-echo "📥 Fetching branches..."
-git fetch "$REMOTE" --prune
+          for branch in $branches; do
+            issue_number=$(echo "$branch" | grep -oE '(feat|fix|ops)-[0-9]+' | sed 's/^[a-zA-Z]*-//' || true)
 
-echo "🔍 Récupération des branches à tester..."
-branches=($(git branch -r | grep "$REMOTE/" | grep -E "$REMOTE/(feat-|fix-|ops-)" | sed "s#^$REMOTE/##"))
+            if [ -z "$issue_number" ]; then
+              echo "Impossible de trouver un numéro d'issue dans la branche $branch, elle sera incluse."
+              branches_to_merge="$branches_to_merge $branch"
+              continue
+            fi
 
-echo "🧠 Indexation des fichiers modifiés par branche..."
-declare -A branch_files
-for b in "${branches[@]}"; do
-  files=$(git diff --name-only "$REMOTE/$BASE_BRANCH".."$REMOTE/$b" || true)
-  branch_files["$b"]="$files"
-done
+            if curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/rgsystemes/kb/issues/$issue_number/labels" | grep -q '"name": "no-unstable"'; then
+              echo "La branche $branch est ignorée car l'issue a le label 'no-unstable'."
+              continue
+            fi
 
-# Compare les fichiers touchés entre 2 branches
-branches_touch_same_file() {
-  local f1="${branch_files[$1]}"
-  local f2="${branch_files[$2]}"
-  for file1 in $f1; do
-    for file2 in $f2; do
-      if [[ "$file1" == "$file2" ]]; then
-        return 0
-      fi
-    done
-  done
-  return 1
-}
+            branches_to_merge="$branches_to_merge $branch"
+          done
 
-echo "🧪 Test des paires de branches..."
-
-conflicts=()
-total=${#branches[@]}
-
-git checkout "$BASE_BRANCH"
-git checkout -B "$TMP_BRANCH"
-
-for ((i = 0; i < total; i++)); do
-  for ((j = i + 1; j < total; j++)); do
-    b1="${branches[$i]}"
-    b2="${branches[$j]}"
-
-    if branches_touch_same_file "$b1" "$b2"; then
-      echo "🔧 Merge test: $b1 + $b2"
-      git reset --hard "$REMOTE/$BASE_BRANCH" &>/dev/null
-
-      if ! git merge --no-commit --no-ff "$REMOTE/$b1" "$REMOTE/$b2" &>/dev/null; then
-        conflict_files=$(git diff --name-only --diff-filter=U)
-        echo "❌ Conflit entre $b1 et $b2 :"
-        echo "   ⟶ $conflict_files"
-        conflicts+=("❌ $b1 ⬄ $b2\n    ⟶ fichiers : $conflict_files")
-        git merge --abort &>/dev/null
-      fi
-    fi
-  done
-done
-
-echo ""
-echo "📋 Résumé des conflits détectés :"
-if [ ${#conflicts[@]} -eq 0 ]; then
-  echo "✅ Aucun conflit trouvé entre les paires de branches."
-else
-  for c in "${conflicts[@]}"; do
-    echo -e "$c\n"
-  done
-fi
-
-# Nettoyage
-git checkout "$BASE_BRANCH"
-git branch -D "$TMP_BRANCH" &>/dev/null || true
-
+          if [ -n "$branches_to_merge" ]; then
+            echo "Merge des branches dans unstable avec la stratégie octopus : $branches_to_merge"
+            git merge --no-edit $branches_to_merge
+          else
+            echo "Aucune branche à merger."
+          fi
   '';
 in
 {
