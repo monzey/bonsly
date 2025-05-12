@@ -36,7 +36,7 @@
   console.keyMap = "fr";
 
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   programs.hyprland.enable = true;

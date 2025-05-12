@@ -2,8 +2,13 @@
     border: none;
     border-radius: 0;
     font-family: "FiraCode Nerd Font";
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: bold;
     min-height: 0;
+}
+
+.modules-left, .modules-center, .modules-right {
+  padding: 10px 20px 0px 20px;
 }
 
 window#waybar {
@@ -15,22 +20,42 @@ window#waybar {
     font-weight: bold;
     font-family: "FiraCode Nerd Font";
 }
-/*
+
 #workspaces {
-    padding: 0 5px;
+    padding: 0px 5px;
 }
-*/
-
 #workspaces button {
-    padding: 0 5px;
-    background: transparent;
-    color: white;
-    border-top: 2px solid transparent;
+    all:unset;
+    padding: 0px 5px;
+    color: alpha(black,.4);
+    transition: all .2s ease;
 }
-
-#workspaces button.focused {
-    color: #c9545d;
-    border-top: 2px solid #c9545d;
+#workspaces button:hover {
+    color:rgba(0,0,0,0);
+    border: none;
+    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .5);
+    transition: all 1s ease;
+}
+#workspaces button.active {
+    color: white;
+    border: none;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+}
+#workspaces button.empty {
+    color: rgba(0,0,0,0);
+    border: none;
+    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .2);
+}
+#workspaces button.empty:hover {
+    color: rgba(0,0,0,0);
+    border: none;
+    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .5);
+    transition: all 1s ease;
+}
+#workspaces button.empty.active {
+    color: white;
+    border: none;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
 }
 
 #mode {
@@ -38,13 +63,9 @@ window#waybar {
     border-bottom: 3px solid white;
 }
 
-#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
-    padding: 0 3px;
+#clock, #battery, #cpu, #memory, #temperature, #bluetooth, #network, #tray, #mode {
+    padding: 0 7px;
     margin: 0 2px;
-}
-
-#clock {
-    font-weight: bold;
 }
 
 #battery {
