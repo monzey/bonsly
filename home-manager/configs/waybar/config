@@ -1,193 +1,114 @@
 {
-    "layer": "top", // Waybar at top layer
-    "position": "top", // Waybar at the bottom of your screen
-    "height": 24, // Waybar height
-    // "width": 1366, // Waybar width
-    // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
-    "modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray", "clock"],
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": false,
-        "format": "{icon}",
-        "format-icons": {
-            "1:web": "",
-            "2:code": "",
-            "3:term": "",
-            "4:work": "",
-            "5:music": "",
-            "6:docs": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
+  "layer": "top",
+  "position": "top",
+  "reload_style_on_change": true,
+  "modules-left": ["custom/notification","clock"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["cpu", "memory", "temperature", "bluetooth", "network", "battery"],
+
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "default": "",
+      "empty": ""
     },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
-    "tray": {
-        // "icon-size": 21,
-        "spacing": 10
-    },
-    "clock": {
-        "format-alt": "{:%Y-%m-%d}"
-    },
-    "cpu": {
-        "format": "{usage}% "
-    },
-    "memory": {
-        "format": "{}% "
-    },
-    "battery": {
-        "bat": "BAT0",
-        "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
-    },
-    "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-disconnected": "Disconnected ⚠"
-    },
-    "pulseaudio": {
-        //"scroll-step": 1,
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon}",
-        "format-muted": "",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", ""]
-        },
-        "on-click": "pavucontrol"
-    },
-    "custom/spotify": {
-        "format": " {}",
-        "max-length": 40,
-        "interval": 30, // Remove this if your script is endless and write in loop
-        "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null", // Script in resources folder
-        "exec-if": "pgrep spotify"
+    "persistent-workspaces": {
+      "*": [ 1,2,3,4,5 ]
     }
-}
-      "󰁹"
-    ],
-    "tooltip-format": "{timeTo} {capacity} % | {power} W"
+  },
+  "custom/notification": {
+    "tooltip": false,
+    "format": "",
+    "on-click": "swaync-client -t -sw",
+    "escape": true
   },
   "clock": {
-    "format": "{:%H\n%M}",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "format": "{:%I:%M:%S %p} ",
+    "interval": 1,   
+    "tooltip-format": "<tt>{calendar}</tt>",
     "calendar": {
-      "mode": "month",
-      "mode-mon-col": 3,
-      "weeks-pos": "right",
-      "on-scroll": 1,
-      "on-click-right": "mode",
       "format": {
-        "today": "<span color='#a6e3a1'><b><u>{}</u></b></span>"
+        "today": "<span color='#fAfBfC'><b>{}</b></span>"
       }
+    },
+    "actions": {
+      "on-click-right": "shift_down",
+      "on-click": "shift_up"
     }
   },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-    "tooltip": true,
-    "format-icons": {
-      "default": "",
-      "performance": "<span color='#B37F34'><small></small></span>",
-      "balanced": "<span><small> </small></span>",
-      "power-saver": "<span color='#a6e3a1'><small></small></span>"
-    }
-  },
-  "custom/hyprshade": {
-    "format": "{}",
-    "tooltip": true,
-    "signal": 11,
-    "exec": "toggle-hyprshade status",
-    "on-click": "toggle-hyprshade",
-    "return-type": "json"
-  },
-  "custom/weather": {
-    "format": "{}",
-    "tooltip": true,
-    "interval": 3600,
-    "exec": "wttrbar --custom-indicator '{ICON}\n<b>{temp_C}</b>' --location noida",
-    "return-type": "json"
-  },
-  "custom/updates": {
-    "format": "{}",
-    "interval": 10800,
-    "exec": "~/.config/waybar/bin/updatecheck",
-    "return-type": "json",
-    "exec-if": "exit 0",
-    "signal": 8
-  },
-  "custom/vpn": {
-    "format": "{} ",
-    "exec": "~/.config/waybar/bin/vpn",
-    "return-type": "json",
-    "interval": 5
-  },
-  "custom/hotspot": {
-    "format": "{} ",
-    "exec": "~/.config/waybar/bin/hotspot",
-    "return-type": "json",
-    "on-click": "hash wihotspot && wihotspot",
-    "interval": 5
-  },
-  "custom/mark": {
-    "format": "",
+  "pulseaudio": {
+    "scroll-step": 5,
+    "max-volume": 150,
+    "format": "vol {volume}%",
+    "format-bluetooth": "vol {volume}%",
+    "nospacing": 1,
+    "on-click": "pavucontrol",
     "tooltip": false
   },
-  "custom/colorpicker": {
-    "format": "{}",
-    "return-type": "json",
-    "interval": "once",
-    "exec": "colorpicker -j",
-    "on-click": "sleep 1 && colorpicker",
-    "signal": 1
+  "network": {
+    "format-wifi": "  {bandwidthDownBits}",
+    "format-ethernet":"  {bandwidthDownBits}",
+    "format-disconnected": "",
+    "tooltip-format-disconnected": "Error",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-ethernet": "{ifname} 🖧 ",
+    "on-click": "kitty nmtui",
+    "interval": 5
   },
-  "custom/hyprkill": {
-    "format": "{}",
-    "interval": "once",
-    "exec": "echo '󰅙\nKill clients using hyrpctl kill'",
-    "on-click": "sleep 1 && hyprctl kill"
+  "bluetooth": {
+    "format-on": "󰂯",
+    "format-off": "BT-off",
+    "format-disabled": "󰂲",
+    "format-connected-battery": "{device_battery_percentage}% 󰂯",
+    "format-alt": "{device_alias} 󰂯",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%",
+    "on-click-right": "blueman-manager",
+  }, 
+  "battery": {
+    "interval":30,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{capacity}% {icon}",
+    "format-charging": "{capacity}% 󰂄",
+    "format-plugged": "{capacity}% 󰂄 ",
+    "format-alt": "{time} {icon}",
+    "format-icons": [
+      "󰁻",
+      "󰁼",
+      "󰁾",
+      "󰂀",
+      "󰂂",
+      "󰁹"
+    ],
   },
-  "custom/notifications": {
-    "format": "<b>{}</b> ",
-    "exec": "noti-cycle -j",
-    "on-click": "noti-cycle",
-    "on-click-right": "noti-cycle rofi",
-    "return-type": "json",
-    "interval": "once",
-    "signal": 2
+  "cpu": {
+    "format": "󰻠 {usage}%",
+    "interval": 2,
+    "states": {
+      "critical": 90,
+    },
+    "tooltip": true
   },
-  "custom/github": {
-    "format": "{}",
-    "return-type": "json",
-    "interval": 3600,
-    "signal": 9,
-    "exec": "$HOME/.config/waybar/bin/github.sh",
-    "on-click": "xdg-open https://github.com/notifications;pkill -RTMIN+9 waybar"
+  "memory": {
+    "format": "  {percentage}%",
+    "interval": 2,
   },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "tooltip-format-activated": "Idle Inhibitor is active",
-    "tooltip-format-deactivated": "Idle Inhibitor is not active",
-    "format-icons": {
-      "activated": "󰔡",
-      "deactivated": "󰔢"
-    }
-  }
-}
+  "temperature": {
+    "critical-threshold": 80,
+    "format": " {temperatureC} °C",
+    "interval": 2,
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  },
+} 
+

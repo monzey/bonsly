@@ -10,7 +10,7 @@
     ./modules/rofi.nix
 
     ./scripts/update.nix
-    # ./scripts/merge.nix
+    ./scripts/merge.nix
     ./scripts/openvide.nix
     ./scripts/node.nix
     ./scripts/rust.nix
@@ -29,9 +29,17 @@
     clevis
     git
     gcc
+    fd
     obs-studio
+    aseprite
+    httpie
+    httpie-desktop
+    shotcut
+    olive-editor
     rofi-wayland
+    eww
     waybar
+    libnotify
     hypridle
     teams-for-linux
     brightnessctl
@@ -71,13 +79,12 @@
     mkcert
     cassandra
     figma-linux
-    pipewire
-    wireplumber
     pavucontrol
     ferdium
     nodejs_22
     vlc
     ffmpeg
+    waybar
 
     unstablePkgs.vscode
     unstablePkgs.neovim
@@ -86,15 +93,17 @@
   home.file = {
     ".config/nixpkgs" = { source = ./configs/nixpkgs; recursive = true; };
     ".config/bat" = { source = ./configs/bat; recursive = true; };
+    ".config/waybar" = { source = ./configs/waybar; recursive = true; };
     ".config/btop" = { source = ./configs/btop; recursive = true; };
+    ".config/eww" = { source = ./configs/eww; recursive = true; };
     ".config/kitty" = { source = ./configs/kitty; recursive = true; };
     ".config/lazygit" = { source = ./configs/lazygit; recursive = true; };
     ".config/mako" = { source = ./configs/mako; recursive = true; };
     ".config/rofi" = { source = ./configs/rofi; recursive = true; };
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
+    ".config/neovide" = { source = ./configs/neovide; recursive = true; };
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
-    ".config/waybar" = { source = ./configs/waybar; recursive = true; };
     ".config/obs-studio" = { source = ./configs/obs; recursive = true; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
