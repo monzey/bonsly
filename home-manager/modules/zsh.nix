@@ -54,6 +54,37 @@
       # FZF
       eval "$(fzf --zsh)"
 
+      # NOTIFY
+      LONG_CMD_THRESHOLD=3
+      LONG_CMD_START=""
+      LONG_CMD_RUNNING=false
+
+      preexec() {
+        LONG_CMD_START=$(date +%s)
+        LONG_CMD_RUNNING=true
+      }
+
+      precmd() {
+        if [[ "$LONG_CMD_RUNNING" = true && -n "$LONG_CMD_START" ]]; then
+          local LONG_CMD_END=$(date +%s)
+          local DURATION=$((LONG_CMD_END - LONG_CMD_START))
+          local EXIT_CODE=$?
+          local LAST_COMMAND=$(fc -ln -1)
+
+          if (( DURATION >= LONG_CMD_THRESHOLD )); then
+            if (( EXIT_CODE == 0 )); then
+              notify-send -u low "  Finished in $DURATION s" "$LAST_COMMAND"
+            else
+              notify-send -u critical "  Error after $DURATION s" "$LAST_COMMAND"
+            fi
+          fi
+
+          # Reset state
+          LONG_CMD_RUNNING=false
+          LONG_CMD_START=""
+        fi
+      }
+
       export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
       --color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
       --color=fg+:#c0caf5,bg+:#1a1b26,hl+:#7dcfff
@@ -61,7 +92,7 @@
       --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a'
 
       # NNN
-      export NNN_OPTS="cErxH"
+      export NNN_OPTS="cExH"
 
       # NVM
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

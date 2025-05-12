@@ -6,6 +6,8 @@
 	excludesfile = ~/.gitignore
   pager = delta
 	autocrlf = input
+[pull]
+  rebase = false
 [alias]
   # NOTE: These aliases depend on the `git files` alias from
   # a few sections ago!
@@ -58,7 +60,6 @@
     plus-emph-style = syntax "#03a4ff"
     plus-style = syntax "#450eff"
     side-by-side = true
-    syntax-theme = dracula
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
