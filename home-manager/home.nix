@@ -1,6 +1,12 @@
 { config, inputs, pkgs, unstablePkgs, ... }:
 
-{
+let
+  geminiBin = "${inputs.gemini.packages.${pkgs.system}.gemini}/bin/gemini-fhs";
+  envFile = builtins.readFile ./.env;
+  geminiKey =
+    builtins.head
+      (builtins.match "GEMINI_API_KEY=(.*)" envFile);
+in {
   imports = [
     ./modules/zsh.nix
     ./modules/hyprland.nix
@@ -24,11 +30,12 @@
   home.homeDirectory = "/home/monzey";
 
   home.stateVersion = "24.05";
-
   home.packages = with pkgs; [
     clevis
     git
     gcc
+    gh
+    python3
     fd
     obs-studio
     aseprite
@@ -44,6 +51,10 @@
     teams-for-linux
     brightnessctl
     wl-clipboard
+    jq
+    wf-recorder
+    node2nix
+    redisinsight
     waybar       
     kitty
     chromium
@@ -104,12 +115,12 @@
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
     ".config/neovide" = { source = ./configs/neovide; recursive = true; };
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
-    ".config/obs-studio" = { source = ./configs/obs; recursive = true; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };
 
     ".local/share/icons/Bibata" = { source = ./configs/cursor; recursive = true; };
+    ".local/bin/gemini" = { source = geminiBin; executable = true; };
   };
 
   # Home Manager can also manage your environment variables through
@@ -127,7 +138,10 @@
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XKB_DEFAULT_LAYOUT = "fr";
+    GEMINI_API_KEY = geminiKey;
   };
+
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   systemd.user.services.openvpn-dev = {
     Unit = {
