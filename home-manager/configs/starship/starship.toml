@@ -1,5 +1,11 @@
+add_newline = true
+
 # Use the color palette
 palette = "dracula"
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[✗](bold red)"
 
 # Define Dracula color palette
 [palettes.dracula]

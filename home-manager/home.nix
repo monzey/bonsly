@@ -73,6 +73,7 @@ in {
     gnumake
     delta
     fira-code-nerdfont
+    (nerdfonts.override { fonts = [ "VictorMono" ]; })
     nnn
     ripgrep
     slack
