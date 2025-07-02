@@ -41,6 +41,21 @@
   hardware.bluetooth.powerOnBoot = true;
   programs.hyprland.enable = true;
   programs.hyprlock.enable = true;
+  programs.nix-ld.enable = true;
+
+  security.rtkit.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
 
   virtualisation.virtualbox.host.enableExtensionPack = true;
   virtualisation.virtualbox.host.enable = true;
