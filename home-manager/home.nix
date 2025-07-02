@@ -36,12 +36,16 @@ in {
     gcc
     gh
     python3
+    direnv
     fd
     obs-studio
-    aseprite
     httpie
     httpie-desktop
     shotcut
+    rustc
+    cargo
+    rust-analyzer
+    zoxide
     olive-editor
     rofi-wayland
     eww
@@ -79,7 +83,7 @@ in {
     slack
     bat
     btop
-    discord
+    vesktop
     neofetch
     unzip
     xplr
