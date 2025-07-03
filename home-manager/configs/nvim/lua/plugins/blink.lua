@@ -1,3 +1,3 @@
 return {
-  { "saghen/blink.cmp", enabled = true }
+  { "saghen/blink.cmp", enabled = true },
 }
