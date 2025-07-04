@@ -18,8 +18,6 @@ in {
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/openvide.nix
-    ./scripts/node.nix
-    ./scripts/rust.nix
 
     inputs.hyprpanel.homeManagerModules.hyprpanel
   ];
@@ -41,10 +39,8 @@ in {
     obs-studio
     httpie
     httpie-desktop
+    lsd
     shotcut
-    rustc
-    cargo
-    rust-analyzer
     zoxide
     olive-editor
     rofi-wayland
@@ -59,7 +55,7 @@ in {
     wf-recorder
     node2nix
     redisinsight
-    waybar       
+    waybar
     kitty
     chromium
     firefox
