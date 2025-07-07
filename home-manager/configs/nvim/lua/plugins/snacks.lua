@@ -5,17 +5,20 @@ return {
       opts = vim.tbl_deep_extend("force", opts, {
         dashboard = {
           preset = {
-            header = [[gg ez]]
-          }
+            header = [[gg ez]],
+          },
         },
         previewers = {
           diff = {
             builtin = false,
             cmd = { "delta" },
-          }
+          },
         },
         picker = {
           sources = {
+            files = {
+              hidden = true,
+            },
             explorer = {
               hidden = true,
               ignored = true,
@@ -70,18 +73,12 @@ return {
                     ["zz"] = "list_scroll_center",
                   },
                 },
-              }
+              },
             },
-          }
-        }
+          },
+        },
       })
       return opts
-    end
-      -- picker = {
-      --   finder = "files",
-      --   hidden = true,
-      --   ignored = true,
-      --   show_empty = true,
-      -- },
-    }
-  }
+    end,
+  },
+}
