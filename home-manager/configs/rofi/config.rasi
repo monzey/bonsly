@@ -18,6 +18,7 @@ configuration {
 	icon-theme: "Papirus";
 /*	cache-dir: ;*/
 	steal-focus: false;
+  matching: "fuzzy";
 /*	dpi: -1;*/
 
 	/*---------- Matching setting ----------*/
