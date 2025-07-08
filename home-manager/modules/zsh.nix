@@ -106,6 +106,11 @@
     '';
   };
 
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
 
   home.file.".config/starship.toml" = { source = ../configs/starship/starship.toml; recursive = true; };
 
