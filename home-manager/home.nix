@@ -41,7 +41,6 @@ in {
     httpie-desktop
     lsd
     shotcut
-    zoxide
     olive-editor
     rofi-wayland
     eww

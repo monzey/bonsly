@@ -20,4 +20,4 @@ size = 17
 mode = "native"
 
 [box-drawing.sizes]
-default = [2, 4]  
+default = [4, 6]
