@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     gemini = {
       url = "path:./modules/gemini-cli";
     };
@@ -14,18 +13,13 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixos-unstable, hyprpanel, ... }@inputs: 
+  outputs = { nixpkgs, home-manager, nixos-unstable, ... }@inputs: 
     let
       system = "x86_64-linux";
-      # pkgs = nixpkgs.legacyPackages.${system};
-      # unstablePkgs = nixos-unstable.legacyPackages.${system};
     in {
       homeConfigurations."monzey" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [
-            inputs.hyprpanel.overlay
-          ];
         };
 
         extraSpecialArgs = {

@@ -10,18 +10,12 @@ in {
   imports = [
     ./modules/zsh.nix
     ./modules/hyprland.nix
-    # @TODO handle this properly
-    # ./modules/kanata.nix
-    ./modules/i18n.nix
     ./modules/rofi.nix
-
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/openvide.nix
     ./scripts/nv.nix
     ./scripts/update-notifier.nix
-
-    inputs.hyprpanel.homeManagerModules.hyprpanel
   ];
 
   gtk = {
