@@ -3,9 +3,9 @@
 let
   updateScript = pkgs.writeShellScriptBin "openvide" ''
     #!/bin/bash
-    selection=$(cd ~ && find . -maxdepth 3 -type d | dmenu | xargs)
+    selection=$(cd ~ && find . -maxdepth 3 -type d | dmenu)
     if [[ -n "$selection" ]]; then
-      cd "$selection" && neovide 
+      kitty --working-directory="$selection" nv
     fi
   '';
 in

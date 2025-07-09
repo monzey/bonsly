@@ -18,9 +18,19 @@ in {
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/openvide.nix
+    ./scripts/nv.nix
+    ./scripts/update-notifier.nix
 
     inputs.hyprpanel.homeManagerModules.hyprpanel
   ];
+
+  gtk = {
+    enable = true;
+    cursorTheme = {
+      name = "Bibata";
+      size = 24;
+    };
+  };
 
   nixpkgs.config.allowUnfree = true;
 
