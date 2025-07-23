@@ -58,20 +58,32 @@
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
 
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "monzey" ];
-
   time.timeZone = "Europe/Paris";
 
   users.users.monzey = {
     isNormalUser = true;
     description = "monzey";
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "libvirtd" ];
     shell = pkgs.zsh;
   };
+  security.sudo.extraRules = [
+    {
+      groups = [ "wheel" ];
+      commands = [
+        { command = "ALL" ; options= [ "NOPASSWD" ] }
+      ];
+    }
+  ];
 
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_full;
+      runAsRoot = true;
+    };
+  };
+  programs.virt-manager.enable = true;
 
   services.openvpn.servers = {
     dev = {

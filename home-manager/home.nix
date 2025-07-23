@@ -1,7 +1,7 @@
 { config, inputs, pkgs, unstablePkgs, ... }:
 
 let
-  geminiBin = "${inputs.gemini.packages.${pkgs.system}.gemini}/bin/gemini-fhs";
+  geminiBin = "${(import ./modules/gemini-cli/gemini.nix { inherit pkgs; })}/bin/gemini-fhs";
   envFile = builtins.readFile ./.env;
   geminiKey =
     builtins.head
@@ -41,6 +41,7 @@ in {
     direnv
     fd
     obs-studio
+    virtiofsd
     httpie
     httpie-desktop
     lsd
