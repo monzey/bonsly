@@ -3,6 +3,7 @@
 -- Add any additional options here
 
 vim.g.maplocalleader = ","
+vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 vim.o.linespace = 6
 vim.opt.fillchars = {
   vert = "│",

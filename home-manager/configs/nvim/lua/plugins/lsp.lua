@@ -3,6 +3,23 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              checkOnSave = {
+                command = "clippy",
+              },
+              linkedProjects = {
+                "Cargo.toml",
+              },
+              cargo = {
+                buildScripts = {
+                  enable = true,
+                },
+              },
+            },
+          },
+        },
         eslint = {
           settings = {
             workingDirectory = { mode = "auto" },
@@ -16,18 +33,18 @@ return {
             "package.json"
           ),
           filetypes = {
-            'javascript',
-            'javascriptreact'
-          }
+            "javascript",
+            "javascriptreact",
+          },
         },
         ts_ls = {
           filetypes = {
-            'typescript',
-            'typescriptreact'
-          }
+            "typescript",
+            "typescriptreact",
+          },
         },
       },
-      setup = { },
+      setup = {},
     },
-  }
+  },
 }

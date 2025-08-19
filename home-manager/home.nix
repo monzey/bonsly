@@ -120,6 +120,7 @@ in {
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
     ".config/neovide" = { source = ./configs/neovide; recursive = true; };
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
+    ".config/direnv" = { source = ./configs/direnv; recursive = true; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };
