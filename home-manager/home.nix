@@ -51,6 +51,8 @@ in {
     eww
     waybar
     libnotify
+    lsof
+    gh-dash
     hypridle
     teams-for-linux
     brightnessctl
@@ -101,7 +103,10 @@ in {
     vlc
     ffmpeg
     waybar
+    inputs.mcp-hub.packages."${system}".default
+    github-copilot-cli
 
+    unstablePkgs.opencode
     unstablePkgs.vscode
     unstablePkgs.neovim
   ];
@@ -121,6 +126,7 @@ in {
     ".config/neovide" = { source = ./configs/neovide; recursive = true; };
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
     ".config/direnv" = { source = ./configs/direnv; recursive = true; };
+    ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };
