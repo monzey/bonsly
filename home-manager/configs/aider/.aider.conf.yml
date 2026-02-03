@@ -171,34 +171,34 @@ openai-api-base: https://api.githubcopilot.com
 #stream: true
 
 ## Set the color for user input (default: #00cc00)
-#user-input-color: "#00cc00"
+user-input-color: "#50fa7b"
 
 ## Set the color for tool output (default: None)
-#tool-output-color: "xxx"
+tool-output-color: "#bd93f9"
 
 ## Set the color for tool error messages (default: #FF2222)
-#tool-error-color: "#FF2222"
+tool-error-color: "#ff5555"
 
 ## Set the color for tool warning messages (default: #FFA500)
-#tool-warning-color: "#FFA500"
+tool-warning-color: "#f1fa8c"
 
 ## Set the color for assistant output (default: #0088ff)
-#assistant-output-color: "#0088ff"
+assistant-output-color: "#8be9fd"
 
 ## Set the color for the completion menu (default: terminal's default text color)
-#completion-menu-color: "xxx"
+completion-menu-color: "#f8f8f2"
 
 ## Set the background color for the completion menu (default: terminal's default background color)
-#completion-menu-bg-color: "xxx"
+completion-menu-bg-color: "#282a36"
 
 ## Set the color for the current item in the completion menu (default: terminal's default background color)
-#completion-menu-current-color: "xxx"
+completion-menu-current-color: "#282a36"
 
 ## Set the background color for the current item in the completion menu (default: terminal's default text color)
-#completion-menu-current-bg-color: "xxx"
+completion-menu-current-bg-color: "#bd93f9"
 
 ## Set the markdown code theme (default: default, other options include monokai, solarized-dark, solarized-light, or a Pygments builtin style, see https://pygments.org/styles for available themes)
-#code-theme: default
+code-theme: monokai
 
 ## Show diffs when committing changes (default: False)
 #show-diffs: false
