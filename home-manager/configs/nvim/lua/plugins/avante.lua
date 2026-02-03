@@ -43,9 +43,10 @@ return {
       provider = "copilot",
       providers = {
         copilot = {
-          model = "gpt-4.1",
+          model = "claude-sonnet-4",
         },
       },
+      auto_apply_diff_after_generation = false,
       windows = {
         sidebar_header = {
           enabled = false,
