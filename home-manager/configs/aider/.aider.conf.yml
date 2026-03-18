@@ -159,7 +159,7 @@ openai-api-base: https://api.githubcopilot.com
 # Output settings:
 
 ## Use colors suitable for a dark terminal background (default: False)
-#dark-mode: false
+dark-mode: true
 
 ## Use colors suitable for a light terminal background (default: False)
 #light-mode: false
@@ -198,7 +198,7 @@ completion-menu-current-color: "#282a36"
 completion-menu-current-bg-color: "#bd93f9"
 
 ## Set the markdown code theme (default: default, other options include monokai, solarized-dark, solarized-light, or a Pygments builtin style, see https://pygments.org/styles for available themes)
-code-theme: monokai
+code-theme: dracula
 
 ## Show diffs when committing changes (default: False)
 #show-diffs: false
@@ -222,7 +222,7 @@ code-theme: monokai
 #subtree-only: false
 
 ## Enable/disable auto commit of LLM changes (default: True)
-#auto-commits: true
+auto-commits: false
 
 ## Enable/disable commits when repo is found dirty (default: True)
 #dirty-commits: true

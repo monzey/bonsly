@@ -1,4 +1,5 @@
 git:
+  autoFetch: false
   paging:
     colorarg: always
     pager: delta --dark --paging=never

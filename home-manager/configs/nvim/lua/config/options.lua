@@ -9,3 +9,11 @@ vim.opt.fillchars = {
   vert = "│",
 }
 vim.g.root_spec = { { ".git" } }
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "php",
+  callback = function()
+    vim.b.autoformat = false -- Désactive l'autoformat juste pour ce buffer
+    vim.opt_local.formatexpr = "" -- Tue la fonction LazyVim que tu as vue
+  end,
+})

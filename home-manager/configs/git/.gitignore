@@ -1,2 +1,5 @@
 .idea
 tags
+.aider*
+!.aider.conf.yml
+agents.md
