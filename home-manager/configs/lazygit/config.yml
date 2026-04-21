@@ -2,7 +2,8 @@ git:
   autoFetch: false
   paging:
     colorarg: always
-    pager: delta --dark --paging=never
+    # pager: delta --dark --paging=never
+    externalDiffCommand: difft --color=always
 
 reporting: "off"
 startuppopupversion: 1

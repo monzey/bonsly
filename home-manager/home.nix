@@ -74,7 +74,6 @@ in {
     kitty
     chromium
     firefox
-    neovide
     acpi
     (lazygit.overrideAttrs (oldAttrs: {
       version = "0.48.0";
@@ -113,6 +112,7 @@ in {
     waybar
     inputs.mcp-hub.packages."${system}".default
     deno
+    difftastic
 
     unstablePkgs.typescript
     unstablePkgs.github-copilot-cli
@@ -120,9 +120,14 @@ in {
     unstablePkgs.ollama
     unstablePkgs.gemini-cli-bin
     unstablePkgs.slack
+    unstablePkgs.neovide
     unstablePkgs.vscode
     unstablePkgs.neovim
     unstablePkgs.figma-linux
+    unstablePkgs.microsoft-edge
+    unstablePkgs.antigravity
+    unstablePkgs.quickshell
+    unstablePkgs.qt6.qtwayland
     (import ./opencode-bin.nix { inherit pkgs; })
   ];
 
@@ -142,6 +147,7 @@ in {
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
     ".config/direnv" = { source = ./configs/direnv; recursive = true; };
     ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
+    ".config/opencode" = { source = ./configs/opencode; recursive = true; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };

@@ -5,7 +5,8 @@ let
     #!/bin/bash
     selection=$(cd ~ && find . -maxdepth 3 -type d | dmenu)
     if [[ -n "$selection" ]]; then
-      kitty --working-directory="$selection" nv
+      (cd ~/"$selection" && neovide) &
+      disown
     fi
   '';
 in

@@ -12,13 +12,13 @@ vsync = true
 wsl = false
 
 [font]
-normal = "VictorMono Nerd Font" 
-size = 16
+normal = "VictorMono Nerd Font"
+size = 13
 bold = "VictorMono Nerd Font"
 
 [box-drawing]
 # "font-glyph", "native" or "selected-native"
-mode = "font-glyph"
+mode = "native"
 
 [box-drawing.sizes]
-default = [4, 6]
+default = [2, 4]

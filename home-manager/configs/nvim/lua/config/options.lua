@@ -9,6 +9,8 @@ vim.opt.fillchars = {
   vert = "│",
 }
 vim.g.root_spec = { { ".git" } }
+vim.g.neovide_cursor_vfx_mode = { "pixiedust" }
+vim.g.neovide_cursor_trail_size = 0.2
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "php",
