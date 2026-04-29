@@ -10,21 +10,25 @@ pkgs.buildFHSEnv {
     git
     stdenv.cc.cc.lib
     gnupg
+    direnv
   ];
 
   runScript = ''
     bash -c '
       export OPENCODE_HOME="$HOME/.opencode-npm"
-      export PATH="$OPENCODE_HOME/bin:$PATH"
+      export PATH="$PATH:$OPENCODE_HOME/bin"
       export npm_config_prefix="$OPENCODE_HOME"
 
       if ! command -v opencode >/dev/null 2>&1; then
         echo "[+] Installation de opencode-ai@1.1.51 dans $OPENCODE_HOME..."
-        # On force la version précise ici
         npm install -g opencode-ai@1.1.51
       fi
 
-      exec opencode "$@"
+      if [ -f "$PWD/.envrc" ]; then
+        exec direnv exec . "$OPENCODE_HOME/bin/opencode" "$@"
+      else
+        exec opencode "$@"
+      fi
     ' bash "$@"
   '';
 }

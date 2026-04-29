@@ -71,7 +71,6 @@ in {
     node2nix
     redisinsight
     waybar
-    kitty
     chromium
     firefox
     acpi
@@ -114,16 +113,16 @@ in {
     deno
     difftastic
 
+    unstablePkgs.claude-code
+    unstablePkgs.superfile
+    unstablePkgs.kitty
     unstablePkgs.typescript
     unstablePkgs.github-copilot-cli
-    unstablePkgs.aider-chat-full
     unstablePkgs.ollama
-    unstablePkgs.gemini-cli-bin
     unstablePkgs.slack
     unstablePkgs.neovide
     unstablePkgs.vscode
     unstablePkgs.neovim
-    unstablePkgs.figma-linux
     unstablePkgs.microsoft-edge
     unstablePkgs.antigravity
     unstablePkgs.quickshell
@@ -148,6 +147,8 @@ in {
     ".config/direnv" = { source = ./configs/direnv; recursive = true; };
     ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
     ".config/opencode" = { source = ./configs/opencode; recursive = true; };
+    ".config/quickshell" = { source = ./configs/quickshell; recursive = true; };
+    ".config/superfile" = { source = ./configs/superfile; recursive = true; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };

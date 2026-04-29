@@ -8,6 +8,23 @@ return {
             header = [[gg ez]],
           },
         },
+        lazygit = {
+          config = {
+            gui = {
+              theme = {
+                activeBorderColor          = { "#cba6f7", "bold" },
+                inactiveBorderColor        = { "#a6adc8" },
+                optionsTextColor           = { "#89b4fa" },
+                selectedLineBgColor        = { "#313244" },
+                cherryPickedCommitBgColor  = { "#45475a" },
+                cherryPickedCommitFgColor  = { "#cba6f7" },
+                unstagedChangesColor       = { "#f38ba8" },
+                defaultFgColor             = { "#cdd6f4" },
+                searchingActiveBorderColor = { "#f9e2af", "bold" },
+              },
+            },
+          },
+        },
         previewers = {
           diff = {
             builtin = false,
@@ -24,8 +41,8 @@ return {
               ignored = true,
               follow = false,
               supports_live = true,
+              layout = { layout = { position = "right" } },
               win = {
-                layout = "right",
                 list = {
                   keys = {
                     ["/"] = "toggle_focus",
