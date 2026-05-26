@@ -111,8 +111,13 @@ in {
     waybar
     inputs.mcp-hub.packages."${system}".default
     deno
+    just
     difftastic
 
+    unstablePkgs.firefox-devedition
+    unstablePkgs.github-copilot-cli
+    unstablePkgs.yazi
+    unstablePkgs.devenv
     unstablePkgs.claude-code
     unstablePkgs.superfile
     unstablePkgs.kitty
@@ -124,10 +129,10 @@ in {
     unstablePkgs.vscode
     unstablePkgs.neovim
     unstablePkgs.microsoft-edge
-    unstablePkgs.antigravity
     unstablePkgs.quickshell
     unstablePkgs.qt6.qtwayland
     (import ./opencode-bin.nix { inherit pkgs; })
+    (import ./cleanup.nix { inherit pkgs; })
   ];
 
   home.file = {

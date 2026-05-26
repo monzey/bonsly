@@ -29,7 +29,7 @@ git:
     externalDiffCommand: difft --color=always
 
 reporting: "off"
-startuppopupversion: 1
+disableStartupPopups: true
 
 keybinding:
   universal:

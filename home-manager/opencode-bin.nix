@@ -24,11 +24,7 @@ pkgs.buildFHSEnv {
         npm install -g opencode-ai@1.1.51
       fi
 
-      if [ -f "$PWD/.envrc" ]; then
-        exec direnv exec . "$OPENCODE_HOME/bin/opencode" "$@"
-      else
-        exec opencode "$@"
-      fi
+      exec opencode "$@"
     ' bash "$@"
   '';
 }
