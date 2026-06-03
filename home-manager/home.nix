@@ -1,20 +1,6 @@
 { config, inputs, pkgs, unstablePkgs, ... }:
 
 let
-  # geminiBin = "${(import ./modules/gemini-cli/gemini.nix { inherit pkgs; })}/bin/gemini-fhs";
-  envFile = builtins.readFile ./.env;
-  lines = builtins.filter (s: s != "") (builtins.split "\n" envFile);
-  getEnv = key: 
-    let 
-      pattern = "${key}=(.*)";
-      matches = builtins.filter (l: !builtins.isList l && builtins.match pattern l != null) lines;
-    in 
-      if matches == [] 
-      then ""
-      else builtins.head (builtins.match pattern (builtins.head matches));
-
-  geminiKey = getEnv "GEMINI_API_KEY";
-  openaiKey = getEnv "OPENAI_API_KEY";
 in {
   imports = [
     ./modules/zsh.nix
@@ -56,21 +42,14 @@ in {
     httpie-desktop
     lsd
     shotcut
-    olive-editor
-    rofi-wayland
-    eww
-    waybar
     libnotify
     lsof
-    gh-dash
     hypridle
     teams-for-linux
     brightnessctl
     wl-clipboard
     jq
     wf-recorder
-    node2nix
-    redisinsight
     waybar
     chromium
     firefox
@@ -86,14 +65,13 @@ in {
     }))
     gnumake
     delta
-    fira-code-nerdfont
-    (nerdfonts.override { fonts = [ "VictorMono" ]; })
+    nerd-fonts.victor-mono
+    nerd-fonts.fira-code
     nnn
     ripgrep
     bat
     btop
     vesktop
-    neofetch
     vbam
     unzip
     xplr
@@ -114,6 +92,8 @@ in {
     deno
     just
     difftastic
+    worktrunk
+    rofi
 
     unstablePkgs.firefox-devedition
     unstablePkgs.github-copilot-cli
@@ -154,7 +134,7 @@ in {
     ".config/direnv" = { source = ./configs/direnv; recursive = true; };
     ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
     ".config/opencode" = { source = ./configs/opencode; recursive = true; };
-    ".config/quickshell" = { source = ./configs/quickshell; recursive = true; };
+    # ".config/quickshell" = { source = ./configs/quickshell; recursive = true; };
     ".config/superfile" = { source = ./configs/superfile; recursive = true; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/" = { source = ./configs/ssh; recursive = true; };
@@ -162,7 +142,6 @@ in {
     ".gitignore" = { source = ./configs/git/.gitignore; };
 
     ".local/share/icons/Bibata" = { source = ./configs/cursor; recursive = true; };
-    # ".local/bin/gemini" = { source = geminiBin; executable = true; };
   };
 
   # Home Manager can also manage your environment variables through
@@ -180,8 +159,6 @@ in {
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XKB_DEFAULT_LAYOUT = "fr";
-    GEMINI_API_KEY = geminiKey;
-    OPENAI_API_KEY = openaiKey;
   };
 
   home.sessionPath = [ "$HOME/.local/bin" ];

@@ -24,6 +24,13 @@
     defaultKeymap = "emacs";
 
     initExtra = ''
+      # Load secrets from .env
+      if [ -f "$HOME/bonsly/home-manager/.env" ]; then
+        set -a
+        source "$HOME/bonsly/home-manager/.env"
+        set +a
+      fi
+
       # Aliases
       DEFAULT_USER="monzey"
 

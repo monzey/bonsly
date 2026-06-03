@@ -4,7 +4,7 @@ pkgs.buildFHSEnv {
   name = "opencode-fhs";
 
   targetPkgs = pkgs: with pkgs; [
-    nodejs
+    nodejs_22
     bash
     curl
     git
