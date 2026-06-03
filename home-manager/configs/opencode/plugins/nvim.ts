@@ -1,5 +1,6 @@
 import type { Plugin } from "@opencode-ai/plugin"
 import { readFileSync } from "fs"
+import { basename, dirname } from "path"
 
 function filesFromPatch(patchText: string): string[] {
   const files = new Set<string>()
@@ -10,13 +11,25 @@ function filesFromPatch(patchText: string): string[] {
   return [...files]
 }
 
+// Même logique que get_proj() dans openvide
+function projectName(dir: string): string {
+  const worktreeMatch = dir.match(/^(.+)\.worktrees\/([^/]+)$/)
+  if (worktreeMatch) {
+    const repoName = basename(worktreeMatch[1])
+    const branch = worktreeMatch[2]
+    return `${repoName}-${branch}`
+  }
+  return basename(dir)
+}
+
 type PendingEntry = {
   files: string[]
   newString: string | null
 }
 
-export const OpenInNeovim: Plugin = async ({ $ }) => {
-  const socket = `${process.env.HOME}/.cache/nvim/opencode.pipe`
+export const OpenInNeovim: Plugin = async ({ $, directory }) => {
+  const proj = projectName(directory)
+  const socket = `${process.env.HOME}/.cache/nvim/${proj}.pipe`
   const pending = new Map<string, PendingEntry>()
 
   return {

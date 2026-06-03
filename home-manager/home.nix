@@ -25,6 +25,7 @@ in {
     ./scripts/openvide.nix
     ./scripts/nv.nix
     ./scripts/update-notifier.nix
+    ./scripts/watch-dev-sets.nix
   ];
 
   gtk = {
@@ -127,6 +128,7 @@ in {
     unstablePkgs.slack
     unstablePkgs.neovide
     unstablePkgs.vscode
+    unstablePkgs.codex
     unstablePkgs.neovim
     unstablePkgs.microsoft-edge
     unstablePkgs.quickshell

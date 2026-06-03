@@ -27,3 +27,5 @@ home-manager/configs/ssh/id_ed25519
 home-manager/configs/openvpn/conf.ovpn
 
 .env
+
+justfile
