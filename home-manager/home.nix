@@ -137,7 +137,7 @@ in {
     # ".config/quickshell" = { source = ./configs/quickshell; recursive = true; };
     ".config/superfile" = { source = ./configs/superfile; recursive = true; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
-    ".ssh/" = { source = ./configs/ssh; recursive = true; };
+    ".ssh/id_ed25519.pub" = { source = ./configs/ssh/id_ed25519.pub; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };
 
@@ -178,6 +178,11 @@ in {
       WantedBy = [ "default.target" ];
     };
   };
+
+  home.activation.sshPrivateKey = config.lib.dag.entryAfter ["writeBoundary"] ''
+    install -m 600 "${config.home.homeDirectory}/bonsly/home-manager/configs/ssh/id_ed25519" \
+      "${config.home.homeDirectory}/.ssh/id_ed25519"
+  '';
 
   programs.home-manager.enable = true;
 }
