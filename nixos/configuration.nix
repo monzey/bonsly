@@ -41,10 +41,14 @@
 
   console.keyMap = "fr";
 
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [ mesa ];
+  };
   programs.hyprland.enable = true;
   programs.hyprlock.enable = true;
   programs.nix-ld.enable = true;
@@ -69,7 +73,7 @@
   users.users.monzey = {
     isNormalUser = true;
     description = "monzey";
-    extraGroups = [ "wheel" "networkmanager" "docker" "libvirtd" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "libvirtd" "video" "render" ];
     shell = pkgs.zsh;
   };
   security.sudo.extraRules = [
@@ -130,5 +134,6 @@
     NIXOS_OZONE_WL = "1";
     EDITOR = "neovide";
     XKB_DEFAULT_LAYOUT = "fr";
+    GBM_BACKENDS_PATH = "${pkgs.mesa}/lib/gbm";
   };
 }

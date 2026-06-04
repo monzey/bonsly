@@ -99,7 +99,7 @@ in {
     unstablePkgs.github-copilot-cli
     unstablePkgs.yazi
     unstablePkgs.devenv
-    unstablePkgs.claude-code
+    claude-code
     unstablePkgs.superfile
     unstablePkgs.kitty
     unstablePkgs.typescript

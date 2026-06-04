@@ -23,7 +23,7 @@
     autosuggestion.enable = true;
     defaultKeymap = "emacs";
 
-    initExtra = ''
+    initContent = ''
       # Load secrets from .env
       if [ -f "$HOME/bonsly/home-manager/.env" ]; then
         set -a
