@@ -24,6 +24,12 @@
     defaultKeymap = "emacs";
 
     initContent = ''
+# Skip all this init for non-interactive shells, as Claude was
+# choking on it
+      if [[ "''${-}" != *i* ]]; then
+          return
+      fi
+
       # Load secrets from .env
       if [ -f "$HOME/bonsly/home-manager/.env" ]; then
         set -a

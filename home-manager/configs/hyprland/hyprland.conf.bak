@@ -45,11 +45,10 @@ exec-once = waybar
 exec-once = hyprctl setcursor Bibata 24
 exec-once = watch-dev-sets
 exec-once = [workspace 1 silent] firefox
+exec-once = [workspace 4 silent] firefox --no-remote -P chatgpt https://chatgpt.com
 exec-once = [workspace 8 silent] firefox-devedition https://dashboard.rg-supervision.local --devtools
 exec-once = [workspace 10 silent] $terminal btop
 exec-once = [workspace 3 silent] slack
-exec-once = [workspace 6 silent] $terminal -d rg/rgsupv-dashboard --hold zsh -c "opencode-fhs"
-exec-once = [workspace 5 silent] $terminal -d rg/rgsupv-dashboard --hold zsh -c "lazygit"
 
 
 #############################
@@ -218,8 +217,6 @@ bind = $mainMod, K, movefocus, d
 bind = $mainMod+CTRL, J, workspace, 1
 bind = $mainMod+CTRL, N, workspace, 3
 bind = $mainMod+CTRL, P, workspace, 4
-bind = $mainMod+CTRL, D, workspace, 5
-bind = $mainMod+CTRL, I, workspace, 6
 bind = $mainMod+CTRL, Z, exec, ~/.config/hypr/scripts/debug-focus.sh
 bind = $mainMod+CTRL, S, workspace, 9
 bind = $mainMod+CTRL, B, workspace, 10
@@ -278,15 +275,15 @@ bind = $mainMod+CTRL, O, exec, openvide switch
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
 
-workspace = 1,  name:web,            monitor:DP-6
-workspace = 3,  name:irssi,          monitor:DP-5
-workspace = 4,  name:misc,           monitor:DP-5
-workspace = 5,  name:term,           monitor:DP-6
-workspace = 6,  name:codesec,        monitor:DP-6
-workspace = 7,  name:debugger,       monitor:DP-7
-workspace = 8,  name:test,           monitor:DP-6
-workspace = 9,  name:conf,           monitor:DP-7
+workspace = 1,  default_name:web,            monitor:DP-7
+workspace = 3,  default_name:slack,          monitor:DP-5
+workspace = 4,  default_name:ia,             monitor:DP-5
+workspace = 7,  default_name:debugger,       monitor:DP-7
+workspace = 8,  default_name:test,           monitor:DP-7
+workspace = 9,  default_name:conf,           monitor:DP-7
+workspace = 10, default_name:monitor,        monitor:DP-6
 
 windowrule = float on, match:title fzf-float
 windowrule = center on, match:title fzf-float
+windowrule = workspace 7 silent, match:class firefox-devedition, match:title Developer Tools
 windowrule = suppress_event maximize, match:class .*

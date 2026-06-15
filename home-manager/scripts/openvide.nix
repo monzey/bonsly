@@ -8,7 +8,7 @@ let
     MODE="''${1:-new}"
 
     mkdir -p "$HOME/.cache/nvim"
-    hyprctl dispatch focusmonitor DP-7
+    hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-7" })'
 
     # Dériver le nom de set depuis un chemin absolu
     get_proj() {
@@ -26,15 +26,15 @@ let
     # Switcher vers un set existant (move + focus les 3 workspaces)
     switch_set() {
       local proj="$1"
-      hyprctl dispatch moveworkspacetomonitor "name:$proj-lazygit"  DP-6
-      hyprctl dispatch moveworkspacetomonitor "name:$proj-code"     DP-7
-      hyprctl dispatch moveworkspacetomonitor "name:$proj-opencode" DP-5
-      hyprctl dispatch focusmonitor DP-6
-      hyprctl dispatch workspace "name:$proj-lazygit"
-      hyprctl dispatch focusmonitor DP-5
-      hyprctl dispatch workspace "name:$proj-opencode"
-      hyprctl dispatch focusmonitor DP-7
-      hyprctl dispatch workspace "name:$proj-code"
+      hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"name:$proj-lazygit\",  monitor = \"DP-6\" })"
+      hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"name:$proj-code\",     monitor = \"DP-7\" })"
+      hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"name:$proj-opencode\", monitor = \"DP-5\" })"
+      hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-6" })'
+      hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-lazygit\" })"
+      hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-5" })'
+      hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-opencode\" })"
+      hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-7" })'
+      hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-code\" })"
     }
 
     # Créer un nouveau set puis switcher dessus
@@ -45,9 +45,18 @@ let
 
       rm -f "$socket"
 
-      hyprctl dispatch exec "[workspace name:$proj-lazygit silent] kitty -d $dir --hold zsh -c 'lazygit'"
-      hyprctl dispatch exec "[workspace name:$proj-code] bash -c 'cd $dir && neovide -- --listen $socket'"
-      hyprctl dispatch exec "[workspace name:$proj-opencode silent] kitty -d $dir --hold zsh -c 'opencode-fhs'"
+      # Pré-créer chaque workspace sur son monitor → exec sans workspace rule → pas de flash
+      hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-6" })'
+      hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-lazygit\" })"
+      hyprctl dispatch "hl.dsp.exec_cmd(\"kitty -d $dir --hold zsh -c 'lazygit'\")"
+
+      hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-5" })'
+      hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-opencode\" })"
+      hyprctl dispatch "hl.dsp.exec_cmd(\"kitty -d $dir --hold zsh -c 'opencode-fhs'\")"
+
+      hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-7" })'
+      hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-code\" })"
+      hyprctl dispatch "hl.dsp.exec_cmd(\"bash -c 'cd $dir && neovide -- --listen $socket'\")"
 
       sleep 0.5
       switch_set "$proj"
@@ -87,7 +96,12 @@ let
       repo_path="$HOME/$repo"
       repo_parent=$(dirname "$repo_path")
       repo_name=$(basename "$repo_path")
-      wt_dir="$repo_parent/$repo_name.worktrees"
+      # Si le repo est déjà dans un dossier .worktrees, placer le nouveau worktree à côté
+      if [[ "$repo_parent" == *".worktrees" ]]; then
+        wt_dir="$repo_parent"
+      else
+        wt_dir="$repo_parent/$repo_name.worktrees"
+      fi
 
       # Branches remote (sans origin/ ni HEAD)
       remote_branches=$(git -C "$repo_path" branch -r 2>/dev/null \
@@ -101,7 +115,11 @@ let
         [[ -z "$branch" ]] && exit 0
       fi
 
-      wt_path="$wt_dir/$branch"
+      # Nom du dossier worktree (défaut = nom de la branche)
+      wt_name=$(printf '%s' "$branch" | dmenu -p "nom dossier (défaut: $branch):")
+      [[ -z "$wt_name" ]] && wt_name="$branch"
+
+      wt_path="$wt_dir/$wt_name"
       mkdir -p "$wt_dir"
 
       base=$(git -C "$repo_path" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|origin/||')

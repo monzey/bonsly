@@ -19,6 +19,13 @@ let
             '.[] | select(.workspace.name == $ws) | .pid')
         done
         rm -f "$HOME/.cache/nvim/$proj.pipe"
+        # Switcher vers les workspaces de base (les workspaces du set vides seront auto-détruits)
+        hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-6" })'
+        hyprctl dispatch 'hl.dsp.focus({ workspace = "name:monitor" })'
+        hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-5" })'
+        hyprctl dispatch 'hl.dsp.focus({ workspace = "name:slack" })'
+        hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-7" })'
+        hyprctl dispatch 'hl.dsp.focus({ workspace = "name:web" })'
       }
 
       # Relance si socat se déconnecte (ex: hyprland restart)
