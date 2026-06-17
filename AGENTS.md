@@ -1,4 +1,4 @@
-# AGENT.md — bonsly dotfiles
+# AGENTS.md — bonsly dotfiles
 
 ## Agent instructions
 After any change to this repo: update this file if affected entry points, paths, or conventions have changed.

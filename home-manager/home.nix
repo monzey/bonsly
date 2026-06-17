@@ -6,6 +6,8 @@ in {
     ./modules/zsh.nix
     ./modules/hyprland.nix
     ./modules/rofi.nix
+    ./modules/copilot-cli
+    ./modules/opencode
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/openvide.nix
@@ -13,6 +15,9 @@ in {
     ./scripts/update-notifier.nix
     ./scripts/watch-dev-sets.nix
   ];
+
+  programs.copilot-cli.version = "1.0.63";
+  programs.opencode.version = "1.17.7";
 
   gtk = {
     enable = true;
@@ -96,14 +101,12 @@ in {
     rofi
 
     unstablePkgs.firefox-devedition
-    unstablePkgs.github-copilot-cli
     unstablePkgs.yazi
     unstablePkgs.devenv
     claude-code
     unstablePkgs.superfile
     unstablePkgs.kitty
     unstablePkgs.typescript
-    unstablePkgs.github-copilot-cli
     unstablePkgs.ollama
     unstablePkgs.slack
     unstablePkgs.neovide
@@ -113,7 +116,6 @@ in {
     unstablePkgs.microsoft-edge
     unstablePkgs.quickshell
     unstablePkgs.qt6.qtwayland
-    (import ./opencode-bin.nix { inherit pkgs; })
     (import ./cleanup.nix { inherit pkgs; })
   ];
 

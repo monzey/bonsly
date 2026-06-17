@@ -32,7 +32,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("watch-dev-sets")
 	hl.exec_cmd("[workspace 1 silent] firefox")
 	hl.exec_cmd("[workspace 4 silent] firefox --no-remote -P chatgpt https://chatgpt.com")
-	hl.exec_cmd("[workspace 8 silent] firefox-devedition https://dashboard.rg-supervision.local --devtools")
+	hl.exec_cmd("[workspace 8 silent] chromium --remote-debugging-port=9222 --auto-open-devtools-for-tabs https://dashboard.rg-supervision.local")
 	hl.exec_cmd("[workspace 10 silent] " .. terminal .. " btop")
 	hl.exec_cmd("[workspace 3 silent] slack")
 end)
@@ -249,7 +249,7 @@ hl.bind(mainMod .. " + CTRL + O", hl.dsp.exec_cmd("openvide switch"))
 hl.workspace_rule({ workspace = "1", default_name = "web", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "3", default_name = "slack", monitor = "DP-5" })
 hl.workspace_rule({ workspace = "4", default_name = "ia", monitor = "DP-5" })
-hl.workspace_rule({ workspace = "7", default_name = "debugger", monitor = "DP-7" })
+hl.workspace_rule({ workspace = "7", default_name = "debugger", monitor = "DP-6" })
 hl.workspace_rule({ workspace = "8", default_name = "test", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-6" })
@@ -262,7 +262,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	match = { class = "firefox-devedition", title = "Developer Tools" },
+	match = { class = "chromium", title = "DevTools" },
+	workspace = "7 silent",
+})
+
+hl.window_rule({
+	match = { class = "Google-chrome", title = "DevTools" },
 	workspace = "7 silent",
 })
 
