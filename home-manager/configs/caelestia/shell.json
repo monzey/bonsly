@@ -1,0 +1,32 @@
+{
+  "paths": {
+    "wallpaperDir": "~/bonsly"
+  },
+  "launcher": {
+    "vimKeybinds": true
+  },
+  "services": {
+    "smartScheme": false
+  },
+  "appearance": {
+    "font": {
+      "headline": {
+        "family": "VictorMono Nerd Font"
+      },
+      "title": {
+        "family": "VictorMono Nerd Font"
+      },
+      "body": {
+        "family": "VictorMono Nerd Font"
+      },
+      "label": {
+        "family": "VictorMono Nerd Font"
+      },
+      "mono": {
+        "family": "VictorMono Nerd Font Mono"
+      },
+      "clock": "VictorMono Nerd Font",
+      "workspaces": "VictorMono Nerd Font"
+    }
+  }
+}

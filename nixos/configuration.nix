@@ -50,6 +50,7 @@
     extraPackages = with pkgs; [ mesa ];
   };
   programs.hyprland.enable = true;
+  programs.hyprland.withUWSM = true;
   programs.hyprlock.enable = true;
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;
@@ -121,7 +122,7 @@
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.hyprland}/bin/hyprland";
+        command = "${pkgs.uwsm}/bin/uwsm start -e -D Hyprland hyprland.desktop";
         user = "monzey";
       };
       default_session = initial_session;

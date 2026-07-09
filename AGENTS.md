@@ -40,8 +40,8 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Add/remove system package | `nixos/configuration.nix` |
 | Add/remove user package | `home-manager/home.nix` (packages list) |
 | Edit shell (zsh, aliases, env) | `home-manager/modules/zsh.nix` |
-| Edit keybinds / WM behaviour | `home-manager/configs/hyprland/hyprland.conf` |
-| Edit monitor layout | `home-manager/configs/hyprland/hyprland.conf` (monitor + workspace rules) |
+| Edit keybinds / WM behaviour | `home-manager/configs/hyprland/hyprland.lua` |
+| Edit monitor layout | `home-manager/configs/hyprland/hyprland.lua` (monitor + workspace rules) |
 | Edit Neovim plugin | `home-manager/configs/nvim/lua/plugins/<name>.lua` |
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |

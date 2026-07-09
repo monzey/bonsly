@@ -16,7 +16,7 @@ hl.monitor({ output = "DP-5", mode = "preferred", position = "5760x-420", scale 
 
 local terminal = "kitty"
 local fileManager = "nnn"
-local menu = "launch"
+local menu = "caelestia-ipc drawers toggle launcher"
 
 -------------------
 ---- AUTOSTART ----
@@ -24,15 +24,15 @@ local menu = "launch"
 
 hl.on("hyprland.start", function()
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hypridle")
-	hl.exec_cmd("eww daemon")
-	hl.exec_cmd("waybar")
+	hl.exec_cmd("systemctl --user restart caelestia-shell.service")
 	hl.exec_cmd("hyprctl setcursor Bibata 24")
 	hl.exec_cmd("watch-dev-sets")
 	hl.exec_cmd("[workspace 1 silent] firefox")
 	hl.exec_cmd("[workspace 4 silent] firefox --no-remote -P chatgpt https://chatgpt.com")
-	hl.exec_cmd("[workspace 8 silent] chromium --remote-debugging-port=9222 --auto-open-devtools-for-tabs https://dashboard.rg-supervision.local")
+	hl.exec_cmd(
+		"[workspace 8 silent] chromium --remote-debugging-port=9222 --auto-open-devtools-for-tabs https://dashboard.rg-supervision.local"
+	)
 	hl.exec_cmd("[workspace 10 silent] " .. terminal .. " btop")
 	hl.exec_cmd("[workspace 3 silent] slack")
 end)
@@ -157,7 +157,7 @@ hl.device({
 local mainMod = "SUPER"
 
 -- Neovide / project workflow
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("openvide new"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("caelestia-ipc openvide open"))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("update-with-notifications"))
 
 -- Basic
@@ -239,7 +239,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 
 -- Custom
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("qs ipc -c overview call overview toggle"))
-hl.bind(mainMod .. " + CTRL + O", hl.dsp.exec_cmd("openvide switch"))
+hl.bind(mainMod .. " + CTRL + O", hl.dsp.exec_cmd("caelestia-ipc openvide switchSet"))
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----

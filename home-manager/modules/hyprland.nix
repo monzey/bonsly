@@ -6,7 +6,6 @@
     wayland-protocols
     wlroots
     xwayland
-    hyprpaper
     hyprshot
   ];
 

@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, unstablePkgs, ... }:
+{ config, inputs, pkgs, system, unstablePkgs, ... }:
 
 let
 in {
@@ -10,7 +10,6 @@ in {
     ./modules/opencode
     ./scripts/update.nix
     ./scripts/merge.nix
-    ./scripts/openvide.nix
     ./scripts/nv.nix
     ./scripts/update-notifier.nix
     ./scripts/watch-dev-sets.nix
@@ -81,12 +80,13 @@ in {
     unzip
     xplr
     grim
-    mako
+    # mako
     slurp
     oxker
     docker
     mkcert
     cassandra
+    alsa-utils
     pavucontrol
     ferdium
     nodejs_22
@@ -94,6 +94,7 @@ in {
     ffmpeg
     waybar
     inputs.mcp-hub.packages."${system}".default
+    inputs.shell.packages."${system}".with-cli
     deno
     just
     difftastic
@@ -127,7 +128,7 @@ in {
     ".config/eww" = { source = ./configs/eww; recursive = true; };
     ".config/kitty" = { source = ./configs/kitty; recursive = true; };
     ".config/lazygit" = { source = ./configs/lazygit; recursive = true; };
-    ".config/mako" = { source = ./configs/mako; recursive = true; };
+    # ".config/mako" = { source = ./configs/mako; recursive = true; };
     ".config/rofi" = { source = ./configs/rofi; recursive = true; };
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
@@ -136,8 +137,8 @@ in {
     ".config/direnv" = { source = ./configs/direnv; recursive = true; };
     ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
     ".config/opencode" = { source = ./configs/opencode; recursive = true; };
-    # ".config/quickshell" = { source = ./configs/quickshell; recursive = true; };
     ".config/superfile" = { source = ./configs/superfile; recursive = true; };
+    ".config/caelestia" = { source = ./configs/caelestia; recursive = true; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/id_ed25519.pub" = { source = ./configs/ssh/id_ed25519.pub; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
@@ -180,6 +181,27 @@ in {
       WantedBy = [ "default.target" ];
     };
   };
+
+  systemd.user.services.caelestia-shell = {
+    Unit = {
+      Description = "Caelestia Shell";
+      After = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      Type = "exec";
+      ExecStart = "${inputs.shell.packages."${system}".with-cli}/bin/caelestia-shell";
+      Restart = "on-failure";
+      RestartSec = "5s";
+      TimeoutStopSec = "5s";
+      Environment = [ "QT_QPA_PLATFORM=wayland" ];
+    };
+  };
+
+  home.activation.caelestiaWallpaper = config.lib.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p "$HOME/.local/state/caelestia/wallpaper"
+    printf '%s' "$HOME/bonsly/wall.png" > "$HOME/.local/state/caelestia/wallpaper/path.txt"
+  '';
 
   home.activation.sshPrivateKey = config.lib.dag.entryAfter ["writeBoundary"] ''
     install -m 600 "${config.home.homeDirectory}/bonsly/home-manager/configs/ssh/id_ed25519" \
