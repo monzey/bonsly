@@ -8,6 +8,8 @@ in {
     ./modules/rofi.nix
     ./modules/copilot-cli
     ./modules/opencode
+    ./modules/antigravity
+    ./modules/codex
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/nv.nix
@@ -39,6 +41,7 @@ in {
     gh
     python3
     direnv
+    dnsmasq
     fd
     obs-studio
     virtiofsd
@@ -88,6 +91,7 @@ in {
     cassandra
     alsa-utils
     pavucontrol
+    dig
     ferdium
     nodejs_22
     vlc
@@ -109,10 +113,15 @@ in {
     unstablePkgs.kitty
     unstablePkgs.typescript
     unstablePkgs.ollama
-    unstablePkgs.slack
+    (unstablePkgs.slack.overrideAttrs (_: {
+      version = "4.51.180";
+      src = fetchurl {
+        url = "https://downloads.slack-edge.com/desktop-releases/linux/x64/4.51.180/slack-desktop-4.51.180-amd64.deb";
+        hash = "sha256-qkXhUXlHAzdwEqmtePCyFSw2iFLghSZ65ona+1wwjqE=";
+      };
+    }))
     unstablePkgs.neovide
     unstablePkgs.vscode
-    unstablePkgs.codex
     unstablePkgs.neovim
     unstablePkgs.microsoft-edge
     unstablePkgs.quickshell

@@ -169,7 +169,7 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + SHIFT + BACKSPACE", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + SHIFT + BACKSPACE", hl.dsp.exec_cmd("caelestia-ipc lock lock"))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code /home/monzey/bonsly"))
 

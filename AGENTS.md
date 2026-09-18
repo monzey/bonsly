@@ -17,10 +17,10 @@ nixos/                        ← NixOS system config (root-level, requires sudo
 home-manager/                 ← user-level config (no sudo)
   flake.nix                   ← HM flake entry point
   home.nix                    ← aggregates all modules + packages
-  modules/                    ← zsh, hyprland, rofi, AI CLI tools
+  modules/                    ← zsh, hyprland, rofi, AI CLI tools (Codex, Copilot, OpenCode)
   scripts/                    ← nix-wrapped shell scripts (update, merge, etc.)
   configs/                    ← per-tool dotfiles, symlinked into ~/.config/
-    hyprland/                 ← WM config, keybinds, monitor layout, scripts
+    hyprland/                 ← WM, portal, keybinds, monitor layout, scripts
     nvim/                     ← LazyVim config (lua/config/, lua/plugins/)
     opencode/                 ← opencode.json, plugins/nvim.ts, skills/
     waybar/                   ← bar config + style.css
@@ -42,9 +42,11 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit shell (zsh, aliases, env) | `home-manager/modules/zsh.nix` |
 | Edit keybinds / WM behaviour | `home-manager/configs/hyprland/hyprland.lua` |
 | Edit monitor layout | `home-manager/configs/hyprland/hyprland.lua` (monitor + workspace rules) |
+| Edit screen sharing portal | `home-manager/configs/hyprland/xdph.conf` |
 | Edit Neovim plugin | `home-manager/configs/nvim/lua/plugins/<name>.lua` |
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
+| Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
 | Edit opencode Neovim plugin | `home-manager/configs/opencode/plugins/nvim.ts` |
 | Edit opencode skills | `home-manager/configs/opencode/skills/` |
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |

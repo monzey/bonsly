@@ -8,14 +8,6 @@
     eza
   ];
 
-  home.file.".bash_profile".text = ''
-    exec ${pkgs.zsh}/bin/zsh
-  '';
-
-  home.file.".zprofile".text = ''
-    exec ${pkgs.zsh}/bin/zsh
-  '';
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;

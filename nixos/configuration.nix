@@ -28,7 +28,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "kvm-intel" ];
 
+  nix.settings.trusted-users = [ "root" "monzey" ];
   networking.hostName = "muk";
+  networking.networkmanager.dns = "dnsmasq";
   networking.networkmanager.enable = true;
   networking.extraHosts = 
     ''
@@ -96,11 +98,21 @@
   };
   programs.virt-manager.enable = true;
 
-  services.openvpn.servers = {
-    dev = {
-      config = "config /root/openvpn/mbertrand.ovpn";
-      updateResolvConf = true;
-    };
+  environment.etc."NetworkManager/dnsmasq.d/rg-devbox.conf".text = ''
+    address=/dashboard.rg-supervision.local/127.0.0.1
+  '';
+
+  services.openvpn.servers.dev = {
+    config = "config /root/openvpn/mbertrand.ovpn";
+    updateResolvConf = false;
+    up = ''
+      echo "server=''${nameserver:-10.30.30.200}" > /etc/NetworkManager/dnsmasq.d/rg-devbox-vpn-default.conf
+      systemctl restart NetworkManager
+    '';
+    down = ''
+      rm -f /etc/NetworkManager/dnsmasq.d/rg-devbox-vpn-default.conf
+      systemctl restart NetworkManager
+    '';
   };
 
   services.blueman.enable = true;
