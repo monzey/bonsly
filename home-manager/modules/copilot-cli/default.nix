@@ -4,7 +4,7 @@ let
   cfg = config.programs.copilot-cli;
 
   copilotWrapper = pkgs.buildFHSEnv {
-    name = "copilot-fhs";
+    name = "copilot";
 
     targetPkgs = pkgs: with pkgs; [
       nodejs_22
@@ -18,7 +18,9 @@ let
     runScript = ''
       bash -c '
         export COPILOT_HOME="$HOME/.copilot-cli-npm"
-        export PATH="$PATH:$COPILOT_HOME/bin"
+        BINARY_PATH="$COPILOT_HOME/bin/copilot"
+
+        export PATH="$COPILOT_HOME/bin:$PATH"
         export npm_config_prefix="$COPILOT_HOME"
 
         WANTED_VERSION="${cfg.version}"
@@ -30,7 +32,7 @@ let
           echo "$WANTED_VERSION" > "$COPILOT_HOME/.version"
         fi
 
-        exec copilot "$@"
+        exec "$BINARY_PATH" "$@"
       ' bash "$@"
     '';
   };

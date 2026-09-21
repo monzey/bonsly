@@ -26,4 +26,4 @@ wins=$(hyprctl clients -j | jq "[.[] | select(.workspace.id == 2)] | length")
 [ "$wins" -eq 0 ] && hyprctl dispatch exec "[workspace 2 silent] nv"
 
 wins=$(hyprctl clients -j | jq "[.[] | select(.workspace.id == 12)] | length")
-[ "$wins" -eq 0 ] && hyprctl dispatch exec "[workspace 12 silent] kitty --hold zsh -c 'opencode-fhs'"
+[ "$wins" -eq 0 ] && hyprctl dispatch exec "[workspace 12 silent] kitty --hold zsh -c 'opencode'"

@@ -104,6 +104,7 @@ in {
     difftastic
     worktrunk
     rofi
+    uv
 
     unstablePkgs.firefox-devedition
     unstablePkgs.yazi

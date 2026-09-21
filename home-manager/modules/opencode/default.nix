@@ -4,7 +4,7 @@ let
   cfg = config.programs.opencode;
 
   opencodeWrapper = pkgs.buildFHSEnv {
-    name = "opencode-fhs";
+    name = "opencode";
 
     targetPkgs = pkgs: with pkgs; [
       nodejs_22
@@ -19,7 +19,9 @@ let
     runScript = ''
       bash -c '
         export OPENCODE_HOME="$HOME/.opencode-npm"
-        export PATH="$PATH:$OPENCODE_HOME/bin"
+        BINARY_PATH="$OPENCODE_HOME/bin/opencode"
+
+        export PATH="$OPENCODE_HOME/bin:$PATH"
         export npm_config_prefix="$OPENCODE_HOME"
 
         WANTED_VERSION="${cfg.version}"
@@ -31,7 +33,7 @@ let
           echo "$WANTED_VERSION" > "$OPENCODE_HOME/.version"
         fi
 
-        exec opencode "$@"
+        exec "$BINARY_PATH" "$@"
       ' bash "$@"
     '';
   };

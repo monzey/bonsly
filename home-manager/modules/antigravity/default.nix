@@ -2,7 +2,7 @@
 
 let
   antigravityWrapper = pkgs.buildFHSEnv {
-    name = "agy-fhs";
+    name = "agy";
 
     targetPkgs = pkgs: with pkgs; [
       bash
@@ -16,11 +16,12 @@ let
 
     runScript = ''
       bash -c '
-        BINARY_PATH="$HOME/.local/bin/agy"
+        AGY_HOME="$HOME/.local/share/antigravity"
+        BINARY_PATH="$AGY_HOME/bin/agy"
 
-        if [ ! -f "$BINARY_PATH" ]; then
+        if [ ! -x "$BINARY_PATH" ]; then
           echo "[+] Installation de antigravity CLI (agy)..."
-          curl -fsSL https://antigravity.google/cli/install.sh | bash
+          curl -fsSL https://antigravity.google/cli/install.sh | bash -s -- --dir "$AGY_HOME/bin"
         fi
 
         exec "$BINARY_PATH" "$@"
@@ -31,5 +32,12 @@ in
 {
   config = {
     home.packages = [ antigravityWrapper ];
+
+    # The upstream installer previously put the real binary here, ahead of the
+    # Nix profile in PATH. Keep this command managed by Home Manager instead.
+    home.file.".local/bin/agy" = {
+      source = "${antigravityWrapper}/bin/agy";
+      force = true;
+    };
   };
 }
