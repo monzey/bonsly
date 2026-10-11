@@ -42,6 +42,7 @@ in
 
     home.file.".gemini/antigravity-cli/keybindings.json" = {
       source = ../../configs/antigravity/keybindings.json;
+      force = true;
     };
   };
 }
