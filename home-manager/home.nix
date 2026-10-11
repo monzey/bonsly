@@ -149,9 +149,7 @@ in {
     ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
     ".config/opencode" = { source = ./configs/opencode; recursive = true; };
     ".config/superfile" = { source = ./configs/superfile; recursive = true; };
-    ".config/caelestia/shell.json" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/bonsly/home-manager/configs/caelestia/shell.json";
-    };
+    ".config/caelestia/shell.json" = { source = ./configs/caelestia/shell.json; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/id_ed25519.pub" = { source = ./configs/ssh/id_ed25519.pub; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
@@ -213,11 +211,11 @@ in {
 
   home.activation.caelestiaWallpaper = config.lib.dag.entryAfter ["writeBoundary"] ''
     mkdir -p "$HOME/.local/state/caelestia/wallpaper"
-    printf '%s' "$HOME/bonsly/wall.png" > "$HOME/.local/state/caelestia/wallpaper/path.txt"
+    printf '%s' "$HOME/monzey/bonsly/wall.png" > "$HOME/.local/state/caelestia/wallpaper/path.txt"
   '';
 
   home.activation.sshPrivateKey = config.lib.dag.entryAfter ["writeBoundary"] ''
-    install -m 600 "${config.home.homeDirectory}/bonsly/home-manager/configs/ssh/id_ed25519" \
+    install -m 600 "${config.home.homeDirectory}/monzey/bonsly/home-manager/configs/ssh/id_ed25519" \
       "${config.home.homeDirectory}/.ssh/id_ed25519"
   '';
 

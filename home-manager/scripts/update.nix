@@ -14,6 +14,50 @@ let
       exit 1
     }
 
+    resolve_home_manager_flake() {
+      if [ -n "''${BONSLY_FLAKE:-}" ]; then
+        candidate="''${BONSLY_FLAKE%/}"
+
+        if [ -f "$candidate/flake.nix" ]; then
+          printf '%s\n' "$candidate"
+          return 0
+        fi
+
+        if [ -f "$candidate/home-manager/flake.nix" ]; then
+          printf '%s\n' "$candidate/home-manager"
+          return 0
+        fi
+
+        echo "BONSLY_FLAKE ne contient pas de flake Home Manager: $candidate" >&2
+        return 1
+      fi
+
+      candidate="$PWD"
+      while [ "$candidate" != "/" ]; do
+        if [ -f "$candidate/home-manager/flake.nix" ]; then
+          printf '%s\n' "$candidate/home-manager"
+          return 0
+        fi
+
+        if [ "''${candidate##*/}" = "home-manager" ] && [ -f "$candidate/flake.nix" ]; then
+          printf '%s\n' "$candidate"
+          return 0
+        fi
+
+        candidate="''${candidate%/*}"
+        [ -n "$candidate" ] || candidate="/"
+      done
+
+      if [ -f "$HOME/.config/home-manager/flake.nix" ]; then
+        printf '%s\n' "$HOME/.config/home-manager"
+        return 0
+      fi
+
+      echo "Flake Home Manager introuvable." >&2
+      echo "Lance update depuis le dépôt bonsly ou définis BONSLY_FLAKE." >&2
+      return 1
+    }
+
     if [ $# -eq 0 ]; then
       usage
     fi
@@ -46,8 +90,9 @@ let
 
     # Execute actions based on provided options
     if $update_home; then
+      flake_path=$(resolve_home_manager_flake)
       echo "Mise à jour de Home Manager..."
-      home-manager switch
+      home-manager switch --flake "$flake_path#${config.home.username}"
     fi
 
     if $reload_hyprland; then

@@ -61,7 +61,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 ## Build commands
 
 ```bash
-update -h       # home-manager switch (user config)
+update -h       # home-manager switch --flake (resolved from cwd, BONSLY_FLAKE, or ~/.config/home-manager)
 update -s       # sudo nixos-rebuild switch (system config)
 update -r       # hyprctl reload (WM only, instant)
 update -hsr     # all three — standard full update
@@ -71,8 +71,9 @@ update -hsr     # all three — standard full update
 
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
-- Caelestia's `shell.json` uses an out-of-store symlink because Caelestia rewrites this file at runtime
+- Caelestia's `shell.json` is managed as a standard Home Manager file and is therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
+- `update -h` resolves the Home Manager flake dynamically; `BONSLY_FLAKE` can point to either the repo root or `home-manager/`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
 
