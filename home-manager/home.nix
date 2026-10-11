@@ -105,6 +105,7 @@ in {
     worktrunk
     rofi
     uv
+    bubblewrap
 
     unstablePkgs.firefox-devedition
     unstablePkgs.yazi
@@ -148,7 +149,9 @@ in {
     ".config/mcphub" = { source = ./configs/mcphub; recursive = true; };
     ".config/opencode" = { source = ./configs/opencode; recursive = true; };
     ".config/superfile" = { source = ./configs/superfile; recursive = true; };
-    ".config/caelestia" = { source = ./configs/caelestia; recursive = true; };
+    ".config/caelestia/shell.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/bonsly/home-manager/configs/caelestia/shell.json";
+    };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/id_ed25519.pub" = { source = ./configs/ssh/id_ed25519.pub; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };

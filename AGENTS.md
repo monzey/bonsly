@@ -20,9 +20,10 @@ home-manager/                 ← user-level config (no sudo)
   modules/                    ← zsh, hyprland, rofi, AI CLI tools (Codex, Copilot, OpenCode)
   scripts/                    ← nix-wrapped shell scripts (update, merge, etc.)
   configs/                    ← per-tool dotfiles, symlinked into ~/.config/
+    antigravity/              ← Antigravity CLI keybindings
     hyprland/                 ← WM, portal, keybinds, monitor layout, scripts
     nvim/                     ← LazyVim config (lua/config/, lua/plugins/)
-    opencode/                 ← opencode.json, plugins/nvim.ts, skills/
+    opencode/                 ← opencode.json, plugins/nvim.ts
     waybar/                   ← bar config + style.css
     eww/                      ← eww.yuck + eww.scss widgets
     kitty/                    ← terminal config
@@ -47,8 +48,9 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
 | Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
+| Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
+| Edit Caelestia Shell config | `home-manager/configs/caelestia/shell.json` |
 | Edit opencode Neovim plugin | `home-manager/configs/opencode/plugins/nvim.ts` |
-| Edit opencode skills | `home-manager/configs/opencode/skills/` |
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
 | Edit update/merge scripts | `home-manager/scripts/<name>.nix` |
@@ -69,6 +71,7 @@ update -hsr     # all three — standard full update
 
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
+- Caelestia's `shell.json` uses an out-of-store symlink because Caelestia rewrites this file at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)

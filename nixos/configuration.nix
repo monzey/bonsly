@@ -53,7 +53,6 @@
   };
   programs.hyprland.enable = true;
   programs.hyprland.withUWSM = true;
-  programs.hyprlock.enable = true;
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;
 

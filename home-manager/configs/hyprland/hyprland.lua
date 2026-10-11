@@ -28,7 +28,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user restart caelestia-shell.service")
 	hl.exec_cmd("hyprctl setcursor Bibata 24")
 	hl.exec_cmd("watch-dev-sets")
-	hl.exec_cmd("[workspace 1 silent] firefox")
+	hl.exec_cmd("[workspace 1 silent] firefox --no-remote -P default")
 	hl.exec_cmd("[workspace 4 silent] firefox --no-remote -P chatgpt https://chatgpt.com")
 	hl.exec_cmd(
 		"[workspace 8 silent] chromium --remote-debugging-port=9222 --auto-open-devtools-for-tabs https://dashboard.rg-supervision.local"

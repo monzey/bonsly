@@ -39,5 +39,9 @@ in
       source = "${antigravityWrapper}/bin/agy";
       force = true;
     };
+
+    home.file.".gemini/antigravity-cli/keybindings.json" = {
+      source = ../../configs/antigravity/keybindings.json;
+    };
   };
 }
