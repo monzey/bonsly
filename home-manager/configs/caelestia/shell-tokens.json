@@ -1,0 +1,12 @@
+{
+    "appearance": {
+        "rounding": {
+            "full": 0
+        }
+    },
+    "sizes": {
+        "bar": {
+            "innerWidth": 28
+        }
+    }
+}

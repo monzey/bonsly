@@ -24,6 +24,10 @@ in {
 
   gtk = {
     enable = true;
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
     cursorTheme = {
       name = "Bibata";
       size = 24;
@@ -152,6 +156,7 @@ in {
     ".config/opencode" = { source = ./configs/opencode; recursive = true; };
     ".config/superfile" = { source = ./configs/superfile; recursive = true; };
     ".config/caelestia/shell.json" = { source = ./configs/caelestia/shell.json; };
+    ".config/caelestia/shell-tokens.json" = { source = ./configs/caelestia/shell-tokens.json; };
     ".aider.conf.yml" = { source = ./configs/aider/.aider.conf.yml; };
     ".ssh/id_ed25519.pub" = { source = ./configs/ssh/id_ed25519.pub; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
@@ -211,7 +216,10 @@ in {
       Restart = "on-failure";
       RestartSec = "5s";
       TimeoutStopSec = "5s";
-      Environment = [ "QT_QPA_PLATFORM=wayland" ];
+      Environment = [
+        "QT_QPA_PLATFORM=wayland"
+        "QT_QPA_PLATFORMTHEME=gtk3"
+      ];
     };
   };
 

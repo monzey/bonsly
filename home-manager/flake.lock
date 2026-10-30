@@ -190,11 +190,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1793366323,
-        "narHash": "sha256-6o9kPwzY7/fYqhWEM+Q4CoRuLDMZceMLX5KJcJ0m60U=",
+        "lastModified": 1793392157,
+        "narHash": "sha256-GNES+8E3hImFjpkwiKUiS3BRQhP860lbWoRJEHpPTbU=",
         "owner": "monzey",
         "repo": "shell",
-        "rev": "4c09510126a4913fb4ea6a82e69cdfc7ec7a4661",
+        "rev": "c52e34664bf694cfdb076c8ccd33a318b72e9cb5",
         "type": "github"
       },
       "original": {

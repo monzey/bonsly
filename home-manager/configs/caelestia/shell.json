@@ -18,7 +18,11 @@
                 "family": "VictorMono Nerd Font"
             },
             "workspaces": "VictorMono Nerd Font"
-        }
+        },
+        "rounding": {
+            "scale": 0
+        },
+        "deformScale": 0
     },
     "launcher": {
         "vimKeybinds": true
@@ -28,5 +32,14 @@
     },
     "services": {
         "smartScheme": false
+    },
+    "border": {
+        "thickness": 0,
+        "rounding": 0,
+        "smoothing": 0
+    },
+    "bar": {
+        "persistent": false,
+        "showOnHover": true
     }
 }

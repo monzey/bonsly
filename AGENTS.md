@@ -51,7 +51,8 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
-| Edit Caelestia Shell config | `home-manager/configs/caelestia/shell.json` |
+| Edit Caelestia Shell config | `home-manager/configs/caelestia/shell.json` + `shell-tokens.json` |
+| Edit icon theme | `home-manager/home.nix` (`gtk.iconTheme` + Caelestia service environment) |
 | Edit opencode Neovim plugin | `home-manager/configs/opencode/plugins/nvim.ts` |
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
@@ -74,7 +75,7 @@ update -hsr     # all three — standard full update
 
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
-- Caelestia's `shell.json` is managed as a standard Home Manager file and is therefore read-only at runtime
+- Caelestia's `shell.json` and `shell-tokens.json` are managed as standard Home Manager files and are therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
 - `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
