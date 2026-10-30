@@ -88,6 +88,7 @@
   ];
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.daemon.settings.dns = [ "8.8.8.8" "1.1.1.1" ];
   virtualisation.libvirtd = {
     enable = true;
     qemu = {

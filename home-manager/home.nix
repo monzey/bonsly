@@ -10,6 +10,8 @@ in {
     ./modules/opencode
     ./modules/antigravity
     ./modules/codex
+    ./modules/grok
+    ./modules/caveman
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/nv.nix
@@ -154,6 +156,10 @@ in {
     ".ssh/id_ed25519.pub" = { source = ./configs/ssh/id_ed25519.pub; };
     ".gitconfig" = { source = ./configs/git/.gitconfig; };
     ".gitignore" = { source = ./configs/git/.gitignore; };
+    ".config/git/hooks/commit-msg" = {
+      source = ./configs/git/hooks/commit-msg;
+      executable = true;
+    };
 
     ".local/share/icons/Bibata" = { source = ./configs/cursor; recursive = true; };
   };

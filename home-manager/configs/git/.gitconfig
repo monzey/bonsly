@@ -5,6 +5,7 @@
 	editor = nvim
 	excludesfile = ~/.gitignore
 	autocrlf = input
+	hooksPath = ~/.config/git/hooks
 [diff]
   external = difft
 [pull]

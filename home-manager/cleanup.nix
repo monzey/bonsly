@@ -4,17 +4,16 @@ pkgs.buildFHSEnv {
   name = "cleanup";
   runScript = ''
     bash -c '
-      echo "--- Nettoyage des anciennes générations (Root) ---"
-      sudo nix-collect-garbage -d
+      set -euo pipefail
 
-      echo "--- Nettoyage des anciennes générations (Utilisateur) ---"
-      nix-collect-garbage -d
+      echo "--- Nettoyage de Home Manager (plus de 30 jours) ---"
+      home-manager expire-generations "-30 days"
 
-      echo "--- Nettoyage de Home Manager ---"
-      home-manager expire-generations "-0 days"
+      echo "--- Nettoyage des générations utilisateur (plus de 30 jours) ---"
+      nix-env --delete-generations 30d
 
-      echo "--- Optimisation du store (Hardlinks) ---"
-      nix-store --optimise
+      echo "--- Nettoyage des générations système et du store ---"
+      sudo nix-collect-garbage --delete-older-than 30d
 
       echo "--- Nettoyage terminé ! ---"
     ' bash "$@"

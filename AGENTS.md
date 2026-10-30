@@ -17,7 +17,7 @@ nixos/                        ← NixOS system config (root-level, requires sudo
 home-manager/                 ← user-level config (no sudo)
   flake.nix                   ← HM flake entry point
   home.nix                    ← aggregates all modules + packages
-  modules/                    ← zsh, hyprland, rofi, AI CLI tools (Codex, Copilot, OpenCode)
+  modules/                    ← zsh, hyprland, rofi, AI CLI tools (Antigravity, Codex, Copilot, Grok, OpenCode, Caveman)
   scripts/                    ← nix-wrapped shell scripts (update, merge, etc.)
   configs/                    ← per-tool dotfiles, symlinked into ~/.config/
     antigravity/              ← Antigravity CLI keybindings
@@ -28,7 +28,7 @@ home-manager/                 ← user-level config (no sudo)
     eww/                      ← eww.yuck + eww.scss widgets
     kitty/                    ← terminal config
     zsh -> modules/zsh.nix
-    git/                      ← gitconfig
+    git/                      ← gitconfig + global hooks
     mcphub/                   ← MCP servers config (servers.json)
 
 animate/                      ← rain animation PNGs + shell scripts (ignore unless asked)
@@ -48,11 +48,14 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
 | Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
+| Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
+| Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
 | Edit Caelestia Shell config | `home-manager/configs/caelestia/shell.json` |
 | Edit opencode Neovim plugin | `home-manager/configs/opencode/plugins/nvim.ts` |
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
+| Edit Git config/hooks | `home-manager/configs/git/` |
 | Edit update/merge scripts | `home-manager/scripts/<name>.nix` |
 | Edit MCP servers | `home-manager/configs/mcphub/servers.json` |
 | Edit NixOS services | `nixos/configuration.nix` (systemd, networking, etc.) |
@@ -62,7 +65,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 
 ```bash
 update -h       # home-manager switch --flake (resolved from cwd, BONSLY_FLAKE, or ~/.config/home-manager)
-update -s       # sudo nixos-rebuild switch (system config)
+update -s       # nixos-rebuild switch --flake (resolved from cwd or BONSLY_FLAKE)
 update -r       # hyprctl reload (WM only, instant)
 update -hsr     # all three — standard full update
 ```
@@ -73,8 +76,10 @@ update -hsr     # all three — standard full update
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
 - Caelestia's `shell.json` is managed as a standard Home Manager file and is therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
-- `update -h` resolves the Home Manager flake dynamically; `BONSLY_FLAKE` can point to either the repo root or `home-manager/`
+- Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
+- `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
+- Third-party agent skills are pinned with `fetchFromGitHub` (`sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update.
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
 
 ## Ignore

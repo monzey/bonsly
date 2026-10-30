@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Keep commit authorship limited to the configured Git user, regardless of
+# which agent generated the message.
+sed -i \
+  '/^[[:space:]]*[Cc][Oo]-[Aa][Uu][Tt][Hh][Oo][Rr][Ee][Dd]-[Bb][Yy][[:space:]]*:/d' \
+  "$1"

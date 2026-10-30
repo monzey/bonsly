@@ -14,32 +14,41 @@ let
       exit 1
     }
 
-    resolve_home_manager_flake() {
+    resolve_flake() {
+      flake_name="$1"
+
       if [ -n "''${BONSLY_FLAKE:-}" ]; then
         candidate="''${BONSLY_FLAKE%/}"
 
-        if [ -f "$candidate/flake.nix" ]; then
+        if [ -f "$candidate/$flake_name/flake.nix" ]; then
+          printf '%s\n' "$candidate/$flake_name"
+          return 0
+        fi
+
+        if [ "''${candidate##*/}" = "$flake_name" ] && [ -f "$candidate/flake.nix" ]; then
           printf '%s\n' "$candidate"
           return 0
         fi
 
-        if [ -f "$candidate/home-manager/flake.nix" ]; then
-          printf '%s\n' "$candidate/home-manager"
+        repo_candidate="''${candidate%/*}"
+        [ -n "$repo_candidate" ] || repo_candidate="/"
+        if [ -f "$repo_candidate/$flake_name/flake.nix" ]; then
+          printf '%s\n' "$repo_candidate/$flake_name"
           return 0
         fi
 
-        echo "BONSLY_FLAKE ne contient pas de flake Home Manager: $candidate" >&2
+        echo "BONSLY_FLAKE ne permet pas de trouver le flake $flake_name: $candidate" >&2
         return 1
       fi
 
       candidate="$PWD"
       while [ "$candidate" != "/" ]; do
-        if [ -f "$candidate/home-manager/flake.nix" ]; then
-          printf '%s\n' "$candidate/home-manager"
+        if [ -f "$candidate/$flake_name/flake.nix" ]; then
+          printf '%s\n' "$candidate/$flake_name"
           return 0
         fi
 
-        if [ "''${candidate##*/}" = "home-manager" ] && [ -f "$candidate/flake.nix" ]; then
+        if [ "''${candidate##*/}" = "$flake_name" ] && [ -f "$candidate/flake.nix" ]; then
           printf '%s\n' "$candidate"
           return 0
         fi
@@ -48,12 +57,12 @@ let
         [ -n "$candidate" ] || candidate="/"
       done
 
-      if [ -f "$HOME/.config/home-manager/flake.nix" ]; then
+      if [ "$flake_name" = "home-manager" ] && [ -f "$HOME/.config/home-manager/flake.nix" ]; then
         printf '%s\n' "$HOME/.config/home-manager"
         return 0
       fi
 
-      echo "Flake Home Manager introuvable." >&2
+      echo "Flake $flake_name introuvable." >&2
       echo "Lance update depuis le dépôt bonsly ou définis BONSLY_FLAKE." >&2
       return 1
     }
@@ -90,7 +99,7 @@ let
 
     # Execute actions based on provided options
     if $update_home; then
-      flake_path=$(resolve_home_manager_flake)
+      flake_path=$(resolve_flake home-manager)
       echo "Mise à jour de Home Manager..."
       home-manager switch --flake "$flake_path#${config.home.username}"
     fi
@@ -102,9 +111,9 @@ let
 
     if $update_system; then
       if [ -f "/etc/NIXOS" ]; then
-        flake_path="$HOME/bonsly/nixos"
+        flake_path=$(resolve_flake nixos)
         echo "Mise à jour de NixOS..."
-        sudo nixos-rebuild switch --flake $flake_path#$(hostname)
+        sudo nixos-rebuild switch --flake "$flake_path#$(hostname)"
       else
         echo "NixOS system not detected."
       fi
