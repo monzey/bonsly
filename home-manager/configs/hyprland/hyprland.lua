@@ -158,6 +158,7 @@ local mainMod = "SUPER"
 
 -- Neovide / project workflow
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("caelestia-ipc openvide open"))
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("caelestia-ipc openvide git"))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("update-with-notifications"))
 
 -- Basic

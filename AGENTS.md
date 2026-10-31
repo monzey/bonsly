@@ -75,6 +75,7 @@ update -hsr     # all three — standard full update
 
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
+- `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in the shell repo.
 - Caelestia's `shell.json` and `shell-tokens.json` are managed as standard Home Manager files and are therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
