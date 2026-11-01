@@ -6,7 +6,7 @@
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     mcp-hub.url = "github:ravitemer/mcp-hub";
     shell = {
-      url = "github:monzey/shell";
+      url = "path:../desktop/caelestia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {

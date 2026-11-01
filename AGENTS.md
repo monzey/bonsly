@@ -3,8 +3,8 @@
 ## Agent instructions
 After any change to this repo: update this file if affected entry points, paths, or conventions have changed.
 
-NixOS + Home Manager dotfiles repo. No app code, no DB, no tests, no package.json.
-Two separate Nix flakes. One user: `monzey`, machine: `muk`.
+NixOS + Home Manager dotfiles repo with the customised Caelestia desktop shell. No DB or package.json.
+Two configuration flakes (`nixos/`, `home-manager/`) plus the local Caelestia package flake. One user: `monzey`, machine: `muk`.
 
 ## Repo map
 
@@ -31,6 +31,12 @@ home-manager/                 ← user-level config (no sudo)
     git/                      ← gitconfig + global hooks
     mcphub/                   ← MCP servers config (servers.json)
 
+desktop/caelestia/             ← Caelestia shell subtree, full upstream/fork history
+  flake.nix                   ← local shell packages + development shell
+  nix/default.nix             ← shell/native components, CodeDiff and Lazygit patches
+  assets/openvide*            ← project sets, Neovim profile, Git overview
+  modules/, services/         ← desktop interface and IPC
+
 animate/                      ← rain animation PNGs + shell scripts (ignore unless asked)
 ```
 
@@ -51,6 +57,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
+| Edit Caelestia/Openvide behaviour | `desktop/caelestia/` (see its `README.md`) |
 | Edit Caelestia Shell config | `home-manager/configs/caelestia/shell.json` + `shell-tokens.json` |
 | Edit icon theme | `home-manager/home.nix` (`gtk.iconTheme` + Caelestia service environment) |
 | Edit opencode Neovim plugin | `home-manager/configs/opencode/plugins/nvim.ts` |
@@ -75,7 +82,10 @@ update -hsr     # all three — standard full update
 
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
-- `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in the shell repo.
+- `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in `desktop/caelestia/`.
+- Home Manager's `shell` input is `path:../desktop/caelestia` (requires Nix >= 2.26). Shell edits are built locally with `update -h`; no separate Shell push or lock revision bump is needed. Add new files to Git before building.
+- Caelestia is a full-history Git subtree. From a clean Bonsly root, merge upstream with `git subtree pull --prefix=desktop/caelestia https://github.com/caelestia-dots/shell.git main`; review conflicts/dependencies and build Home Manager afterward. Keep the upstream license and subtree history.
+- Shell dependencies remain pinned in `home-manager/flake.lock`; the subtree's own lock is for standalone development. Avoid updating unrelated inputs. Native build revisions are hashes of filtered component sources, independent of Bonsly's Git HEAD.
 - Caelestia's `shell.json` and `shell-tokens.json` are managed as standard Home Manager files and are therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers

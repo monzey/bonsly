@@ -1,5 +1,4 @@
 {
-  rev,
   lib,
   stdenv,
   fetchFromGitHub,
@@ -90,16 +89,18 @@
     then "Debug"
     else "RelWithDebInfo";
 
-  cmakeVersionFlags = [
+  # A local flake has no Git revision. Hash each component's filtered source
+  # instead, so unrelated Bonsly edits do not rebuild native components.
+  cmakeVersionFlags = src: [
     (lib.cmakeFeature "VERSION" version)
-    (lib.cmakeFeature "GIT_REVISION" rev)
+    (lib.cmakeFeature "GIT_REVISION" (builtins.substring 0 12 (builtins.hashString "sha256" (toString src))))
     (lib.cmakeFeature "DISTRIBUTOR" "nix-flake")
   ];
 
   # The build sandbox has no network access so add it as a flake input instead
   m3shapesFlag = lib.cmakeFeature "FETCHCONTENT_SOURCE_DIR_M3SHAPES_EXTERNAL" "${m3shapes}";
 
-  extras = stdenv.mkDerivation {
+  extras = stdenv.mkDerivation rec {
     inherit cmakeBuildType;
     name = "caelestia-extras${lib.optionalString debug "-debug"}";
     src = lib.fileset.toSource {
@@ -114,10 +115,10 @@
         (lib.cmakeFeature "ENABLE_MODULES" "extras")
         (lib.cmakeFeature "INSTALL_LIBDIR" "${placeholder "out"}/lib")
       ]
-      ++ cmakeVersionFlags;
+      ++ cmakeVersionFlags src;
   };
 
-  plugin = stdenv.mkDerivation {
+  plugin = stdenv.mkDerivation rec {
     inherit cmakeBuildType;
     name = "caelestia-qml-plugin${lib.optionalString debug "-debug"}";
     src = lib.fileset.toSource {
@@ -134,10 +135,10 @@
         (lib.cmakeFeature "ENABLE_MODULES" "plugin")
         (lib.cmakeFeature "INSTALL_QMLDIR" qt6.qtbase.qtQmlPrefix)
       ]
-      ++ cmakeVersionFlags;
+      ++ cmakeVersionFlags src;
   };
 
-  m3shapesModule = stdenv.mkDerivation {
+  m3shapesModule = stdenv.mkDerivation rec {
     inherit cmakeBuildType;
     name = "caelestia-m3shapes${lib.optionalString debug "-debug"}";
     src = lib.fileset.toSource {
@@ -155,13 +156,25 @@
         (lib.cmakeFeature "INSTALL_QMLDIR" qt6.qtbase.qtQmlPrefix)
         m3shapesFlag
       ]
-      ++ cmakeVersionFlags;
+      ++ cmakeVersionFlags src;
   };
 in
-  stdenv.mkDerivation {
+  stdenv.mkDerivation rec {
     inherit version cmakeBuildType;
     pname = "caelestia-shell${lib.optionalString debug "-debug"}";
-    src = ./..;
+    src = lib.fileset.toSource {
+      root = ./..;
+      fileset = lib.fileset.unions [
+        ./../CMakeLists.txt
+        ./../LICENSE
+        ./../shell.qml
+        ./../assets
+        ./../components
+        ./../modules
+        ./../services
+        ./../utils
+      ];
+    };
 
     nativeBuildInputs = [cmake ninja makeWrapper qt6.wrapQtAppsHook];
     buildInputs = [quickshell extras plugin m3shapesModule xkeyboard-config qt6.qtbase];
@@ -172,7 +185,7 @@ in
         (lib.cmakeFeature "ENABLE_MODULES" "shell")
         (lib.cmakeFeature "INSTALL_QSCONFDIR" "${placeholder "out"}/share/caelestia-shell")
       ]
-      ++ cmakeVersionFlags;
+      ++ cmakeVersionFlags src;
 
     dontStrip = debug;
 

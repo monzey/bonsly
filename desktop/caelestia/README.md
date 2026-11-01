@@ -18,6 +18,15 @@ https://github.com/user-attachments/assets/0840f496-575c-4ca6-83a8-87bb01a85c5f
 -   Window manager: [`Hyprland`](https://hyprland.org)
 -   Dots: [`caelestia`](https://github.com/caelestia-dots)
 
+## Bonsly integration
+
+This fork is maintained in `bonsly/desktop/caelestia/` as a full-history Git
+subtree. Home Manager consumes this local flake; see the Bonsly root README for
+build and upstream-update commands. Shell behaviour and Openvide profiles live
+here, while machine settings and Hyprland bindings stay in `home-manager/`.
+Nix build revisions identify each component's filtered sources rather than
+the enclosing repository's commit, avoiding rebuilds for unrelated dotfiles.
+
 ## Installation
 
 > [!NOTE]
