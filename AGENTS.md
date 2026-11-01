@@ -83,6 +83,8 @@ update -hsr     # all three — standard full update
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
 - `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in `desktop/caelestia/`.
+- `Super + X` invokes `caelestia-ipc openvide terminal` for a persistent Kitty drawer per Openvide set, rooted in its repository/worktree. Shared Git/terminal toggling and focus restoration live in `desktop/caelestia/services/Hypr.qml`; creation and repository lookup live in `desktop/caelestia/assets/openvide.sh`.
+- Openvide selects the coding agent before creating a worktree or opening set windows. The picker flow is in `desktop/caelestia/modules/openvide/services/Projects.qml`; `assets/openvide.sh` receives the selected agent when opening a project or creating a worktree.
 - Home Manager's `shell` input is `path:../desktop/caelestia` (requires Nix >= 2.26). Shell edits are built locally with `update -h`; no separate Shell push or lock revision bump is needed. Add new files to Git before building.
 - Caelestia is a full-history Git subtree. From a clean Bonsly root, merge upstream with `git subtree pull --prefix=desktop/caelestia https://github.com/caelestia-dots/shell.git main`; review conflicts/dependencies and build Home Manager afterward. Keep the upstream license and subtree history.
 - Shell dependencies remain pinned in `home-manager/flake.lock`; the subtree's own lock is for standalone development. Avoid updating unrelated inputs. Native build revisions are hashes of filtered component sources, independent of Bonsly's Git HEAD.

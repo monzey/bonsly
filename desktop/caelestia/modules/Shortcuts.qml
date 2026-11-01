@@ -187,6 +187,10 @@ Scope {
             Hypr.toggleProjectGit();
         }
 
+        function terminal(): void {
+            Hypr.toggleProjectTerminal();
+        }
+
         target: "openvide"
     }
 

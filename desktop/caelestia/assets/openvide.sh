@@ -94,11 +94,11 @@ project_directory() {
   printf '%s\n' "$directory"
 }
 
-open_git() {
+resolve_project_directory() {
   local proj="$1"
   shift
   [[ -n "$proj" && "$proj" != */* ]] || return 1
-  local dir="" candidate pid workspace monitors
+  local dir="" candidate pid
   if [[ -f "$project_state_dir/$proj.json" ]]; then
     candidate=$(jq -r '.directory // empty' "$project_state_dir/$proj.json")
     dir=$(project_directory "$proj" "$candidate") || dir=""
@@ -116,6 +116,30 @@ open_git() {
   fi
   [[ -n "$dir" ]] || return 1
   remember_project "$proj" "$dir"
+  printf '%s\n' "$dir"
+}
+
+open_terminal() {
+  local proj="$1" dir workspace class
+  shift
+  dir=$(resolve_project_directory "$proj" "$@") || return 1
+  workspace="special:$proj-terminal"
+  class="openvide-terminal-$proj"
+  (
+    flock -w 15 9 || return 1
+    if ! hyprctl clients -j | jq -e --arg ws "$workspace" --arg class "$class" \
+      'any(.[]; .workspace.name == $ws and .class == $class)' >/dev/null; then
+      launch_on_workspace "$workspace silent" kitty --class "$class" --directory "$dir"
+      wait_for_window "$workspace" "$class" >/dev/null || return 1
+    fi
+    hyprctl dispatch "hl.dsp.workspace.toggle_special($(lua_string "$proj-terminal"))"
+  ) 9>"$project_state_dir/$proj.terminal.lock"
+}
+
+open_git() {
+  local proj="$1" dir workspace monitors
+  shift
+  dir=$(resolve_project_directory "$proj" "$@") || return 1
   monitors=$(monitor_count)
   workspace="$proj-lazygit"
   ((monitors >= 3)) || workspace="special:$workspace"
@@ -160,7 +184,7 @@ launch_agent_window() {
     return
   fi
 
-  # Agent selection happens asynchronously, after Neovide was launched.
+  # Wait for the editor to map before arranging the selected agent beside it.
   if ! editor=$(wait_for_window "$workspace" neovide); then
     launch_on_workspace "name:$workspace" kitty --directory "$dir" --hold "$agent"
     return
@@ -217,6 +241,7 @@ switch_set() {
 create_set() {
   local proj="$1"
   local dir="$2"
+  local agent="$3"
   local socket="$HOME/.cache/nvim/$proj.pipe"
 
   rm -f "$socket"
@@ -229,7 +254,7 @@ create_set() {
     launch_neovide "$proj" "$dir" "$socket" 1
     launch_lazygit_special "$proj" "$dir"
     sleep 0.5
-    bash "$agent_menu" "$dir"
+    bash "$agent_menu" --launch "$dir" "$agent"
     return
   fi
 
@@ -249,7 +274,7 @@ create_set() {
 
   hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-5" })'
   hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-opencode\" })"
-  bash "$agent_menu" "$dir"
+  bash "$agent_menu" --launch "$dir" "$agent"
 }
 
 list_projects() {
@@ -297,6 +322,7 @@ list_sets() {
 
 open_project() {
   local rel="$1"
+  local agent="${2:-}"
   local dir
   dir=$(realpath "$HOME/$rel")
   [[ -d "$dir" ]] || exit 0
@@ -307,7 +333,8 @@ open_project() {
   if hyprctl workspaces -j | jq -e --arg n "$proj-code" '.[] | select(.name == $n)' >/dev/null 2>&1; then
     switch_set "$proj"
   else
-    create_set "$proj" "$dir"
+    bash "$agent_menu" --check "$dir" "$agent"
+    create_set "$proj" "$dir" "$agent"
   fi
 }
 
@@ -315,10 +342,12 @@ create_worktree() {
   local repo="$1"
   local branch="$2"
   local wt_name="${3:-$2}"
+  local agent="${4:-}"
   local repo_path="$HOME/$repo"
   local repo_parent repo_name wt_dir wt_path base
 
   [[ -d "$repo_path" && -n "$branch" ]] || exit 0
+  bash "$agent_menu" --check "$repo_path" "$agent"
 
   repo_parent=$(dirname "$repo_path")
   repo_name=$(basename "$repo_path")
@@ -343,7 +372,7 @@ create_worktree() {
     git -C "$repo_path" worktree add -b "$branch" "$wt_path" "$base"
   fi
 
-  open_project "${wt_path#$HOME/}"
+  open_project "${wt_path#$HOME/}" "$agent"
 }
 
 case "$mode" in
@@ -351,13 +380,14 @@ case "$mode" in
 --list-repos) list_repos ;;
 --list-branches) list_branches "${2:-}" ;;
 --list-sets) list_sets ;;
---open-project) open_project "${2:-}" ;;
+--open-project) open_project "${2:-}" "${3:-}" ;;
 --open-git) open_git "${2:-}" "${@:3}" ;;
+--open-terminal) open_terminal "${2:-}" "${@:3}" ;;
 --switch-set) switch_set "${2:-}" ;;
 --launch-agent) launch_agent_window "${2:-}" "${3:-}" ;;
---create-worktree) create_worktree "${2:-}" "${3:-}" "${4:-${3:-}}" ;;
+--create-worktree) create_worktree "${2:-}" "${3:-}" "${4:-${3:-}}" "${5:-}" ;;
 *)
-  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--switch-set|--launch-agent|--create-worktree" >&2
+  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--open-terminal|--switch-set|--launch-agent|--create-worktree" >&2
   exit 1
   ;;
 esac

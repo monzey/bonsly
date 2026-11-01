@@ -197,6 +197,20 @@ For square panel junctions, set `border.smoothing` to `0` in `shell.json`.
 This disables the curved joins between panels and the screen border,
 independently of the panel corner radii.
 
+Openvide asks for the coding agent after selecting a project or a worktree
+branch, before creating the worktree or opening any project windows. Escape
+returns to the previous selection without launching anything. The selected
+agent starts with the set; switching to an existing set keeps its windows.
+The internal helpers accept `--open-project <project> <agent>` and
+`--create-worktree <repo> <branch> <worktree-name> <agent>`.
+
+Bind `caelestia-ipc openvide terminal` to toggle a Kitty command terminal
+for the current project (`Super + X` in bonsly). Each set has a persistent
+terminal drawer, starting in its repository or worktree, on any screen
+layout. Hiding the drawer keeps the shell and running commands alive;
+closing the terminal allows the shortcut to recreate it. The terminal is
+created on first use, after the set has been opened and its agent selected.
+
 Bind `caelestia-ipc openvide git` in Hyprland to toggle Git for the current
 development project (`Super + G` in bonsly). With one or two screens, it
 shows or hides the project's lazygit drawer. With three screens, it toggles

@@ -12,7 +12,7 @@ list_agents() {
   ]'
 }
 
-launch_agent() {
+check_agent() {
   local repo="$1"
   local agent="$2"
 
@@ -38,8 +38,11 @@ launch_agent() {
     printf 'Agent not found: %s\n' "$agent" >&2
     exit 1
   }
+}
 
-  local script_dir
+launch_agent() {
+  local repo="$1" agent="$2" script_dir
+  check_agent "$repo" "$agent"
   script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
   bash "$script_dir/openvide.sh" --launch-agent "$repo" "$agent"
 }
@@ -51,6 +54,10 @@ case "${1:-}" in
   ;;
 --launch)
   launch_agent "${2:-}" "${3:-}"
+  exit 0
+  ;;
+--check)
+  check_agent "${2:-}" "${3:-}"
   exit 0
   ;;
 esac

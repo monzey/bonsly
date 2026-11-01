@@ -39,8 +39,8 @@ Singleton {
 
     property bool hadKeyboard
     property string lastSpecialWorkspace: ""
-    property var gitReturnTargets: new Map()
-    readonly property string gitHelper: `${Quickshell.shellDir}/assets/openvide.sh`
+    property var projectReturnTargets: new Map()
+    readonly property string projectHelper: `${Quickshell.shellDir}/assets/openvide.sh`
 
     signal configReloaded
 
@@ -49,43 +49,56 @@ Singleton {
     }
 
     function toggleProjectGit(): void {
+        toggleProjectTool("lazygit");
+    }
+
+    function toggleProjectTerminal(): void {
+        toggleProjectTool("terminal");
+    }
+
+    function toggleProjectTool(tool: string): void {
         const special = focusedMonitor?.lastIpcObject.specialWorkspace?.name ?? "";
-        if (special && !/^special:.+-lazygit$/.test(special))
+        if (special && !/^special:.+-(lazygit|terminal)$/.test(special))
             return;
         const workspace = special || focusedMonitor?.activeWorkspace?.name || focusedWorkspace?.name || "";
-        const match = workspace.match(/^(?:special:)?(.+)-(code|opencode|lazygit)$/);
+        const match = workspace.match(/^(?:special:)?(.+)-(code|opencode|lazygit|terminal)$/);
         if (!match)
             return;
         const project = match[1];
-        const git = workspaces.values.find(w => w.name === workspace && match[2] === "lazygit")
-            ?? workspaces.values.find(w => w.name === `special:${project}-lazygit`)
-            ?? workspaces.values.find(w => w.name === `${project}-lazygit`);
-        if (!git && gitLaunchProc.running)
+        const targetName = `${project}-${tool}`;
+        const targetKey = `${project}:${tool}`;
+        const occupied = workspaces.values.filter(w => w.lastIpcObject.windows > 0);
+        const targetWorkspace = occupied.find(w => w.name === workspace && match[2] === tool)
+            ?? occupied.find(w => w.name === `special:${targetName}`)
+            ?? occupied.find(w => w.name === targetName);
+        const launchProc = tool === "lazygit" ? gitLaunchProc : terminalLaunchProc;
+        if (!targetWorkspace && launchProc.running)
             return;
 
-        const closing = git?.name === workspace;
+        const closing = targetWorkspace?.name === workspace;
         if (!closing) {
-            gitReturnTargets.set(project, {
+            projectReturnTargets.set(targetKey, {
                 workspace: workspace,
                 address: activeToplevel?.lastIpcObject.address ?? ""
             });
         }
-        if (!git) {
-            const pids = toplevels.values.filter(t => [`${project}-code`, `${project}-opencode`].includes(t.workspace?.name))
+        if (!targetWorkspace) {
+            const projectWorkspaces = ["code", "opencode", "lazygit", "terminal"].flatMap(suffix => [`${project}-${suffix}`, `special:${project}-${suffix}`]);
+            const pids = toplevels.values.filter(t => projectWorkspaces.includes(t.workspace?.name))
                 .map(t => String(t.lastIpcObject.pid));
-            gitLaunchProc.command = ["bash", gitHelper, "--open-git", project, ...pids];
-            gitLaunchProc.running = true;
+            launchProc.command = ["bash", projectHelper, tool === "lazygit" ? "--open-git" : "--open-terminal", project, ...pids];
+            launchProc.running = true;
             return;
         }
-        const drawer = git.name.startsWith("special:");
+        const drawer = targetWorkspace.name.startsWith("special:");
         if (drawer)
-            dispatch(usingLua ? `hl.dsp.workspace.toggle_special(${JSON.stringify(git.name.slice(8))})` : `togglespecialworkspace ${git.name.slice(8)}`);
+            dispatch(usingLua ? `hl.dsp.workspace.toggle_special(${JSON.stringify(targetWorkspace.name.slice(8))})` : `togglespecialworkspace ${targetWorkspace.name.slice(8)}`);
         else if (!closing)
-            dispatch(usingLua ? `hl.dsp.focus({ workspace = ${JSON.stringify(`name:${git.name}`)} })` : `workspace name:${git.name}`);
+            dispatch(usingLua ? `hl.dsp.focus({ workspace = ${JSON.stringify(`name:${targetWorkspace.name}`)} })` : `workspace name:${targetWorkspace.name}`);
         if (!closing)
             return;
 
-        const target = gitReturnTargets.get(project);
+        const target = projectReturnTargets.get(targetKey);
         const window = target?.address && toplevels.values.find(t => t.lastIpcObject.address === target.address && t.workspace?.name === target.workspace);
         if (window) {
             dispatch(usingLua ? `hl.dsp.focus({ window = ${JSON.stringify(`address:${target.address}`)} })` : `focuswindow address:${target.address}`);
@@ -140,6 +153,15 @@ Singleton {
         onExited: code => { // qmllint disable signal-handler-parameters
             if (code !== 0)
                 Toaster.toast(qsTr("Git unavailable"), qsTr("Open this project through Openvide to associate its repository."), "warning");
+        }
+    }
+
+    Process {
+        id: terminalLaunchProc
+
+        onExited: code => { // qmllint disable signal-handler-parameters
+            if (code !== 0)
+                Toaster.toast(qsTr("Terminal unavailable"), qsTr("Open this project through Openvide to associate its repository."), "warning");
         }
     }
 

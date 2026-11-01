@@ -13,6 +13,9 @@ Singleton {
     property string query: ""
     property string selectedRepo: ""
     property string agentRepo: ""
+    property var pendingCommand: []
+    property string previousStep: "project"
+    property string previousQuery: ""
     property var screenState
     property var items: []
 
@@ -47,12 +50,14 @@ Singleton {
         step = mode === "switch" ? "switch" : mode === "agent" ? "agent" : "project";
         selectedRepo = "";
         agentRepo = target;
+        pendingCommand = [];
         load();
     }
 
     function reset(): void {
         query = "";
         items = [];
+        pendingCommand = [];
     }
 
     function commandForStep(): list<string> {
@@ -79,15 +84,31 @@ Singleton {
     }
 
     function runAgent(agent: string, screenState: ScreenState): void {
+        // Closing the drawer resets its state synchronously.
+        const command = pendingCommand;
+        if (command.length > 0) {
+            run([...command, agent], screenState);
+            return;
+        }
+        const repo = agentRepo;
         screenState.openvide = false;
-        Quickshell.execDetached(["bash", agentHelper, "--launch", agentRepo, agent]);
+        Quickshell.execDetached(["bash", agentHelper, "--launch", repo, agent]);
+    }
+
+    function chooseAgent(command: list<string>, repo: string): void {
+        pendingCommand = command;
+        agentRepo = repo;
+        previousStep = step;
+        previousQuery = query;
+        step = "agent";
+        load();
     }
 
     function accept(item: var, screenState: ScreenState): void {
         if (step === "branchName") {
             if (query.length === 0)
                 return;
-            run(["--create-worktree", selectedRepo, query], screenState);
+            chooseAgent(["--create-worktree", selectedRepo, query, query], selectedRepo);
             return;
         }
 
@@ -102,7 +123,7 @@ Singleton {
             step = "repo";
             load();
         } else if (step === "project") {
-            run(["--open-project", item.value], screenState);
+            chooseAgent(["--open-project", item.value], item.value);
         } else if (step === "repo") {
             selectedRepo = item.value;
             step = "branch";
@@ -111,12 +132,19 @@ Singleton {
             step = "branchName";
             query = "";
         } else if (step === "branch") {
-            run(["--create-worktree", selectedRepo, item.value], screenState);
+            chooseAgent(["--create-worktree", selectedRepo, item.value, item.value], selectedRepo);
         }
     }
 
     function goBack(screenState: ScreenState): void {
-        if (step === "project" || step === "switch" || step === "agent") {
+        if (step === "agent" && pendingCommand.length > 0) {
+            pendingCommand = [];
+            step = previousStep;
+            if (step === "branchName")
+                query = previousQuery;
+            else
+                load();
+        } else if (step === "project" || step === "switch" || step === "agent") {
             screenState.openvide = false;
         } else if (step === "repo") {
             step = "project";
