@@ -151,6 +151,86 @@ open_git() {
   fi
 }
 
+return_to_project() {
+  local proj="$1" clients="$2" target="" workspace
+  if [[ -f "$project_state_dir/$proj.focus.json" ]]; then
+    target=$(jq -r --slurpfile saved "$project_state_dir/$proj.focus.json" --arg proj "$proj" \
+      '.[] | select(.address == $saved[0].address and .workspace.name == $saved[0].workspace)
+       | select(.workspace.name == ($proj + "-code") or .workspace.name == ($proj + "-opencode"))
+       | .address' <<<"$clients")
+  fi
+  if [[ -n "$target" ]]; then
+    hyprctl dispatch "hl.dsp.focus({ window = $(lua_string "address:$target") })"
+    return
+  fi
+  workspace=$(jq -r --arg proj "$proj" \
+    '[.[] | .workspace.name | select(. == ($proj + "-code") or . == ($proj + "-opencode"))] | sort | .[0] // empty' <<<"$clients")
+  [[ -n "$workspace" ]] || workspace="$proj-code"
+  hyprctl dispatch "hl.dsp.focus({ workspace = $(lua_string "name:$workspace") })"
+}
+
+toggle_project_tool() {
+  local tool="$1"
+  [[ "$tool" == lazygit || "$tool" == terminal ]] || return 1
+  mkdir -p "$project_state_dir"
+  (
+    # Both shortcuts share the lock, including window creation and focus changes.
+    # Query Hyprland inside it so queued keypresses never use stale QML state.
+    flock -w 30 8 || return 1
+    local monitor workspace special proj clients active target target_workspace
+    monitor=$(hyprctl monitors -j | jq -c '.[] | select(.focused)')
+    workspace=$(jq -r '.activeWorkspace.name // ""' <<<"$monitor")
+    special=$(jq -r '.specialWorkspace.name // ""' <<<"$monitor")
+    [[ -z "$special" || "$special" =~ ^special:.+-(lazygit|terminal)$ ]] || return 0
+    # The underlying workspace defines the set, even if an old drawer is visible.
+    if [[ "$workspace" =~ ^(.+)-(code|opencode|lazygit|terminal)$ ]]; then
+      proj="${BASH_REMATCH[1]}"
+    elif [[ "$special" =~ ^special:(.+)-(lazygit|terminal)$ ]]; then
+      proj="${BASH_REMATCH[1]}"
+    else
+      return 0
+    fi
+    clients=$(hyprctl clients -j)
+    if [[ -z "$special" && ( "$workspace" == "$proj-code" || "$workspace" == "$proj-opencode" ) ]]; then
+      active=$(hyprctl activewindow -j)
+      jq -n --arg ws "$workspace" --arg address "$(jq -r '.address // ""' <<<"$active")" \
+        '{workspace: $ws, address: $address}' > "$project_state_dir/$proj.focus.json"
+    fi
+    # Identify the process itself, rather than relying on workspace window counts.
+    # Legacy Lazygit windows have a generic Kitty class and a project workspace.
+    target=$(jq -c --arg class "openvide-$tool-$proj" --arg tool "$tool" --arg name "$proj-$tool" \
+      '[.[] | select(.class == $class or
+        ($tool == "lazygit" and (.class | ascii_downcase) == "kitty" and .title == "lazygit"
+         and (.workspace.name == $name or .workspace.name == ("special:" + $name))))][0] // empty' <<<"$clients")
+    target_workspace=""
+    [[ -z "$target" ]] || target_workspace=$(jq -r '.workspace.name' <<<"$target")
+    # Close the visible drawer explicitly before showing another one.
+    if [[ -n "$special" ]]; then
+      hyprctl dispatch "hl.dsp.workspace.toggle_special($(lua_string "${special#special:}"))"
+    fi
+    if [[ -n "$target" ]]; then
+      if [[ "$target_workspace" == "${special:-$workspace}" ]]; then
+        return_to_project "$proj" "$clients"
+      elif [[ "$target_workspace" == special:* ]]; then
+        hyprctl dispatch "hl.dsp.workspace.toggle_special($(lua_string "${target_workspace#special:}"))"
+      else
+        hyprctl dispatch "hl.dsp.focus({ window = $(lua_string "address:$(jq -r '.address' <<<"$target")") })"
+      fi
+      return
+    fi
+    local -a pids
+    mapfile -t pids < <(jq -r --arg proj "$proj" \
+      '.[] | select(.workspace.name as $ws |
+        ["code", "opencode", "lazygit", "terminal"] | any(. as $suffix |
+          $ws == ($proj + "-" + $suffix) or $ws == ("special:" + $proj + "-" + $suffix))) | .pid' <<<"$clients")
+    if [[ "$tool" == terminal ]]; then
+      open_terminal "$proj" "${pids[@]}"
+    else
+      open_git "$proj" "${pids[@]}"
+    fi
+  ) 8>"$project_state_dir/tools.lock"
+}
+
 launch_neovide() {
   local proj="$1" dir="$2" socket="$3" compact="$4"
   launch_on_workspace "name:$proj-code" env \
@@ -383,11 +463,12 @@ case "$mode" in
 --open-project) open_project "${2:-}" "${3:-}" ;;
 --open-git) open_git "${2:-}" "${@:3}" ;;
 --open-terminal) open_terminal "${2:-}" "${@:3}" ;;
+--toggle-tool) toggle_project_tool "${2:-}" ;;
 --switch-set) switch_set "${2:-}" ;;
 --launch-agent) launch_agent_window "${2:-}" "${3:-}" ;;
 --create-worktree) create_worktree "${2:-}" "${3:-}" "${4:-${3:-}}" "${5:-}" ;;
 *)
-  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--open-terminal|--switch-set|--launch-agent|--create-worktree" >&2
+  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--open-terminal|--toggle-tool|--switch-set|--launch-agent|--create-worktree" >&2
   exit 1
   ;;
 esac

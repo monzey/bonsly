@@ -210,6 +210,11 @@ terminal drawer, starting in its repository or worktree, on any screen
 layout. Hiding the drawer keeps the shell and running commands alive;
 closing the terminal allows the shortcut to recreate it. The terminal is
 created on first use, after the set has been opened and its agent selected.
+Alternating the Git and terminal shortcuts shows the existing window for
+the set underneath the drawer. Pressing the visible tool's shortcut hides
+it and returns to the code or agent window, never to the other drawer.
+Both shortcuts are serialized against fresh Hyprland state to avoid
+duplicate launches and focus loops during rapid keypresses.
 
 Bind `caelestia-ipc openvide git` in Hyprland to toggle Git for the current
 development project (`Super + G` in bonsly). With one or two screens, it
