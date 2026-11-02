@@ -82,6 +82,7 @@ update -hsr     # all three — standard full update
 
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
+- Fontconfig is enabled in `home-manager/home.nix`; its `refreshFontCache` activation rebuilds user font caches after package installation and config linking on every Home Manager switch.
 - `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in `desktop/caelestia/`.
 - `Super + X` invokes `caelestia-ipc openvide terminal` for a persistent Kitty drawer per Openvide set, rooted in its repository/worktree. `desktop/caelestia/services/Hypr.qml` forwards Git/terminal shortcuts to `desktop/caelestia/assets/openvide.sh --toggle-tool`, which serializes them, reuses windows by class, and restores only code/agent focus. The underlying workspace defines the set; one drawer is visible at a time.
 - Hyprland hides special workspaces when switching workspace. The `openvide-shortcuts` window rule prevents Openvide's Lazygit/terminal windows from inhibiting compositor shortcuts (`home-manager/configs/hyprland/hyprland.lua`).

@@ -22,6 +22,8 @@ in {
   programs.copilot-cli.version = "1.0.63";
   programs.opencode.version = "1.17.7";
 
+  fonts.fontconfig.enable = true;
+
   gtk = {
     enable = true;
     iconTheme = {
@@ -222,6 +224,11 @@ in {
       ];
     };
   };
+
+  # Refresh user caches after profile fonts and fontconfig files have changed.
+  home.activation.refreshFontCache = config.lib.dag.entryAfter ["installPackages" "linkGeneration"] ''
+    run ${pkgs.fontconfig}/bin/fc-cache -f
+  '';
 
   home.activation.caelestiaWallpaper = config.lib.dag.entryAfter ["writeBoundary"] ''
     mkdir -p "$HOME/.local/state/caelestia/wallpaper"
