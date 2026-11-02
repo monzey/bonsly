@@ -11,3 +11,7 @@ hl.workspace_rule({ workspace = "7", default_name = "debugger", monitor = "DP-6"
 hl.workspace_rule({ workspace = "8", default_name = "test", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-6" })
+
+hl.on("hyprland.start", function()
+	hl.exec_cmd("[workspace 4 silent] firefox --no-remote -P chatgpt https://chatgpt.com")
+end)

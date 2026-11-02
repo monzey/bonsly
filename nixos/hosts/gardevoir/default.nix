@@ -27,8 +27,15 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Steam itself is installed by Home Manager; these integrations need NixOS.
+  services.pipewire.alsa.support32Bit = true;
+  hardware.steam-hardware.enable = true;
 
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "nvidia";
