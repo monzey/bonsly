@@ -204,6 +204,11 @@ agent starts with the set; switching to an existing set keeps its windows.
 The internal helpers accept `--open-project <project> <agent>` and
 `--create-worktree <repo> <branch> <worktree-name> <agent>`.
 
+With one or two screens, the initial tiled pair shares the code workspace:
+the agent sits on the left with 60% of the width, and the editor on the
+right with 40%. Additional user windows are left alone. With three or more
+screens, the agent uses its separate workspace.
+
 Bind `caelestia-ipc openvide terminal` to toggle a Kitty command terminal
 for the current project (`Super + X` in bonsly). Each set has a persistent
 terminal drawer, starting in its repository or worktree, on any screen

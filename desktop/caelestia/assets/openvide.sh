@@ -253,11 +253,12 @@ wait_for_window() {
 }
 
 launch_agent_window() {
-  local dir="$1" agent="$2" proj workspace editor agent_window class clients
+  local dir="$1" agent="$2" proj workspace editor agent_window class clients monitors
   proj=$(get_proj "$dir")
   workspace="$proj-code"
 
-  if [[ $(monitor_count 2>/dev/null || true) != 1 ]] ||
+  monitors=$(monitor_count 2>/dev/null || true)
+  if [[ "$monitors" != 1 && "$monitors" != 2 ]] ||
     ! hyprctl workspaces -j | jq -e --arg ws "$workspace" 'any(.[]; .name == $ws)' >/dev/null; then
     kitty --detach --directory "$dir" --hold "$agent"
     sleep 0.5
