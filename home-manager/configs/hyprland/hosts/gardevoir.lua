@@ -1,6 +1,6 @@
--- Home layout: preserve the current two-monitor arrangement.
-hl.monitor({ output = "DP-1", mode = "preferred", position = "0x0", scale = 1 })
-hl.monitor({ output = "DP-2", mode = "preferred", position = "1920x0", scale = 1 })
+-- Home layout: DP-2 on the left, DP-1 on the right.
+hl.monitor({ output = "DP-1", mode = "preferred", position = "1920x0", scale = 1 })
+hl.monitor({ output = "DP-2", mode = "preferred", position = "0x0", scale = 1 })
 
 hl.workspace_rule({ workspace = "1", default_name = "web", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "3", default_name = "slack", monitor = "DP-1" })

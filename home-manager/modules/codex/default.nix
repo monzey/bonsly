@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   codexWrapper = pkgs.buildFHSEnv {
@@ -34,5 +34,10 @@ in
 {
   config = {
     home.packages = [ codexWrapper ];
+
+    home.file.".codex/AGENTS.md".text =
+      builtins.readFile ../../configs/codex/AGENTS.md
+      + "\n"
+      + builtins.readFile (../../configs/codex/hosts + "/${config.bonsly.host}.md");
   };
 }

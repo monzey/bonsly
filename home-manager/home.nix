@@ -117,6 +117,7 @@ in {
 
     unstablePkgs.firefox-devedition
     unstablePkgs.yazi
+    unstablePkgs.chatgpt
     unstablePkgs.devenv
     claude-code
     unstablePkgs.superfile

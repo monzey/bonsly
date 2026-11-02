@@ -23,6 +23,7 @@ home-manager/                 ← user-level config (no sudo)
   scripts/                    ← nix-wrapped shell scripts (update, merge, etc.)
   configs/                    ← per-tool dotfiles, symlinked into ~/.config/
     antigravity/              ← Antigravity CLI keybindings
+    codex/                    ← shared desktop/agent guidance + per-host context
     hyprland/                 ← WM, portal, keybinds, monitor layout, scripts
     nvim/                     ← LazyVim config (lua/config/, lua/plugins/)
     opencode/                 ← opencode.json, plugins/nvim.ts
@@ -56,6 +57,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
 | Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
+| Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `hosts/<host>.md` |
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
@@ -83,6 +85,7 @@ update -hsr     # all three — standard full update
 ## Key conventions
 
 - Host outputs: NixOS `muk` / `gardevoir`; Home Manager `monzey@muk` / `monzey@gardevoir`. `update -h` and `update -s` select by hostname; `BONSLY_HOST` explicitly overrides it. Unknown hosts fail before switching.
+- `home-manager/modules/codex/default.nix` assembles common guidance and only the selected host's context into `~/.codex/AGENTS.md`. Edit its sources in `home-manager/configs/codex/`; the generated file is read-only. This is agent/Codex guidance, not an automatic replacement for ordinary ChatGPT chat custom instructions. A custom `CODEX_HOME` needs separate wiring.
 - First migration: use `home-manager switch --flake ./home-manager#monzey@<host>` to install the new update script. On the home PC, whose old hostname may still be `muk`, first use `sudo nixos-rebuild switch --flake ./nixos#gardevoir` to apply the correct hardware and rename it. Never select `muk` there based on the old hostname.
 - Hyprland monitor/workspace layouts live in `home-manager/configs/hyprland/hosts/<host>.lua`; `modules/hyprland.nix` prepends the selected layout to the shared `hyprland.lua`. Other Hyprland files remain symlinked.
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
