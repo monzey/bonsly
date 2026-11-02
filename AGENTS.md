@@ -4,19 +4,21 @@
 After any change to this repo: update this file if affected entry points, paths, or conventions have changed.
 
 NixOS + Home Manager dotfiles repo with the customised Caelestia desktop shell. No DB or package.json.
-Two configuration flakes (`nixos/`, `home-manager/`) plus the local Caelestia package flake. One user: `monzey`, machine: `muk`.
+Two configuration flakes (`nixos/`, `home-manager/`) plus the local Caelestia package flake. One user: `monzey`; hosts: `muk` (development, Intel) and `gardevoir` (home, AMD/NVIDIA).
 
 ## Repo map
 
 ```
 nixos/                        ← NixOS system config (root-level, requires sudo)
   flake.nix                   ← system flake entry point
-  configuration.nix           ← services, boot, users, hardware
-  hardware-configuration.nix  ← do not edit manually
+  configuration.nix           ← shared services, boot, users
+  hosts/<host>/default.nix    ← hostname, GPU and host-specific settings
+  hosts/<host>/hardware-configuration.nix ← generated per machine; do not edit manually
 
 home-manager/                 ← user-level config (no sudo)
   flake.nix                   ← HM flake entry point
-  home.nix                    ← aggregates all modules + packages
+  home.nix                    ← shared modules + packages
+  hosts/{muk,gardevoir}.nix   ← per-machine Home Manager entry points
   modules/                    ← zsh, hyprland, rofi, AI CLI tools (Antigravity, Codex, Copilot, Grok, OpenCode, Caveman)
   scripts/                    ← nix-wrapped shell scripts (update, merge, etc.)
   configs/                    ← per-tool dotfiles, symlinked into ~/.config/
@@ -48,7 +50,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Add/remove user package | `home-manager/home.nix` (packages list) |
 | Edit shell (zsh, aliases, env) | `home-manager/modules/zsh.nix` |
 | Edit keybinds / WM behaviour | `home-manager/configs/hyprland/hyprland.lua` |
-| Edit monitor layout | `home-manager/configs/hyprland/hyprland.lua` (monitor + workspace rules) |
+| Edit monitor layout | `home-manager/configs/hyprland/hosts/{muk,gardevoir}.lua` (monitor + workspace rules) |
 | Edit screen sharing portal | `home-manager/configs/hyprland/xdph.conf` |
 | Edit Neovim plugin | `home-manager/configs/nvim/lua/plugins/<name>.lua` |
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
@@ -80,6 +82,9 @@ update -hsr     # all three — standard full update
 
 ## Key conventions
 
+- Host outputs: NixOS `muk` / `gardevoir`; Home Manager `monzey@muk` / `monzey@gardevoir`. `update -h` and `update -s` select by hostname; `BONSLY_HOST` explicitly overrides it. Unknown hosts fail before switching.
+- First migration: use `home-manager switch --flake ./home-manager#monzey@<host>` to install the new update script. On the home PC, whose old hostname may still be `muk`, first use `sudo nixos-rebuild switch --flake ./nixos#gardevoir` to apply the correct hardware and rename it. Never select `muk` there based on the old hostname.
+- Hyprland monitor/workspace layouts live in `home-manager/configs/hyprland/hosts/<host>.lua`; `modules/hyprland.nix` prepends the selected layout to the shared `hyprland.lua`. Other Hyprland files remain symlinked.
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
 - Fontconfig is enabled in `home-manager/home.nix`; its `refreshFontCache` activation rebuilds user font caches after package installation and config linking on every Home Manager switch.
@@ -102,7 +107,7 @@ update -hsr     # all three — standard full update
 ## Ignore
 
 - `animate/` (rain animation assets, not config)
-- `nixos/hardware-configuration.nix` (auto-generated)
+- `nixos/hosts/*/hardware-configuration.nix` (auto-generated)
 - `home-manager/flake.lock`, `nixos/flake.lock` (lockfiles, update with `nix flake update`)
 - `preview.png`, `wall.png`, `recdsk` (assets/scripts unrelated to config)
 - `home-manager/configs/cursor/` (binary cursor theme assets)

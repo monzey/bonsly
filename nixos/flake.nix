@@ -1,5 +1,5 @@
 {
-  description = "Muk flake";
+  description = "Bonsly NixOS hosts";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -9,14 +9,14 @@
   outputs = { self, nixpkgs, ... }@inputs: 
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      nixosConfigurations.muk = nixpkgs.lib.nixosSystem {
+      mkHost = host: nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ 
-          ./configuration.nix 
-          ./hardware-configuration.nix 
-        ];
+        modules = [ ./hosts/${host} ];
+      };
+    in {
+      nixosConfigurations = {
+        muk = mkHost "muk";
+        gardevoir = mkHost "gardevoir";
       };
     };
 }

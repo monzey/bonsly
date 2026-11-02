@@ -11,6 +11,7 @@ let
       echo "  -r  Reload Hyprland"
       echo "  -s  Update NixOS system"
       echo "  Options can be combined (e.g. update -hrs)"
+      echo "  BONSLY_HOST=muk|gardevoir overrides hostname detection"
       exit 1
     }
 
@@ -97,11 +98,22 @@ let
       usage
     fi
 
+    host="''${BONSLY_HOST:-$(hostname)}"
+    if $update_home || $update_system; then
+      case "$host" in
+        muk|gardevoir) ;;
+        *)
+          echo "Machine inconnue: $host. Utilise BONSLY_HOST=muk ou gardevoir." >&2
+          exit 1
+          ;;
+      esac
+    fi
+
     # Execute actions based on provided options
     if $update_home; then
       flake_path=$(resolve_flake home-manager)
       echo "Mise à jour de Home Manager..."
-      home-manager switch --flake "$flake_path#${config.home.username}"
+      home-manager switch --flake "$flake_path#${config.home.username}@$host"
     fi
 
     if $reload_hyprland; then
@@ -113,7 +125,7 @@ let
       if [ -f "/etc/NIXOS" ]; then
         flake_path=$(resolve_flake nixos)
         echo "Mise à jour de NixOS..."
-        sudo nixos-rebuild switch --flake "$flake_path#$(hostname)"
+        sudo nixos-rebuild switch --flake "$flake_path#$host"
       else
         echo "NixOS system not detected."
       fi

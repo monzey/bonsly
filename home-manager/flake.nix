@@ -18,8 +18,7 @@
   outputs = { nixpkgs, home-manager, nixos-unstable, mcp-hub, shell, ... }@inputs: 
     let
       system = "x86_64-linux";
-    in {
-      homeConfigurations."monzey" = home-manager.lib.homeManagerConfiguration {
+      mkHome = host: home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           inherit system;
         };
@@ -34,8 +33,13 @@
         };
 
         modules = [
-          ./home.nix
+          ./hosts/${host}.nix
         ];
+      };
+    in {
+      homeConfigurations = {
+        "monzey@muk" = mkHome "muk";
+        "monzey@gardevoir" = mkHome "gardevoir";
       };
     };
 }

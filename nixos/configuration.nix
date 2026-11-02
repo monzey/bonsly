@@ -26,31 +26,16 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [ "kvm-intel" ];
 
   nix.settings.trusted-users = [ "root" "monzey" ];
-  networking.hostName = "muk";
   networking.networkmanager.dns = "dnsmasq";
   networking.networkmanager.enable = true;
-  networking.extraHosts = 
-    ''
-      127.0.0.1 api.rg-supervision.local
-      127.0.0.1 dashboard.rg-supervision.local
-      127.0.0.1 zaza.rg-supervision.local
-      127.0.0.1 local.staging.rg.gg
-    ''
-  ;
 
   console.keyMap = "fr";
 
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [ mesa ];
-  };
   programs.hyprland.enable = true;
   programs.hyprland.withUWSM = true;
   programs.nix-ld.enable = true;
@@ -145,8 +130,6 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    EDITOR = "neovide";
     XKB_DEFAULT_LAYOUT = "fr";
-    GBM_BACKENDS_PATH = "${pkgs.mesa}/lib/gbm";
   };
 }
