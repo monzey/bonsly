@@ -44,7 +44,10 @@
 }: let
   version = "1.0.0";
   codediff = vimPlugins.codediff-nvim.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [./patches/codediff-preserve-single-file-view.patch];
+    patches = (old.patches or []) ++ [
+      ./patches/codediff-preserve-single-file-view.patch
+      ./patches/codediff-empty-explorer.patch
+    ];
   });
   openvideLazygit = lazygit.overrideAttrs (old: {
     version = "0.48.0";

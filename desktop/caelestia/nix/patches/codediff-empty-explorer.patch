@@ -1,0 +1,99 @@
+--- a/lua/codediff/config.lua
++++ b/lua/codediff/config.lua
+@@ -53,6 +53,8 @@
+     width = 40, -- Width when position is "left" (columns)
+     height = 15, -- Height when position is "bottom" (lines)
+     auto_refresh = true, -- Enable automatic explorer refresh (BufEnter + git watcher)
++    open_on_empty = false, -- Keep a status explorer open for clean repositories
++    empty_refresh_interval_ms = 0, -- Poll for the first change (0 disables polling)
+     view_mode = "list", -- "list" (flat file list) or "tree" (directory tree)
+     indent_markers = true, -- Show indent markers in tree view (│, ├, └)
+     initial_focus = "explorer", -- Initial focus: "explorer", "original", or "modified"
+--- a/lua/codediff/commands.lua
++++ b/lua/codediff/commands.lua
+@@ -337,7 +337,8 @@
+ 
+         -- Check if there are any changes (including conflicts)
+         local has_conflicts = status_result.conflicts and #status_result.conflicts > 0
+-        if #status_result.unstaged == 0 and #status_result.staged == 0 and not has_conflicts then
++        if #status_result.unstaged == 0 and #status_result.staged == 0 and not has_conflicts
++          and not config.options.explorer.open_on_empty then
+           vim.notify("No changes to show", vim.log.levels.INFO)
+           return
+         end
+--- a/lua/codediff/ui/explorer/refresh.lua
++++ b/lua/codediff/ui/explorer/refresh.lua
+@@ -14,11 +14,16 @@
+   end
+ 
+   local refresh_timer = nil
++  local empty_timer = nil
+   local debounce_ms = 500 -- Wait 500ms after last event
+   local git_watcher = nil
+   local group = vim.api.nvim_create_augroup("CodeDiffExplorerRefresh_" .. tabpage, { clear = true })
+ 
+   local function cleanup()
++    if empty_timer then
++      vim.fn.timer_stop(empty_timer)
++      empty_timer = nil
++    end
+     if refresh_timer then
+       vim.fn.timer_stop(refresh_timer)
+       refresh_timer = nil
+@@ -55,6 +60,18 @@
+       end
+       refresh_timer = nil
+     end)
++  end
++
++  -- A clean worktree has no file buffers, and edits need not touch .git.
++  -- Poll only while waiting for the first selection in a working-tree view.
++  local interval = explorer_config.empty_refresh_interval_ms or 0
++  if interval > 0 and explorer.git_root and not explorer.base_revision and not explorer.target_revision then
++    empty_timer = vim.fn.timer_start(interval, function()
++      if vim.api.nvim_tabpage_is_valid(tabpage) and vim.api.nvim_get_current_tabpage() == tabpage
++        and not explorer.is_hidden and not explorer.current_file_path then
++        debounced_refresh()
++      end
++    end, { ["repeat"] = -1 })
+   end
+ 
+   -- Auto-refresh when explorer buffer is entered (user focuses explorer window)
+@@ -298,6 +315,23 @@
+         end
+       end
+ 
++      -- An explorer opened while clean has no previous selection to restore.
++      if explorer_config.open_on_empty and total_files > 0 and not explorer.current_file_path then
++        for _, group in ipairs({ "conflicts", "unstaged", "staged" }) do
++          local file = (status_result[group] or {})[1]
++          if file then
++            explorer.on_file_select({
++              path = file.path,
++              old_path = file.old_path,
++              status = file.status,
++              git_root = explorer.git_root,
++              group = group,
++            })
++            return
++          end
++        end
++      end
++
+       -- Re-select the currently viewed file after refresh.
+       -- Search all file children across all groups for the current file.
+       -- If found (possibly in a new group), call on_file_select to update diff panes.
+--- a/lua/codediff/ui/explorer/render.lua
++++ b/lua/codediff/ui/explorer/render.lua
+@@ -588,6 +588,12 @@
+     end)
+   end
+ 
++  if not initial_file and explorer_config.open_on_empty then
++    vim.schedule(function()
++      show_welcome_page(explorer)
++    end)
++  end
++
+   -- Setup auto-refresh
+   refresh_module.setup_auto_refresh(explorer, tabpage)

@@ -30,6 +30,9 @@ local function configure_codediff()
   opts.explorer.width = 28
   opts.explorer.initial_focus = "modified"
   opts.explorer.focus_on_select = true
+  opts.explorer.auto_refresh = true
+  opts.explorer.open_on_empty = true
+  opts.explorer.empty_refresh_interval_ms = 1000
   opts.history.view_mode = "tree"
   opts.keymaps.view.next_file = "<Tab>"
   opts.keymaps.view.prev_file = "<S-Tab>"

@@ -49,6 +49,10 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -----------------------
 
 hl.config({
+	binds = {
+		hide_special_on_workspace_change = true,
+	},
+
 	general = {
 		gaps_in = 0,
 		gaps_out = 0,
@@ -257,6 +261,12 @@ hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-6" })
 
 -- Window rules
+hl.window_rule({
+	name = "openvide-shortcuts",
+	match = { class = "openvide-(lazygit|terminal)-.*" },
+	no_shortcuts_inhibit = true,
+})
+
 hl.window_rule({
 	match = { title = "fzf-float" },
 	float = true,

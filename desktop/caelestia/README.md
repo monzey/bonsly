@@ -215,6 +215,9 @@ the set underneath the drawer. Pressing the visible tool's shortcut hides
 it and returns to the code or agent window, never to the other drawer.
 Both shortcuts are serialized against fresh Hyprland state to avoid
 duplicate launches and focus loops during rapid keypresses.
+In bonsly's Hyprland configuration, project tool windows cannot inhibit
+compositor shortcuts. Changing workspace hides the current special
+workspace, so its terminal does not cover the destination.
 
 Bind `caelestia-ipc openvide git` in Hyprland to toggle Git for the current
 development project (`Super + G` in bonsly). With one or two screens, it
@@ -239,6 +242,10 @@ can recover their repository from the working directories of their windows.
 
 Openvide loads `assets/openvide-nvim.lua` as a session profile and opens
 CodeDiff automatically with a unified diff and a tree of changed files.
+Clean repositories keep an empty CodeDiff view open. While that view has
+no selected file, Openvide checks for changes every second and selects
+the first changed file automatically, including edits made by an agent
+without touching the Git index. Closing the diff stops its watcher.
 With one or two screens, the tree occupies eight lines below the code,
 keeping the full editor width. On wide editors with three screens, the tree
 sits on the left. Long lines wrap, and Neovide uses tighter line spacing
