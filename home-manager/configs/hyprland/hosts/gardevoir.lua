@@ -10,6 +10,12 @@ hl.workspace_rule({ workspace = "8", default_name = "test", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-1" })
 
+hl.window_rule({
+	name = "gardevoir-vesktop",
+	match = { class = "vesktop" },
+	workspace = "3 silent",
+})
+
 -- Steam starts its UI in a child process; keep its windows on the IA workspace.
 hl.window_rule({
 	name = "gardevoir-steam",
