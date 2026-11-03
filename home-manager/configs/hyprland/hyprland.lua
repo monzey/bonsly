@@ -26,7 +26,6 @@ hl.on("hyprland.start", function()
 		"[workspace 8 silent] chromium --remote-debugging-port=9222 --auto-open-devtools-for-tabs https://dashboard.rg-supervision.local"
 	)
 	hl.exec_cmd("[workspace 10 silent] " .. terminal .. " btop")
-	hl.exec_cmd("[workspace 3 silent] slack")
 end)
 
 -------------------------------
