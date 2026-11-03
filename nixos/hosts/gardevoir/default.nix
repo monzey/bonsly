@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../../configuration.nix ./hardware-configuration.nix ];
+  imports = [
+    ../../configuration.nix
+    ./hardware-configuration.nix
+  ];
 
   networking.hostName = "gardevoir";
   networking.extraHosts =
@@ -13,6 +16,16 @@
       127.0.0.1 zaza.staging.rg.gg
     ''
   ;
+
+  # Windows F: keep Steam's existing library path stable across reboots.
+  fileSystems."/mnt/F" = {
+    device = "/dev/disk/by-uuid/0C52967D52966B6A";
+    fsType = "ntfs3";
+    options = [
+      "uid=1000" "gid=100" "umask=0022" "windows_names"
+      "nofail" "x-systemd.automount" "x-systemd.device-timeout=10s"
+    ];
+  };
 
   boot.kernel.sysctl = {
     "user.max_user_namespaces" = 10000;
