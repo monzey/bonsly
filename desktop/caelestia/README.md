@@ -205,8 +205,8 @@ The internal helpers accept `--open-project <project> <agent>` and
 `--create-worktree <repo> <branch> <worktree-name> <agent>`.
 
 With one or two screens, the initial tiled pair shares the code workspace:
-the agent sits on the left with 60% of the width, and the editor on the
-right with 40%. Additional user windows are left alone. With three or more
+the editor sits on the left with 65% of the width, and the agent on the
+right with 35%. Additional user windows are left alone. With three or more
 screens, the agent uses its separate workspace.
 
 Bind `caelestia-ipc openvide terminal` to toggle a Kitty command terminal
@@ -245,21 +245,28 @@ worktree. Openvide remembers this association in
 If Git has been closed, the shortcut reopens it for that set. Existing sets
 can recover their repository from the working directories of their windows.
 
-Openvide loads `assets/openvide-nvim.lua` as a session profile and opens
-CodeDiff automatically with a unified diff and a tree of changed files.
-Clean repositories keep an empty CodeDiff view open. While that view has
-no selected file, Openvide checks for changes every second and selects
-the first changed file automatically, including edits made by an agent
-without touching the Git index. Closing the diff stops its watcher.
-With one or two screens, the tree occupies eight lines below the code,
-keeping the full editor width. On wide editors with three screens, the tree
-sits on the left. Long lines wrap, and Neovide uses tighter line spacing
-while viewing compact diffs. `Tab` / `Shift-Tab` select files, `<leader>b`
-toggles the tree, `t` switches between unified and side-by-side diffs, and
-`q` closes the diff tab. In the tree, `za` expands or collapses a directory.
-The Nix package supplies CodeDiff and nui.nvim; other installations need
-these plugins on Neovim's runtime path. Neovim launched outside Openvide
-keeps its usual startup.
+Unified is configured in the shared Home Manager Neovim configuration.
+`<leader>gu` opens its diff view from any Neovim session.
+Openvide loads `assets/openvide-nvim.lua` as a startup hook and opens
+unified.nvim against `HEAD`. Diffs decorate real file buffers, preserving
+normal editing and the user's language-server configuration. The dashboard is replaced on opening. The changed-file
+panel stays visible after selecting a file, and selection focuses the code window.
+`<leader>b` toggles the panel; `Enter` or `l` selects a file. `]h` / `[h`
+navigate changed hunks. Long lines wrap.
+
+Clean repositories keep the panel open until the first change appears.
+Openvide checks Git status and external file changes every second while the
+unified view is active. The first changed file opens automatically. Unsaved
+edits use Neovim's normal conflict handling and are never forcibly reloaded.
+`<leader>gD` clears the unified view and opens Diffview for side-by-side review;
+`:DiffviewClose` closes it, and `:Unified HEAD` resumes the unified view.
+`:Unified reset` stops the view and its polling work.
+
+The Nix package supplies pinned unified.nvim, Diffview and plenary.nvim,
+linked by Home Manager into `~/.local/share/nvim/nix-plugins`.
+The unified.nvim patch disables external diff drivers for machine-readable
+patches, so a global `diff.external = difft` does not break the view.
+Neovim launched outside Openvide keeps its usual startup.
 
 ### PFP/Wallpapers
 

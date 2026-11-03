@@ -272,7 +272,7 @@ launch_agent_window() {
   fi
 
   hyprctl dispatch "hl.dsp.focus({ window = \"address:$(jq -r '.address' <<<"$editor")\" })"
-  hyprctl dispatch 'hl.dsp.layout("preselect l")'
+  hyprctl dispatch 'hl.dsp.layout("preselect r")'
   class="openvide-agent-$proj"
   launch_on_workspace "name:$workspace" kitty --class "$class" --directory "$dir" --hold "$agent"
   if ! agent_window=$(wait_for_window "$workspace" "$class"); then
@@ -292,11 +292,11 @@ launch_agent_window() {
       '[.[] | select(.workspace.name == $ws and .floating == false)]')
   fi
   if jq -e --arg class "$class" \
-    '(map(select(.class == $class))[0].at[0]) > (map(select(.class != $class))[0].at[0])' <<<"$clients" >/dev/null; then
+    '(map(select(.class == $class))[0].at[0]) < (map(select(.class != $class))[0].at[0])' <<<"$clients" >/dev/null; then
     hyprctl dispatch 'hl.dsp.layout("swapsplit")'
   fi
-  # Dwindle uses twice the left window's share: 1.2 gives the agent 60%.
-  hyprctl dispatch 'hl.dsp.layout("splitratio 1.2 exact")'
+  # Dwindle uses twice the left window's share: 1.3 gives the editor 65%.
+  hyprctl dispatch 'hl.dsp.layout("splitratio 1.3 exact")'
 }
 
 switch_set() {

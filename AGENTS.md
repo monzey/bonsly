@@ -36,7 +36,7 @@ home-manager/                 ← user-level config (no sudo)
 
 desktop/caelestia/             ← Caelestia shell subtree, full upstream/fork history
   flake.nix                   ← local shell packages + development shell
-  nix/default.nix             ← shell/native components, CodeDiff and Lazygit patches
+  nix/default.nix             ← shell/native components, unified.nvim and Lazygit patches
   assets/openvide*            ← project sets, Neovim profile, Git overview
   modules/, services/         ← desktop interface and IPC
 
@@ -98,8 +98,8 @@ update -hsr     # all three — standard full update
 - `Super + X` invokes `caelestia-ipc openvide terminal` for a persistent Kitty drawer per Openvide set, rooted in its repository/worktree. `desktop/caelestia/services/Hypr.qml` forwards Git/terminal shortcuts to `desktop/caelestia/assets/openvide.sh --toggle-tool`, which serializes them, reuses windows by class, and restores only code/agent focus. The underlying workspace defines the set; one drawer is visible at a time.
 - Hyprland hides special workspaces when switching workspace. The `openvide-shortcuts` window rule prevents Openvide's Lazygit/terminal windows from inhibiting compositor shortcuts (`home-manager/configs/hyprland/hyprland.lua`).
 - Openvide selects the coding agent before creating a worktree or opening set windows. The picker flow is in `desktop/caelestia/modules/openvide/services/Projects.qml`; `assets/openvide.sh` receives the selected agent when opening a project or creating a worktree.
-- Openvide's compact layout applies to both one and two screens: `assets/openvide.sh` places the initial agent/editor pair at 60%/40%, agent on the left. Three or more screens keep separate workspaces; additional user windows are not rearranged.
-- Openvide's `desktop/caelestia/assets/openvide-nvim.lua` enables empty CodeDiff views and first-change polling. `desktop/caelestia/nix/patches/codediff-empty-explorer.patch` adds the opt-in behaviour to the pinned plugin; ordinary CodeDiff sessions keep upstream defaults.
+- Openvide's compact layout applies to both one and two screens: `assets/openvide.sh` places the initial agent/editor pair at 35%/65%, agent on the right. Three or more screens keep separate workspaces; additional user windows are not rearranged.
+- Unified.nvim is configured for ordinary Neovim in `home-manager/configs/nvim/lua/plugins/unified.lua` and `lua/config/unified.lua`; `<leader>gu` opens diffs against HEAD. Home Manager links the shell's pinned, patched plugins into `~/.local/share/nvim/nix-plugins`. `desktop/caelestia/assets/openvide-nvim.lua` only triggers the diff view on set startup. The shared configuration polls external edits, uses editable buffers, replaces the dashboard on opening and keeps the panel visible on selection, and provides `<leader>b`, `]h` / `[h` and `<leader>gD`. The patch in `desktop/caelestia/nix/patches/unified-no-external-diff.patch` bypasses external diff drivers. Ordinary startup leaves the diff view closed.
 - Home Manager's `shell` input is `path:../desktop/caelestia` (requires Nix >= 2.26). Shell edits are built locally with `update -h`; no separate Shell push or lock revision bump is needed. Add new files to Git before building.
 - Caelestia is a full-history Git subtree. From a clean Bonsly root, merge upstream with `git subtree pull --prefix=desktop/caelestia https://github.com/caelestia-dots/shell.git main`; review conflicts/dependencies and build Home Manager afterward. Keep the upstream license and subtree history.
 - Shell dependencies remain pinned in `home-manager/flake.lock`; the subtree's own lock is for standalone development. Avoid updating unrelated inputs. Native build revisions are hashes of filtered component sources, independent of Bonsly's Git HEAD.

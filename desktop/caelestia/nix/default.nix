@@ -27,6 +27,7 @@
   nerd-fonts,
   qt6,
   vimPlugins,
+  vimUtils,
   quickshell,
   aubio,
   libcava,
@@ -43,12 +44,17 @@
   extraRuntimeDeps ? [],
 }: let
   version = "1.0.0";
-  codediff = vimPlugins.codediff-nvim.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [
-      ./patches/codediff-preserve-single-file-view.patch
-      ./patches/codediff-empty-explorer.patch
-    ];
-  });
+  unified = vimUtils.buildVimPlugin {
+    pname = "unified.nvim";
+    version = "2026-11-03";
+    patches = [./patches/unified-no-external-diff.patch];
+    src = fetchFromGitHub {
+      owner = "axkirillov";
+      repo = "unified.nvim";
+      rev = "dae76cbdc227da8ca30472d27a37d33a2a1e62ce";
+      hash = "sha256-39soctr2oPbtZzH8IAsoymZJSDsRPrkJDHj3gxVJSO0=";
+    };
+  };
   openvideLazygit = lazygit.overrideAttrs (old: {
     version = "0.48.0";
     src = fetchFromGitHub {
@@ -203,8 +209,9 @@ in
       mkdir -p "$out/share/caelestia-shell/assets/bin"
       ln -s ${openvideLazygit}/bin/lazygit "$out/share/caelestia-shell/assets/bin/lazygit"
       mkdir -p "$out/share/caelestia-shell/assets/nvim-plugins"
-      ln -s ${codediff} "$out/share/caelestia-shell/assets/nvim-plugins/codediff.nvim"
-      ln -s ${vimPlugins.nui-nvim} "$out/share/caelestia-shell/assets/nvim-plugins/nui.nvim"
+      ln -s ${unified} "$out/share/caelestia-shell/assets/nvim-plugins/unified.nvim"
+      ln -s ${vimPlugins.diffview-nvim} "$out/share/caelestia-shell/assets/nvim-plugins/diffview.nvim"
+      ln -s ${vimPlugins.plenary-nvim} "$out/share/caelestia-shell/assets/nvim-plugins/plenary.nvim"
 
       makeWrapper ${quickshell}/bin/qs $out/bin/caelestia-shell \
       	--prefix PATH : "${lib.makeBinPath runtimeDeps}" \

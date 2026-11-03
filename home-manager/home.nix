@@ -152,6 +152,7 @@ in {
     # ".config/mako" = { source = ./configs/mako; recursive = true; };
     ".config/rofi" = { source = ./configs/rofi; recursive = true; };
     ".config/nvim" = { source = ./configs/nvim; recursive = true; };
+    ".local/share/nvim/nix-plugins".source = "${inputs.shell.packages.${system}.with-cli}/share/caelestia-shell/assets/nvim-plugins";
     ".config/xplr" = { source = ./configs/xplr; recursive = true; };
     ".config/neovide" = { source = ./configs/neovide; recursive = true; };
     ".config/openvpn" = { source = ./configs/openvpn; recursive = true; };
