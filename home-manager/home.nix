@@ -12,6 +12,7 @@ in {
     ./modules/codex
     ./modules/grok
     ./modules/caveman
+    ./modules/ponytail
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/nv.nix
