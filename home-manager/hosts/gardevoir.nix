@@ -3,5 +3,5 @@
 {
   imports = [ ../home.nix ];
   bonsly.host = "gardevoir";
-  home.packages = [ pkgs.steam ];
+  home.packages = [ pkgs.steam pkgs.prismlauncher ];
 }
