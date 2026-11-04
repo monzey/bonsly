@@ -85,6 +85,7 @@ update -hsr     # all three — standard full update
 
 ## Key conventions
 
+- Spec Kit project tooling lives in `.specify/`, with Codex skills in `.agents/skills/speckit-*/` and feature artifacts in `specs/`. Commit shared tooling, manifests, configuration and feature artifacts; `.specify/.gitignore` excludes local feature selection, extension overrides and executable adapter packages.
 - Host outputs: NixOS `muk` / `gardevoir`; Home Manager `monzey@muk` / `monzey@gardevoir`. `update -h` and `update -s` select by hostname; `BONSLY_HOST` explicitly overrides it. Unknown hosts fail before switching.
 - `home-manager/modules/codex/default.nix` assembles common guidance and only the selected host's context into `~/.codex/AGENTS.md`. Edit its sources in `home-manager/configs/codex/`; the generated file is read-only. This is agent/Codex guidance, not an automatic replacement for ordinary ChatGPT chat custom instructions. A custom `CODEX_HOME` needs separate wiring.
 - First migration: use `home-manager switch --flake ./home-manager#monzey@<host>` to install the new update script. On the home PC, whose old hostname may still be `muk`, first use `sudo nixos-rebuild switch --flake ./nixos#gardevoir` to apply the correct hardware and rename it. Never select `muk` there based on the old hostname.
