@@ -21,7 +21,7 @@ in {
   ];
 
   programs.copilot-cli.version = "1.0.63";
-  programs.opencode.version = "1.17.7";
+  programs.opencode.version = "2.2.5";
 
   fonts.fontconfig.enable = true;
 
@@ -68,7 +68,7 @@ in {
     wf-recorder
     waybar
     chromium
-    firefox
+    unstablePkgs.firefox
     acpi
     (lazygit.overrideAttrs (oldAttrs: {
       version = "0.48.0";

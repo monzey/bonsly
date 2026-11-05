@@ -40,6 +40,7 @@ desktop/caelestia/             ← Caelestia shell subtree, full upstream/fork h
   assets/openvide*            ← project sets, Neovim profile, Git overview
   modules/, services/         ← desktop interface and IPC
 
+
 animate/                      ← rain animation PNGs + shell scripts (ignore unless asked)
 ```
 
@@ -57,6 +58,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
 | Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
+| Edit shared Codex configuration | `home-manager/configs/codex/config.toml` (linked read-only to `~/.codex/config.toml` by Home Manager) |
 | Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `hosts/<host>.md` |
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
@@ -109,6 +111,7 @@ update -hsr     # all three — standard full update
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
 - `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
+- Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.
 - Third-party agent skills are pinned with `fetchFromGitHub` (Caveman uses `sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update. Ponytail's main skill is imported through shared `home.nix` for both hosts; its plugin, hooks and companion skills are not installed.
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
 
@@ -120,3 +123,5 @@ update -hsr     # all three — standard full update
 - `preview.png`, `wall.png`, `recdsk` (assets/scripts unrelated to config)
 - `home-manager/configs/cursor/` (binary cursor theme assets)
 - `home-manager/configs/nvim/lua/plugins/dart.lua`, `php.lua` (language plugins, rarely touched)
+
+- gardevoir exports the standard `org.freedesktop.appearance/reduced-motion` portal setting through a GTK compatibility patch in `nixos/packages/portal-gtk.nix` and `portal-gtk-reduced-motion.patch`, selected by the host overlay. It maps the existing `org.gnome.desktop.interface/enable-animations` preference (Home Manager host profile) to 0/1 and emits live changes; remove the patch when upstream provides this mapping.

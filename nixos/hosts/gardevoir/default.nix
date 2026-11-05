@@ -7,6 +7,19 @@
   ];
 
   networking.hostName = "gardevoir";
+
+  # GTK supplies Settings; Hyprland keeps its existing portal responsibilities.
+  nixpkgs.overlays = [
+    (final: prev: {
+      xdg-desktop-portal-gtk = import ../../packages/portal-gtk.nix { pkgs = prev; };
+    })
+  ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.config.hyprland = {
+    default = [ "hyprland" "gtk" ];
+    "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
+  };
+
   networking.extraHosts =
     ''
       127.0.0.1 api.rg-supervision.local

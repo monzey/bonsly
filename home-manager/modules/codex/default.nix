@@ -35,6 +35,8 @@ in
   config = {
     home.packages = [ codexWrapper ];
 
+    home.file.".codex/config.toml".source = ../../configs/codex/config.toml;
+
     home.file.".codex/AGENTS.md".text =
       builtins.readFile ../../configs/codex/AGENTS.md
       + "\n"

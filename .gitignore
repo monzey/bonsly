@@ -29,3 +29,7 @@ home-manager/configs/openvpn/conf.ovpn
 .env
 
 justfile
+
+# Neovim fallback log in restricted sessions
+/nvim.log
+/.nvimlog

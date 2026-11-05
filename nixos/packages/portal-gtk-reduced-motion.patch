@@ -1,0 +1,34 @@
+--- a/src/settings.c
++++ b/src/settings.c
+@@ -170,6 +170,7 @@
+       g_variant_dict_init (&dict, NULL);
+       g_variant_dict_insert_value (&dict, "color-scheme", get_color_scheme ());
+       g_variant_dict_insert_value (&dict, "contrast", get_contrast_value ());
++      g_variant_dict_insert_value (&dict, "reduced-motion", g_variant_new_uint32 (enable_animations ? 0 : 1));
+ 
+       g_variant_builder_add (builder, "{s@a{sv}}", "org.freedesktop.appearance", g_variant_dict_end (&dict));
+     }
+@@ -207,6 +208,12 @@
+ 						 g_variant_new ("(v)", get_color_scheme ()));
+ 	  return TRUE;
+ 	}
++      else if (strcmp (arg_key, "reduced-motion") == 0)
++        {
++          g_dbus_method_invocation_return_value (invocation,
++                                                 g_variant_new ("(v)", g_variant_new_uint32 (enable_animations ? 0 : 1)));
++          return TRUE;
++        }
+       else if (strcmp (arg_key, "contrast") == 0)
+         {
+ 	  g_dbus_method_invocation_return_value (invocation,
+@@ -372,6 +379,10 @@
+                                           namespace,
+                                           key,
+                                           enable_animations_variant);
++  xdp_impl_settings_emit_setting_changed (impl,
++                                          "org.freedesktop.appearance",
++                                          "reduced-motion",
++                                          g_variant_new ("v", g_variant_new_uint32 (enable_animations ? 0 : 1)));
+ }
+ 
+ static void

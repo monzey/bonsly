@@ -28,9 +28,9 @@ let
         INSTALLED_VERSION=$(cat "$OPENCODE_HOME/.version" 2>/dev/null || echo "")
 
         if [ "$INSTALLED_VERSION" != "$WANTED_VERSION" ]; then
-          echo "[+] (Re)installation de opencode-ai@$WANTED_VERSION dans $OPENCODE_HOME..."
-          npm install -g opencode-ai@$WANTED_VERSION
-          echo "$WANTED_VERSION" > "$OPENCODE_HOME/.version"
+          echo "[+] (Re)installation de @opencode/cli@$WANTED_VERSION dans $OPENCODE_HOME..."
+          npm install -g --force "@opencode/cli@$WANTED_VERSION" \
+            && echo "$WANTED_VERSION" > "$OPENCODE_HOME/.version"
         fi
 
         exec "$BINARY_PATH" "$@"
@@ -42,8 +42,8 @@ in
   options.programs.opencode = {
     version = lib.mkOption {
       type = lib.types.str;
-      default = "1.1.51";
-      description = "Version of opencode-ai to install via npm";
+      default = "2.2.5";
+      description = "Version of @opencode/cli to install via npm";
     };
   };
 
