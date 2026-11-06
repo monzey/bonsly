@@ -58,9 +58,10 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
 | Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
-| Edit shared Codex configuration | `home-manager/configs/codex/config.toml` (linked read-only to `~/.codex/config.toml` by Home Manager) |
+| Edit Codex settings and plugin choices | `~/.codex/config.toml` (managed manually and by Codex Desktop, outside Bonsly) |
 | Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `hosts/<host>.md` |
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
+| Edit RTK agent integrations (gardevoir) | `home-manager/modules/rtk/default.nix` |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
@@ -114,6 +115,7 @@ update -hsr     # all three — standard full update
 - Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.
 - Third-party agent skills are pinned with `fetchFromGitHub` (Caveman uses `sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update. Ponytail's main skill is imported through shared `home.nix` for both hosts; its plugin, hooks and companion skills are not installed.
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
+- gardevoir installs RTK from the pinned unstable input via `home-manager/modules/rtk/`. Its pinned binary generates Codex, OpenCode, Copilot CLI and Antigravity integration files during the build; activation merges the Claude Code hook without replacing existing settings. Grok has no RTK integration. Copilot's npm prefix is separate from its standard `~/.copilot` configuration directory; do not export that prefix as `COPILOT_HOME`.
 
 ## Ignore
 

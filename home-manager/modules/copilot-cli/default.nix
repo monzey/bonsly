@@ -17,19 +17,19 @@ let
 
     runScript = ''
       bash -c '
-        export COPILOT_HOME="$HOME/.copilot-cli-npm"
-        BINARY_PATH="$COPILOT_HOME/bin/copilot"
+        COPILOT_NPM_PREFIX="$HOME/.copilot-cli-npm"
+        BINARY_PATH="$COPILOT_NPM_PREFIX/bin/copilot"
 
-        export PATH="$COPILOT_HOME/bin:$PATH"
-        export npm_config_prefix="$COPILOT_HOME"
+        export PATH="$COPILOT_NPM_PREFIX/bin:$PATH"
+        export npm_config_prefix="$COPILOT_NPM_PREFIX"
 
         WANTED_VERSION="${cfg.version}"
-        INSTALLED_VERSION=$(cat "$COPILOT_HOME/.version" 2>/dev/null || echo "")
+        INSTALLED_VERSION=$(cat "$COPILOT_NPM_PREFIX/.version" 2>/dev/null || echo "")
 
         if [ "$INSTALLED_VERSION" != "$WANTED_VERSION" ]; then
-          echo "[+] (Re)installation de @github/copilot@$WANTED_VERSION dans $COPILOT_HOME..."
+          echo "[+] (Re)installation de @github/copilot@$WANTED_VERSION dans $COPILOT_NPM_PREFIX..."
           npm install -g @github/copilot@$WANTED_VERSION
-          echo "$WANTED_VERSION" > "$COPILOT_HOME/.version"
+          echo "$WANTED_VERSION" > "$COPILOT_NPM_PREFIX/.version"
         fi
 
         exec "$BINARY_PATH" "$@"
