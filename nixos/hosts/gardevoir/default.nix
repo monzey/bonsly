@@ -30,14 +30,20 @@
     ''
   ;
 
-  # Windows F: keep Steam's existing library path stable across reboots.
-  fileSystems."/mnt/F" = {
-    device = "/dev/disk/by-uuid/0C52967D52966B6A";
-    fsType = "ntfs3";
-    options = [
-      "uid=1000" "gid=100" "umask=0022" "windows_names"
-      "nofail" "x-systemd.automount" "x-systemd.device-timeout=10s"
-    ];
+  fileSystems."/mnt/games" = {
+    device = "/dev/disk/by-uuid/5899a5a9-1797-4c9e-9d05-510fd1304d8e";
+    fsType = "ext4";
+    options = [ "nofail" "x-systemd.automount" "x-systemd.device-timeout=10s" ];
+  };
+  fileSystems."/mnt/media" = {
+    device = "/dev/disk/by-uuid/c8bdcdde-7711-40e3-a15b-fc3c0845d9d0";
+    fsType = "ext4";
+    options = [ "nofail" "x-systemd.automount" "x-systemd.device-timeout=10s" ];
+  };
+  fileSystems."/mnt/misc" = {
+    device = "/dev/disk/by-uuid/e9a0b8a1-6c37-410a-b72f-5fbab60a1d43";
+    fsType = "ext4";
+    options = [ "nofail" "x-systemd.automount" "x-systemd.device-timeout=10s" ];
   };
 
   boot.kernel.sysctl = {
