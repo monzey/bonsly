@@ -63,6 +63,24 @@
   services.pipewire.alsa.support32Bit = true;
   hardware.steam-hardware.enable = true;
 
+  # GC101 HID usages are sequential, not positional; use the verified Steam layout.
+  services.udev.extraHwdb = ''
+    evdev:input:b0003v20BCp5656e0111-*
+     KEYBOARD_KEY_90001=btn_west
+     KEYBOARD_KEY_90002=btn_south
+     KEYBOARD_KEY_90003=btn_east
+     KEYBOARD_KEY_90004=btn_north
+     KEYBOARD_KEY_90005=btn_tl
+     KEYBOARD_KEY_90006=btn_tr
+     KEYBOARD_KEY_90007=btn_tl2
+     KEYBOARD_KEY_90008=btn_tr2
+     KEYBOARD_KEY_90009=btn_select
+     KEYBOARD_KEY_9000a=btn_start
+     KEYBOARD_KEY_9000b=btn_thumbl
+     KEYBOARD_KEY_9000c=btn_thumbr
+     KEYBOARD_KEY_9000d=btn_mode
+  '';
+
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "nvidia";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";

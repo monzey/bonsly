@@ -129,3 +129,4 @@ update -hsr     # all three — standard full update
 - `home-manager/configs/nvim/lua/plugins/dart.lua`, `php.lua` (language plugins, rarely touched)
 
 - gardevoir exports the standard `org.freedesktop.appearance/reduced-motion` portal setting through a GTK compatibility patch in `nixos/packages/portal-gtk.nix` and `portal-gtk-reduced-motion.patch`, selected by the host overlay. It maps the existing `org.gnome.desktop.interface/enable-animations` preference (Home Manager host profile) to 0/1 and emits live changes; remove the patch when upstream provides this mapping.
+- gardevoir remaps the GC101 Controller 1.03 (`20bc:5656`, revision `0111`) HID button usages to positional Linux gamepad codes via `services.udev.extraHwdb` in `nixos/hosts/gardevoir/default.nix`. This applies outside Steam, including Firefox. After activation, reconnect the controller and reconfigure any Steam custom input mapping if needed; joydev button indices may change. Axes are unchanged.
