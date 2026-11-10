@@ -88,6 +88,8 @@ update -hsr     # all three — standard full update
 
 ## Key conventions
 
+- gardevoir disables automatic locking (idle and before sleep) through host-specific Caelestia and hypridle overrides in `home-manager/hosts/gardevoir.nix`; manual locking and other idle actions remain available.
+
 - Spec Kit project tooling lives in `.specify/`, with Codex skills in `.agents/skills/speckit-*/` and feature artifacts in `specs/`. Commit shared tooling, manifests, configuration and feature artifacts; `.specify/.gitignore` excludes local feature selection, extension overrides and executable adapter packages.
 - Host outputs: NixOS `muk` / `gardevoir`; Home Manager `monzey@muk` / `monzey@gardevoir`. `update -h` and `update -s` select by hostname; `BONSLY_HOST` explicitly overrides it. Unknown hosts fail before switching.
 - `home-manager/modules/codex/default.nix` assembles common guidance and only the selected host's context into `~/.codex/AGENTS.md`. Edit its sources in `home-manager/configs/codex/`; the generated file is read-only. This is agent/Codex guidance, not an automatic replacement for ordinary ChatGPT chat custom instructions. A custom `CODEX_HOME` needs separate wiring.
