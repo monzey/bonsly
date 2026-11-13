@@ -25,6 +25,24 @@ in {
 
   fonts.fontconfig.enable = true;
 
+  xdg.desktopEntries.firefox-default = {
+    name = "Firefox (default)";
+    exec = "${pkgs.firefox}/bin/firefox -P default %u";
+    icon = "firefox";
+    terminal = false;
+    categories = [ "Network" "WebBrowser" ];
+    mimeType = [ "text/html" "x-scheme-handler/http" "x-scheme-handler/https" ];
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = [ "firefox-default.desktop" ];
+      "x-scheme-handler/http" = [ "firefox-default.desktop" ];
+      "x-scheme-handler/https" = [ "firefox-default.desktop" ];
+    };
+  };
+
   gtk = {
     enable = true;
     iconTheme = {
