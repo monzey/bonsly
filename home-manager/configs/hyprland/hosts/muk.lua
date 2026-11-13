@@ -14,5 +14,6 @@ hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-6"
 
 hl.on("hyprland.start", function()
 	hl.exec_cmd("[workspace 3 silent] slack")
-	hl.exec_cmd("[workspace 4 silent] firefox --no-remote -P chatgpt https://chatgpt.com")
+	hl.exec_cmd("[workspace 4 silent] chatgpt")
+	hl.exec_cmd("[workspace 9 silent] kitty --class gh-dash -e gh dash")
 end)

@@ -3,6 +3,7 @@
 {
   imports = [ ../home.nix ];
   bonsly.host = "muk";
+  home.packages = [ pkgs.snyk ];
 
   xdg.mimeApps = {
     defaultApplications = {

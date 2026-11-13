@@ -50,6 +50,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 |------|-----------|
 | Add/remove system package | `nixos/configuration.nix` |
 | Add/remove user package | `home-manager/home.nix` (packages list) |
+| Add/remove host-specific user package | `home-manager/hosts/<host>.nix` (`snyk` only on muk) |
 | Edit shell (zsh, aliases, env) | `home-manager/modules/zsh.nix` |
 | Edit keybinds / WM behaviour | `home-manager/configs/hyprland/hyprland.lua` |
 | Edit monitor layout | `home-manager/configs/hyprland/hosts/{muk,gardevoir}.lua` (monitor + workspace rules) |
@@ -74,6 +75,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
 | Edit Git config/hooks | `home-manager/configs/git/` |
+| Edit gh-dash sections, shortcuts and repo paths | `home-manager/configs/gh-dash/config.yml` |
 | Edit update/merge scripts | `home-manager/scripts/<name>.nix` |
 | Edit MCP servers | `home-manager/configs/mcphub/servers.json` |
 | Edit NixOS services | `nixos/configuration.nix` (systemd, networking, etc.) |
@@ -99,7 +101,7 @@ update -hsr     # all three — standard full update
 - `home-manager/modules/codex/default.nix` assembles common guidance and only the selected host's context into `~/.codex/AGENTS.md`. Edit its sources in `home-manager/configs/codex/`; the generated file is read-only. This is agent/Codex guidance, not an automatic replacement for ordinary ChatGPT chat custom instructions. A custom `CODEX_HOME` needs separate wiring.
 - First migration: use `home-manager switch --flake ./home-manager#monzey@<host>` to install the new update script. On the home PC, whose old hostname may still be `muk`, first use `sudo nixos-rebuild switch --flake ./nixos#gardevoir` to apply the correct hardware and rename it. Never select `muk` there based on the old hostname.
 - Hyprland monitor/workspace layouts live in `home-manager/configs/hyprland/hosts/<host>.lua`; `modules/hyprland.nix` prepends the selected layout to the shared `hyprland.lua`. Other Hyprland files remain symlinked.
-- Host-specific autostart also lives in those Hyprland host files: `gardevoir` starts Vesktop on workspace 3 (`vesktop`, Super+Ctrl+N), Steam on workspace 4 (`ia`, Super+Ctrl+P) and ChatGPT Desktop on workspace 9 (`conf`, Super+Ctrl+S); `muk` keeps Slack on workspace 3 and Firefox's ChatGPT profile on workspace 4. Steam and Prism Launcher are installed only by `home-manager/hosts/gardevoir.nix`; The games disk replaces the former Windows F disk; use `/mnt/games` for Steam and Prism data (launcher configuration stays in the Linux home); `nixos/hosts/gardevoir/default.nix` supplies 32-bit graphics/audio and Steam hardware rules, without enabling `programs.steam`.
+- Host-specific autostart also lives in those Hyprland host files: `gardevoir` starts Vesktop on workspace 3 (`vesktop`, Super+Ctrl+N), Steam on workspace 4 (`ia`, Super+Ctrl+P) and ChatGPT Desktop on workspace 9 (`conf`, Super+Ctrl+S); `muk` keeps Slack on workspace 3, starts ChatGPT Desktop on workspace 4 (Super+Ctrl+P) and `gh dash` in Kitty on workspace 9 (Super+Ctrl+S). Steam and Prism Launcher are installed only by `home-manager/hosts/gardevoir.nix`; The games disk replaces the former Windows F disk; use `/mnt/games` for Steam and Prism data (launcher configuration stays in the Linux home); `nixos/hosts/gardevoir/default.nix` supplies 32-bit graphics/audio and Steam hardware rules, without enabling `programs.steam`.
 - Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
 - Firefox uses profile `default` on both hosts. Shared Hyprland autostart must allow remote commands (no `--no-remote`); `home-manager/home.nix` routes HTML and HTTP/HTTPS links through `firefox-default.desktop` with the same explicit profile.
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
@@ -116,6 +118,7 @@ update -hsr     # all three — standard full update
 - Caelestia's `shell.json` and `shell-tokens.json` are managed as standard Home Manager files and are therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
+- gh-dash's PR shortcut `d` fetches the selected PR refs and opens Neovide with `DiffviewOpen <base>...<head>`, without checking out a branch. Its Home Manager-managed config maps `monzey/*` to `~/monzey/*` and `rgsystemes/*` to `~/rg/*`; repositories must already exist locally and use GitHub SSH access.
 - `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
 - Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.

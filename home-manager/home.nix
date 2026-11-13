@@ -160,6 +160,10 @@ in {
   ];
 
   home.file = {
+    ".config/gh-dash/config.yml" = {
+      source = ./configs/gh-dash/config.yml;
+      force = true;
+    };
     ".config/nixpkgs" = { source = ./configs/nixpkgs; recursive = true; };
     ".config/bat" = { source = ./configs/bat; recursive = true; };
     ".config/waybar" = { source = ./configs/waybar; recursive = true; };
