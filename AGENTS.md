@@ -63,7 +63,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `hosts/<host>.md` |
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit RTK agent integrations (gardevoir) | `home-manager/modules/rtk/default.nix` |
-| Edit Claude Code user permissions (muk) | `home-manager/hosts/muk.nix` (`home.activation.claudeSettings`) |
+| Edit Claude Code user settings (muk) | `home-manager/configs/claude/muk.json`; activation in `home-manager/hosts/muk.nix`, merge in `home-manager/modules/claude/merge-settings.jq` |
 | Edit desktop MIME associations | `home-manager/home.nix` (shared Firefox defaults) + `home-manager/hosts/muk.nix` (muk handlers) |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
@@ -75,7 +75,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
 | Edit Git config/hooks | `home-manager/configs/git/` |
-| Edit gh-dash sections, shortcuts and repo paths | `home-manager/configs/gh-dash/config.yml` |
+| Edit gh-dash theme (Catppuccin Mocha, mauve), sections, shortcuts and repo paths | `home-manager/configs/gh-dash/config.yml` |
 | Edit update/merge scripts | `home-manager/scripts/<name>.nix` |
 | Edit MCP servers | `home-manager/configs/mcphub/servers.json` |
 | Edit NixOS services | `nixos/configuration.nix` (systemd, networking, etc.) |
@@ -125,7 +125,7 @@ update -hsr     # all three — standard full update
 - Third-party agent skills are pinned with `fetchFromGitHub` (Caveman uses `sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update. Ponytail's main skill is imported through shared `home.nix` for both hosts; its plugin, hooks and companion skills are not installed.
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
 - gardevoir installs RTK from the pinned unstable input via `home-manager/modules/rtk/`. Its pinned binary generates Codex, OpenCode, Copilot CLI and Antigravity integration files during the build; activation merges the Claude Code hook without replacing existing settings. Grok has no RTK integration. Copilot's npm prefix is separate from its standard `~/.copilot` configuration directory; do not export that prefix as `COPILOT_HOME`.
-- muk merges Claude Code permissions into the mutable `~/.claude/settings.json` on Home Manager activation, preserving existing settings. It pre-approves `*.dashboard.rg-supervision.local` for WebFetch and sandbox networking, and the `npx playwright` / `playwright` command prefixes. Command permissions cover their arguments globally; they do not restrict Playwright to that domain or to headless mode.
+- muk merges `home-manager/configs/claude/muk.json` into the mutable `~/.claude/settings.json` on Home Manager activation: objects merge recursively, arrays are combined without duplicates, and declared scalar values take precedence. Existing unrelated settings are preserved. It pre-approves `*.dashboard.rg-supervision.local` for WebFetch and sandbox networking, the `npx playwright` / `playwright` command prefixes, and the exact command `ssh dev@localhost -p 8888`. Playwright command permissions cover their arguments globally; they do not restrict Playwright to that domain or to headless mode.
 
 ## Ignore
 

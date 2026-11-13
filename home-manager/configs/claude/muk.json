@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:*.dashboard.rg-supervision.local)",
+      "Bash(npx playwright *)",
+      "Bash(playwright *)",
+      "Bash(ssh dev@localhost -p 8888)"
+    ]
+  },
+  "sandbox": {
+    "network": {
+      "allowedDomains": [
+        "*.dashboard.rg-supervision.local"
+      ]
+    }
+  }
+}

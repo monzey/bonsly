@@ -48,17 +48,8 @@
       fi
       temporary=$(mktemp "$settings.XXXXXX")
       trap 'rm -f "$temporary"' EXIT
-      ${pkgs.jq}/bin/jq -s '
-        (.[0] // {})
-        | .permissions.allow = (((.permissions.allow // []) + [
-            "WebFetch(domain:*.dashboard.rg-supervision.local)",
-            "Bash(npx playwright *)",
-            "Bash(playwright *)"
-          ]) | unique)
-        | .sandbox.network.allowedDomains = (((.sandbox.network.allowedDomains // []) + [
-            "*.dashboard.rg-supervision.local"
-          ]) | unique)
-      ' "$input" > "$temporary"
+      ${pkgs.jq}/bin/jq -s -f ${../modules/claude/merge-settings.jq} \
+        "$input" ${../configs/claude/muk.json} > "$temporary"
       mv "$temporary" "$settings"
     ''}
   '';
