@@ -63,6 +63,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit RTK agent integrations (gardevoir) | `home-manager/modules/rtk/default.nix` |
 | Edit Claude Code user permissions (muk) | `home-manager/hosts/muk.nix` (`home.activation.claudeSettings`) |
+| Edit desktop MIME associations | `home-manager/home.nix` (shared Firefox defaults) + `home-manager/hosts/muk.nix` (muk handlers) |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
