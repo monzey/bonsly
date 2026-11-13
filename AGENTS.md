@@ -118,7 +118,7 @@ update -hsr     # all three — standard full update
 - Caelestia's `shell.json` and `shell-tokens.json` are managed as standard Home Manager files and are therefore read-only at runtime
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
-- gh-dash's PR shortcut `d` fetches the selected PR refs and opens Neovide with `DiffviewOpen <base>...<head>`, without checking out a branch. Its Home Manager-managed config maps `monzey/*` to `~/monzey/*` and `rgsystemes/*` to `~/rg/*`; repositories must already exist locally and use GitHub SSH access.
+- gh-dash's PR shortcut `d` fetches the selected PR refs and opens Neovide with `DiffviewOpen <base>...<head>`, without checking out a branch. Its Home Manager-managed config maps `monzey/*` to `/home/monzey/monzey/*` and `rgsystemes/*` to `/home/monzey/rg/*`; the `monzey/rgsupv-dashboard` fork also uses `/home/monzey/rg/rgsupv-dashboard`. Paths must be absolute because gh-dash passes them literally to the quoted `cd` command. Repositories must already exist locally and use GitHub SSH access.
 - `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
 - Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.

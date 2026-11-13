@@ -60,8 +60,10 @@ keybindings:
       head=$(git rev-parse "refs/gh-dash/{{.PrNumber}}")
       neovide --fork -- -c "DiffviewOpen $base...$head"
 repoPaths:
-  monzey/*: ~/monzey/*
-  rgsystemes/*: ~/rg/*
+  # Custom commands receive these paths literally, including a leading ~.
+  monzey/*: /home/monzey/monzey/*
+  monzey/rgsupv-dashboard: /home/monzey/rg/rgsupv-dashboard
+  rgsystemes/*: /home/monzey/rg/*
 theme:
   # Catppuccin Mocha, mauve accent (catppuccin/gh-dash).
   colors:
