@@ -62,6 +62,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `hosts/<host>.md` |
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit RTK agent integrations (gardevoir) | `home-manager/modules/rtk/default.nix` |
+| Edit Claude Code user permissions (muk) | `home-manager/hosts/muk.nix` (`home.activation.claudeSettings`) |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
@@ -120,6 +121,7 @@ update -hsr     # all three — standard full update
 - Third-party agent skills are pinned with `fetchFromGitHub` (Caveman uses `sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update. Ponytail's main skill is imported through shared `home.nix` for both hosts; its plugin, hooks and companion skills are not installed.
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
 - gardevoir installs RTK from the pinned unstable input via `home-manager/modules/rtk/`. Its pinned binary generates Codex, OpenCode, Copilot CLI and Antigravity integration files during the build; activation merges the Claude Code hook without replacing existing settings. Grok has no RTK integration. Copilot's npm prefix is separate from its standard `~/.copilot` configuration directory; do not export that prefix as `COPILOT_HOME`.
+- muk merges Claude Code permissions into the mutable `~/.claude/settings.json` on Home Manager activation, preserving existing settings. It pre-approves `*.dashboard.rg-supervision.local` for WebFetch and sandbox networking, and the `npx playwright` / `playwright` command prefixes. Command permissions cover their arguments globally; they do not restrict Playwright to that domain or to headless mode.
 
 ## Ignore
 
