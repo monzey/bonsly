@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -7,6 +7,33 @@
   ];
 
   networking.hostName = "gardevoir";
+
+  boot.loader = {
+    systemd-boot.enable = lib.mkForce false;
+    timeout = 3;
+    grub = {
+      enable = true;
+      configurationLimit = 2;
+      efiSupport = true;
+      device = "nodev";
+      useOSProber = false;
+      splashImage = null;
+      theme = pkgs.catppuccin-grub.override { flavor = "mocha"; };
+      # Reduce firmware framebuffer redraw cost when navigating the themed menu.
+      gfxmodeEfi = "1280x720,1024x768,auto";
+    };
+  };
+  boot.plymouth = {
+    enable = true;
+    theme = "cuts_alt";
+    themePackages = [
+      (pkgs.adi1090x-plymouth-themes.override { selected_themes = [ "cuts_alt" ]; })
+    ];
+  };
+  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_drm" ];
+  boot.consoleLogLevel = 0;
+  boot.kernelParams = [ "quiet" "udev.log_level=3" ];
+
 
   # GTK supplies Settings; Hyprland keeps its existing portal responsibilities.
   nixpkgs.overlays = [
@@ -69,7 +96,7 @@
   services.pipewire.alsa.support32Bit = true;
   hardware.steam-hardware.enable = true;
 
-  # GC101 HID usages are sequential, not positional; use the verified Steam layout.
+  # Normalize HID usages to Linux positional button codes (also outside SDL).
   services.udev.extraHwdb = ''
     evdev:input:b0003v20BCp5656e0111-*
      KEYBOARD_KEY_90001=btn_west
@@ -88,6 +115,9 @@
   '';
 
   environment.sessionVariables = {
+    # SDL button indices follow Linux key-code order: south, east, north, west.
+    # GC101 triggers are digital buttons, not the right stick's two axes.
+    SDL_GAMECONTROLLERCONFIG = "03000000bc2000005656000011010000,GC101 Controller 1.03,a:b0,b:b1,x:b3,y:b2,back:b8,start:b9,guide:b10,leftstick:b11,rightstick:b12,leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftx:a0,lefty:a1,rightx:a2,righty:a3,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,platform:Linux,";
     LIBVA_DRIVER_NAME = "nvidia";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
