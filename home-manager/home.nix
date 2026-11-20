@@ -14,6 +14,7 @@ in {
     ./modules/grok
     ./modules/caveman
     ./modules/ponytail
+    ./modules/local-skills
     ./scripts/update.nix
     ./scripts/merge.nix
     ./scripts/nv.nix

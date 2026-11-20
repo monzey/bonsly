@@ -23,6 +23,12 @@
 - Utiliser le contexte et les outils disponibles avant de poser une question.
 - Demander une précision si l'ambiguïté change réellement le résultat attendu.
 - Respecter les modifications existantes et rester dans le périmètre demandé.
+- Avant de commencer une tâche de modification dans un dépôt ou de créer un
+  worktree, utiliser le skill `openvide` : examiner les worktrees existants,
+  réutiliser celui de la tâche, sinon en créer un via Openvide. En continuation,
+  garder le bon worktree et vérifier son set : s’il est fermé, l’ouvrir via
+  Openvide ; s’il existe déjà, le réutiliser sans dupliquer les fenêtres ni
+  relancer l’agent.
 - Distinguer une modification écrite, une configuration appliquée et un résultat
   testé. Ne pas présenter une étape prévue comme une action accomplie.
 
