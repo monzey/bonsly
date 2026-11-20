@@ -5,6 +5,11 @@
   bonsly.host = "muk";
   home.packages = [ pkgs.snyk ];
 
+  home.file.".config/gh-dash/config.yml" = {
+    source = ../configs/gh-dash/config.yml;
+    force = true;
+  };
+
   xdg.mimeApps = {
     defaultApplications = {
       "x-scheme-handler/msteams" = [ "teams-for-linux.desktop" ];

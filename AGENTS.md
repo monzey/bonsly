@@ -76,7 +76,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
 | Edit Git config/hooks | `home-manager/configs/git/` |
-| Edit gh-dash theme (Catppuccin Mocha, mauve), sections, shortcuts and repo paths | `home-manager/configs/gh-dash/config.yml` |
+| Edit gh-dash theme (Catppuccin Mocha, mauve), sections, shortcuts and repo paths (muk only) | `home-manager/configs/gh-dash/config.yml`, installed by `home-manager/hosts/muk.nix` |
 | Edit update/merge scripts | `home-manager/scripts/<name>.nix` |
 | Edit MCP servers | `home-manager/configs/mcphub/servers.json` |
 | Edit NixOS services | `nixos/configuration.nix` (systemd, networking, etc.) |
@@ -122,6 +122,7 @@ update -hsr     # all three — standard full update
 - Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
 - Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
 - gh-dash's PR shortcut `d` fetches the selected PR refs and opens Neovide with `DiffviewOpen <base>...<head>`, without checking out a branch. Its Home Manager-managed config maps `monzey/*` to `/home/monzey/monzey/*` and `rgsystemes/*` to `/home/monzey/rg/*`; the `monzey/rgsupv-dashboard` fork also uses `/home/monzey/rg/rgsupv-dashboard`. Paths must be absolute because gh-dash passes them literally to the quoted `cd` command. Repositories must already exist locally and use GitHub SSH access.
+- gh-dash's custom configuration is installed only on muk through `home-manager/hosts/muk.nix`; it includes the existing PR sections and a KB stories section filtered by `repo:rgsystemes/kb assignee:@me is:open`. gardevoir does not receive this configuration.
 - `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
 - Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
 - Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.

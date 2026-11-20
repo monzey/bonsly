@@ -6,6 +6,8 @@ prSections:
 - title: Involved
   filters: is:open involves:@me -author:@me
 issuesSections:
+- title: KB · Mes stories
+  filters: repo:rgsystemes/kb assignee:@me is:open
 - title: My Issues
   filters: is:open author:@me
 - title: Assigned
