@@ -55,17 +55,6 @@
       hash = "sha256-39soctr2oPbtZzH8IAsoymZJSDsRPrkJDHj3gxVJSO0=";
     };
   };
-  openvideLazygit = lazygit.overrideAttrs (old: {
-    version = "0.48.0";
-    src = fetchFromGitHub {
-      owner = "jesseduffield";
-      repo = "lazygit";
-      rev = "v0.48.0";
-      hash = "sha256-L3OcCkoSJZ6skzcjP2E3BrQ39cXyxcuHGthj8RHIGeQ=";
-    };
-    patches = (old.patches or []) ++ [./patches/lazygit-openvide-context.patch];
-  });
-
   runtimeDeps =
     [
       fish
@@ -207,7 +196,7 @@ in
 
     postInstall = ''
       mkdir -p "$out/share/caelestia-shell/assets/bin"
-      ln -s ${openvideLazygit}/bin/lazygit "$out/share/caelestia-shell/assets/bin/lazygit"
+      ln -s ${lazygit}/bin/lazygit "$out/share/caelestia-shell/assets/bin/lazygit"
       mkdir -p "$out/share/caelestia-shell/assets/nvim-plugins"
       ln -s ${unified} "$out/share/caelestia-shell/assets/nvim-plugins/unified.nvim"
       ln -s ${vimPlugins.diffview-nvim} "$out/share/caelestia-shell/assets/nvim-plugins/diffview.nvim"

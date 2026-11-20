@@ -36,7 +36,8 @@ home-manager/                 ← user-level config (no sudo)
 
 desktop/caelestia/             ← Caelestia shell subtree, full upstream/fork history
   flake.nix                   ← local shell packages + development shell
-  nix/default.nix             ← shell/native components, unified.nvim and Lazygit patches
+  nix/default.nix             ← shell/native components and unified.nvim patch
+  nix/lazygit.nix             ← shared terminal/Openvide Lazygit version and patch
   assets/openvide*            ← project sets, Neovim profile, Git overview
   modules/, services/         ← desktop interface and IPC
 
@@ -70,6 +71,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
 | Edit Antigravity CLI config | `home-manager/configs/antigravity/` + `home-manager/modules/antigravity/default.nix` |
 | Edit Caelestia/Openvide behaviour | `desktop/caelestia/` (see its `README.md`) |
+| Update shared Lazygit (terminal + Openvide) | `desktop/caelestia/nix/lazygit.nix` (version/source) + `nix/patches/lazygit-openvide-context.patch` |
 | Edit Caelestia Shell config | `home-manager/configs/caelestia/shell.json` + `shell-tokens.json` |
 | Edit icon theme | `home-manager/home.nix` (`gtk.iconTheme` + Caelestia service environment) |
 | Edit opencode Neovim plugin | `home-manager/configs/opencode/plugins/nvim.ts` |
@@ -124,7 +126,7 @@ update -hsr     # all three — standard full update
 - gh-dash's PR shortcut `d` fetches the selected PR refs and opens Neovide with `DiffviewOpen <base>...<head>`, without checking out a branch. Its Home Manager-managed config maps `monzey/*` to `/home/monzey/monzey/*` and `rgsystemes/*` to `/home/monzey/rg/*`; the `monzey/rgsupv-dashboard` fork also uses `/home/monzey/rg/rgsupv-dashboard`. Paths must be absolute because gh-dash passes them literally to the quoted `cd` command. Repositories must already exist locally and use GitHub SSH access.
 - gh-dash's custom configuration is installed only on muk through `home-manager/hosts/muk.nix`; it includes the existing PR sections and a KB stories section filtered by `repo:rgsystemes/kb assignee:@me is:open`. gardevoir does not receive this configuration.
 - `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
-- Pinned packages (e.g. lazygit v0.48.0) use `pkgs.unstable` or manual `fetchurl` overrides in `home.nix`
+- Lazygit is defined once in `desktop/caelestia/nix/lazygit.nix` and exported by the local shell flake. Home Manager and Openvide use the same patched package. Update its version/source hash and check the Openvide patch there; no flake input update is required. The patch adds remote URLs, worktree paths and full commit descriptions only when `OPENVIDE_GIT_OVERVIEW=1`; native `gui.sidePanels` in `assets/openvide-lazygit.yml` selects worktrees/remotes. Ordinary terminal use keeps the upstream behaviour. Package builds test presentation and configuration.
 - Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.
 - Third-party agent skills are pinned with `fetchFromGitHub` (Caveman uses `sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update. Ponytail's main skill is imported through shared `home.nix` for both hosts; its plugin, hooks and companion skills are not installed.
 - opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)

@@ -1,6 +1,12 @@
 # Openvide keeps repository context beside the commit graph in Lazygit's
 # native side panels. A full-width side section leaves diffs to Neovim.
 gui:
+  sidePanels:
+    - [status]
+    - [worktrees, files, submodules]
+    - [remotes, branches, tags]
+    - [commits, reflog]
+    - [stash]
   screenMode: normal
   sidePanelWidth: 1.0
   expandFocusedSidePanel: true

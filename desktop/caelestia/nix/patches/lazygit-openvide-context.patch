@@ -1,40 +1,3 @@
---- a/pkg/gui/gui.go
-+++ b/pkg/gui/gui.go
-@@ -581,6 +581,11 @@
- 
- 	for _, context := range contextTree.Flatten() {
- 		result.Set(context.GetWindowName(), context.GetViewName())
-+	}
-+
-+	if os.Getenv("OPENVIDE_GIT_OVERVIEW") == "1" {
-+		result.Set("files", contextTree.Worktrees.GetViewName())
-+		result.Set("branches", contextTree.Remotes.GetViewName())
- 	}
- 
- 	return result
---- a/pkg/gui/layout.go
-+++ b/pkg/gui/layout.go
-@@ -1,6 +1,8 @@
- package gui
- 
- import (
-+	"os"
-+
- 	"github.com/jesseduffield/gocui"
- 	"github.com/jesseduffield/lazygit/pkg/gui/context"
- 	"github.com/jesseduffield/lazygit/pkg/gui/types"
-@@ -263,6 +265,11 @@
- 	}
- 	gui.g.Mutexes.ViewsMutex.Unlock()
- 
-+	if os.Getenv("OPENVIDE_GIT_OVERVIEW") == "1" {
-+		gui.helpers.Window.MoveToTopOfWindow(gui.State.Contexts.Worktrees)
-+		gui.helpers.Window.MoveToTopOfWindow(gui.State.Contexts.Remotes)
-+	}
-+
- 	return nil
- }
- 
 --- a/pkg/gui/presentation/remotes.go
 +++ b/pkg/gui/presentation/remotes.go
 @@ -1,6 +1,8 @@
@@ -46,8 +9,8 @@
  	"time"
  
  	"github.com/jesseduffield/lazygit/pkg/commands/models"
-@@ -52,5 +54,8 @@
- 		descriptionStr += " " + style.FgCyan.Sprint(itemOperationStr+" "+utils.Loader(time.Now(), userConfig.Gui.Spinner))
+@@ -51,5 +53,8 @@
+ 		descriptionStr += " " + style.FgCyan.Sprint(itemOperationStr+" "+Loader(time.Now(), userConfig.Gui.Spinner))
  	}
  	res = append(res, textStyle.Sprint(r.Name), descriptionStr)
 +	if os.Getenv("OPENVIDE_GIT_OVERVIEW") == "1" && len(r.Urls) > 0 {
@@ -66,19 +29,16 @@
  	"github.com/jesseduffield/lazygit/pkg/commands/models"
  	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
  	"github.com/jesseduffield/lazygit/pkg/gui/style"
-@@ -47,5 +49,12 @@
- 		name += " " + tr.MissingWorktree
+@@ -53,6 +55,9 @@
+ 			tr.HeadDetachedAt, map[string]string{"hash": utils.ShortHash(worktree.Head)}))
  	}
- 	res = append(res, textStyle.Sprint(name))
+ 	res = append(res, branch+mainWorktreeLabel(tr, worktree))
 +	if os.Getenv("OPENVIDE_GIT_OVERVIEW") == "1" {
-+		branch := worktree.Branch
-+		if branch == "" {
-+			branch = "(detached HEAD)"
-+		}
-+		res = append(res, textStyle.Sprint(branch), style.FgBlue.Sprint(worktree.Path))
++		res = append(res, style.FgBlue.Sprint(worktree.Path))
 +	}
  	return res
  }
+ 
 --- a/pkg/gui/presentation/commits.go
 +++ b/pkg/gui/presentation/commits.go
 @@ -2,6 +2,7 @@
@@ -89,7 +49,7 @@
  	"strings"
  	"time"
  
-@@ -60,6 +61,8 @@
+@@ -64,6 +65,8 @@
  ) [][]string {
  	mutex.Lock()
  	defer mutex.Unlock()
@@ -98,3 +58,44 @@
  
  	if len(commits) == 0 {
  		return nil
+--- /dev/null
++++ b/pkg/gui/presentation/openvide_test.go
+@@ -0,0 +1,38 @@
++package presentation
++
++import (
++	"strings"
++	"testing"
++
++	"github.com/gookit/color"
++	"github.com/jesseduffield/lazygit/pkg/commands/models"
++	"github.com/jesseduffield/lazygit/pkg/config"
++	"github.com/jesseduffield/lazygit/pkg/gui/types"
++	"github.com/jesseduffield/lazygit/pkg/i18n"
++	"github.com/stretchr/testify/assert"
++	"github.com/xo/terminfo"
++)
++
++func TestOpenvideRepositoryContext(t *testing.T) {
++	oldColorLevel := color.ForceSetColorLevel(terminfo.ColorLevelNone)
++	defer color.ForceSetColorLevel(oldColorLevel)
++
++	tr := &i18n.TranslationSet{}
++	worktree := &models.Worktree{Name: "feature", Branch: "feature", Path: "/repo/feature"}
++	remote := &models.Remote{Name: "origin", Urls: []string{"git@example.com:repo.git", "https://example.com/repo"}}
++	userConfig := config.GetDefaultConfig()
++
++	t.Setenv("OPENVIDE_GIT_OVERVIEW", "")
++	normalWorktree := GetWorktreeDisplayString(tr, worktree)
++	normalRemote := getRemoteDisplayStrings(remote, false, types.ItemOperationNone, tr, userConfig)
++	assert.NotContains(t, normalWorktree, worktree.Path)
++	assert.NotContains(t, normalRemote, strings.Join(remote.Urls, " | "))
++
++	t.Setenv("OPENVIDE_GIT_OVERVIEW", "1")
++	assert.Equal(t, append(normalWorktree, worktree.Path), GetWorktreeDisplayString(tr, worktree))
++	assert.Equal(t, append(normalRemote, strings.Join(remote.Urls, " | ")),
++		getRemoteDisplayStrings(remote, false, types.ItemOperationNone, tr, userConfig))
++
++	remote.Urls = nil
++	assert.Equal(t, normalRemote, getRemoteDisplayStrings(remote, false, types.ItemOperationNone, tr, userConfig))
++}

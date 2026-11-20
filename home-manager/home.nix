@@ -89,15 +89,7 @@ in {
     chromium
     unstablePkgs.firefox
     acpi
-    (lazygit.overrideAttrs (oldAttrs: {
-      version = "0.48.0";
-      src = fetchFromGitHub {
-        owner = "jesseduffield";
-        repo = "lazygit";
-        rev = "v0.48.0";
-        sha256 = "sha256-L3OcCkoSJZ6skzcjP2E3BrQ39cXyxcuHGthj8RHIGeQ=";
-      };
-    }))
+    inputs.shell.packages.${system}.lazygit
     gnumake
     delta
     nerd-fonts.victor-mono

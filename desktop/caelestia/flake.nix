@@ -34,7 +34,9 @@
     formatter = forAllSystems (pkgs: pkgs.alejandra);
 
     packages = forAllSystems (pkgs: rec {
+      lazygit = pkgs.callPackage ./nix/lazygit.nix {};
       caelestia-shell = pkgs.callPackage ./nix {
+        inherit lazygit;
         inherit (inputs) m3shapes;
         stdenv = pkgs.clangStdenv;
         quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.override {

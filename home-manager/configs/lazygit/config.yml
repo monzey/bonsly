@@ -23,10 +23,9 @@ gui:
 
 git:
   autoFetch: false
-  paging:
-    colorarg: always
-    # pager: delta --dark --paging=never
-    externalDiffCommand: difft --color=always
+  diffRenderers:
+    - type: extDiff
+      command: difft --color=always
 
 reporting: "off"
 disableStartupPopups: true
