@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [ ../home.nix ];
@@ -35,22 +35,4 @@
       "application/x-extension-xht"
     ] (_: [ "firefox-default.desktop" ]);
   };
-
-  # Keep Claude's mutable plugin state while persisting user permissions.
-  home.activation.claudeSettings = config.lib.dag.entryAfter [ "linkGeneration" ] ''
-    run ${pkgs.writeShellScript "merge-claude-settings" ''
-      set -euo pipefail
-      settings=${config.home.homeDirectory}/.claude/settings.json
-      mkdir -p "$(dirname "$settings")"
-      input=/dev/null
-      if [[ -e "$settings" ]]; then
-        input="$settings"
-      fi
-      temporary=$(mktemp "$settings.XXXXXX")
-      trap 'rm -f "$temporary"' EXIT
-      ${pkgs.jq}/bin/jq -s -f ${../modules/claude/merge-settings.jq} \
-        "$input" ${../configs/claude/muk.json} > "$temporary"
-      mv "$temporary" "$settings"
-    ''}
-  '';
 }

@@ -10,6 +10,7 @@ in {
     ./modules/opencode
     ./modules/antigravity
     ./modules/codex
+    ./modules/claude
     ./modules/grok
     ./modules/caveman
     ./modules/ponytail
@@ -138,7 +139,6 @@ in {
     unstablePkgs.yazi
     unstablePkgs.chatgpt
     unstablePkgs.devenv
-    claude-code
     unstablePkgs.superfile
     unstablePkgs.kitty
     unstablePkgs.typescript
