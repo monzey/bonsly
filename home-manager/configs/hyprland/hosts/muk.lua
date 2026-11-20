@@ -1,4 +1,9 @@
 -- Development layout
+local hostBindings = {
+	conf = hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/gh-dash-set.sh focus"),
+	code = hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/gh-dash-set.sh claude"),
+}
+
 hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0", scale = 1 })
 hl.monitor({ output = "DP-6", mode = "preferred", position = "1920x0", scale = 1 })
 hl.monitor({ output = "DP-7", mode = "preferred", position = "3840x0", scale = 1 })
@@ -10,7 +15,14 @@ hl.workspace_rule({ workspace = "4", default_name = "ia", monitor = "DP-5" })
 hl.workspace_rule({ workspace = "7", default_name = "debugger", monitor = "DP-6" })
 hl.workspace_rule({ workspace = "8", default_name = "test", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-7" })
+hl.workspace_rule({ workspace = "name:rg-claude", monitor = "DP-5" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-6" })
+
+hl.window_rule({
+	name = "rg-claude-shortcuts",
+	match = { class = "rg-claude" },
+	no_shortcuts_inhibit = true,
+})
 
 hl.on("hyprland.start", function()
 	hl.exec_cmd("[workspace 3 silent] slack")

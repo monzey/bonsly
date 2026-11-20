@@ -150,6 +150,7 @@ hl.device({
 ---------------------
 
 local mainMod = "SUPER"
+local hostBindings = hostBindings or {}
 
 -- Neovide / project workflow
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("caelestia-ipc openvide open"))
@@ -168,7 +169,7 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + SHIFT + BACKSPACE", hl.dsp.exec_cmd("caelestia-ipc lock lock"))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code /home/monzey/bonsly"))
+hl.bind(mainMod .. " + C", hostBindings.code or hl.dsp.exec_cmd("code /home/monzey/bonsly"))
 
 -- Move focus (azerty-friendly: J=left M=right L=up K=down)
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "left" }))
@@ -181,7 +182,7 @@ hl.bind(mainMod .. " + CTRL + J", hl.dsp.focus({ workspace = 1 }))
 hl.bind(mainMod .. " + CTRL + N", hl.dsp.focus({ workspace = 3 }))
 hl.bind(mainMod .. " + CTRL + P", hl.dsp.focus({ workspace = 4 }))
 hl.bind(mainMod .. " + CTRL + Z", hl.dsp.exec_cmd("~/.config/hypr/scripts/debug-focus.sh"))
-hl.bind(mainMod .. " + CTRL + S", hl.dsp.focus({ workspace = 9 }))
+hl.bind(mainMod .. " + CTRL + S", hostBindings.conf or hl.dsp.focus({ workspace = 9 }))
 hl.bind(mainMod .. " + CTRL + B", hl.dsp.focus({ workspace = 10 }))
 
 -- Move windows
