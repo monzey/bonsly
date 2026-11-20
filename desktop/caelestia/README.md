@@ -27,6 +27,9 @@ here, while machine settings and Hyprland bindings stay in `home-manager/`.
 Nix build revisions identify each component's filtered sources rather than
 the enclosing repository's commit, avoiding rebuilds for unrelated dotfiles.
 
+Openvide source layout, workspace behaviour and native agent handoff are documented
+in [openvide/README.md](openvide/README.md).
+
 ## Installation
 
 > [!NOTE]
@@ -197,76 +200,8 @@ For square panel junctions, set `border.smoothing` to `0` in `shell.json`.
 This disables the curved joins between panels and the screen border,
 independently of the panel corner radii.
 
-Openvide asks for the coding agent after selecting a project or a worktree
-branch, before creating the worktree or opening any project windows. Escape
-returns to the previous selection without launching anything. The selected
-agent starts with the set; switching to an existing set keeps its windows.
-The internal helpers accept `--open-project <project> <agent>` and
-`--create-worktree <repo> <branch> <worktree-name> <agent>`.
-
-With one or two screens, the initial tiled pair shares the code workspace:
-the editor sits on the left with 65% of the width, and the agent on the
-right with 35%. Additional user windows are left alone. With three or more
-screens, the agent uses its separate workspace.
-
-Bind `caelestia-ipc openvide terminal` to toggle a Kitty command terminal
-for the current project (`Super + X` in bonsly). Each set has a persistent
-terminal drawer, starting in its repository or worktree, on any screen
-layout. Hiding the drawer keeps the shell and running commands alive;
-closing the terminal allows the shortcut to recreate it. The terminal is
-created on first use, after the set has been opened and its agent selected.
-Alternating the Git and terminal shortcuts shows the existing window for
-the set underneath the drawer. Pressing the visible tool's shortcut hides
-it and returns to the code or agent window, never to the other drawer.
-Both shortcuts are serialized against fresh Hyprland state to avoid
-duplicate launches and focus loops during rapid keypresses.
-In bonsly's Hyprland configuration, project tool windows cannot inhibit
-compositor shortcuts. Changing workspace hides the current special
-workspace, so its terminal does not cover the destination.
-
-Bind `caelestia-ipc openvide git` in Hyprland to toggle Git for the current
-development project (`Super + G` in bonsly). With one or two screens, it
-shows or hides the project's lazygit drawer. With three screens, it toggles
-between the dedicated Git workspace and the previous window. If that window
-was closed, it returns to the previous project workspace instead.
-Lazygit shows the active worktree, remotes and commit graph in full-width
-panels, with most space given to the focused panel. `2`, `3` and `4` jump
-to worktrees, remotes and commits; pressing a panel's number again cycles
-its tabs. Worktrees show their branch and full path, with `*` marking the
-current worktree; remotes show their URLs. The graph includes all branches.
-Neovim remains the diff viewer.
-The Openvide profile in `assets/openvide-lazygit.yml` overlays the user's
-Lazygit configuration, retaining its theme and keybindings. The Nix package
-supplies Lazygit 0.48 with Worktrees and Remotes selected by default in this
-profile; ordinary Lazygit sessions keep their usual startup.
-Each project set has its own lazygit process rooted in its repository or
-worktree. Openvide remembers this association in
-`$XDG_CACHE_HOME/caelestia/openvide` (default `~/.cache/caelestia/openvide`).
-If Git has been closed, the shortcut reopens it for that set. Existing sets
-can recover their repository from the working directories of their windows.
-
-Unified is configured in the shared Home Manager Neovim configuration.
-`<leader>gu` opens its diff view from any Neovim session.
-Openvide loads `assets/openvide-nvim.lua` as a startup hook and opens
-unified.nvim against `HEAD`. Diffs decorate real file buffers, preserving
-normal editing and the user's language-server configuration. The dashboard is replaced on opening. The changed-file
-panel stays visible after selecting a file, and selection focuses the code window.
-`<leader>b` toggles the panel; `Enter` or `l` selects a file. `]h` / `[h`
-navigate changed hunks. Long lines wrap.
-
-Clean repositories keep the panel open until the first change appears.
-Openvide checks Git status and external file changes every second while the
-unified view is active. The first changed file opens automatically. Unsaved
-edits use Neovim's normal conflict handling and are never forcibly reloaded.
-`<leader>gD` clears the unified view and opens Diffview for side-by-side review;
-`:DiffviewClose` closes it, and `:Unified HEAD` resumes the unified view.
-`:Unified reset` stops the view and its polling work.
-
-The Nix package supplies pinned unified.nvim, Diffview and plenary.nvim,
-linked by Home Manager into `~/.local/share/nvim/nix-plugins`.
-The unified.nvim patch disables external diff drivers for machine-readable
-patches, so a global `diff.external = difft` does not break the view.
-Neovim launched outside Openvide keeps its usual startup.
+For development sets, Git/terminal drawers and editor behaviour, see
+[Openvide](openvide/README.md).
 
 ### PFP/Wallpapers
 

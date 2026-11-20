@@ -5,7 +5,10 @@ mode="${1:-}"
 project_root="$HOME"
 max_depth="4"
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+openvide_dir=$(cd -- "$script_dir/.." && pwd)
 agent_menu="$script_dir/agent-menu.sh"
+codex_helper="$openvide_dir/bin/openvide-codex"
+[[ -x "$codex_helper" ]] || codex_helper=openvide-codex
 project_state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/caelestia/openvide"
 
 mkdir -p "$HOME/.cache/nvim"
@@ -63,14 +66,14 @@ ensure_lazygit() {
       'any(.[]; .workspace.name == $ws and (.class == $class or ((.class | ascii_downcase) == "kitty" and .title == "lazygit")))' >/dev/null; then
       return 0
     fi
-    local executable="$script_dir/bin/lazygit" configs="${LG_CONFIG_FILE:-}"
+    local executable="$openvide_dir/bin/lazygit" configs="${LG_CONFIG_FILE:-}"
     [[ -x "$executable" ]] || executable="lazygit"
     if [[ -z "$configs" ]]; then
       local config_dir
       config_dir=$("$executable" --print-config-dir)
       [[ ! -f "$config_dir/config.yml" ]] || configs="$config_dir/config.yml"
     fi
-    configs="${configs:+$configs,}$script_dir/openvide-lazygit.yml"
+    configs="${configs:+$configs,}$openvide_dir/profiles/lazygit.yml"
     if [[ "$workspace" == special:* ]]; then
       launch_on_workspace "$workspace silent" kitty --class "openvide-lazygit-$proj" --title lazygit --directory "$dir" \
         env "LG_CONFIG_FILE=$configs" OPENVIDE_GIT_OVERVIEW=1 "$executable" --screen-mode normal log
@@ -234,7 +237,7 @@ toggle_project_tool() {
 launch_neovide() {
   local proj="$1" dir="$2" socket="$3" compact="$4"
   launch_on_workspace "name:$proj-code" env \
-    OPENVIDE_NVIM_PROFILE="$script_dir/openvide-nvim.lua" OPENVIDE_NVIM_COMPACT="$compact" \
+    OPENVIDE_NVIM_PROFILE="$openvide_dir/profiles/neovim.lua" OPENVIDE_NVIM_COMPACT="$compact" \
     neovide --chdir "$dir" -- --listen "$socket" -c 'lua dofile(vim.env.OPENVIDE_NVIM_PROFILE)'
 }
 
@@ -254,27 +257,31 @@ wait_for_window() {
 
 launch_agent_window() {
   local dir="$1" agent="$2" proj workspace editor agent_window class clients monitors
+  local -a agent_command=("$agent")
+  if [[ "$agent" == codex ]]; then
+    agent_command=("$codex_helper" launch "$dir")
+  fi
   proj=$(get_proj "$dir")
   workspace="$proj-code"
+  class="openvide-agent-$proj"
 
   monitors=$(monitor_count 2>/dev/null || true)
   if [[ "$monitors" != 1 && "$monitors" != 2 ]] ||
     ! hyprctl workspaces -j | jq -e --arg ws "$workspace" 'any(.[]; .name == $ws)' >/dev/null; then
-    kitty --detach --directory "$dir" --hold "$agent"
+    kitty --detach --class "$class" --directory "$dir" --hold "${agent_command[@]}"
     sleep 0.5
     return
   fi
 
   # Wait for the editor to map before arranging the selected agent beside it.
   if ! editor=$(wait_for_window "$workspace" neovide); then
-    launch_on_workspace "name:$workspace" kitty --directory "$dir" --hold "$agent"
+    launch_on_workspace "name:$workspace" kitty --class "$class" --directory "$dir" --hold "${agent_command[@]}"
     return
   fi
 
   hyprctl dispatch "hl.dsp.focus({ window = \"address:$(jq -r '.address' <<<"$editor")\" })"
   hyprctl dispatch 'hl.dsp.layout("preselect r")'
-  class="openvide-agent-$proj"
-  launch_on_workspace "name:$workspace" kitty --class "$class" --directory "$dir" --hold "$agent"
+  launch_on_workspace "name:$workspace" kitty --class "$class" --directory "$dir" --hold "${agent_command[@]}"
   if ! agent_window=$(wait_for_window "$workspace" "$class"); then
     printf 'Openvide: timed out waiting for the agent window.\n' >&2
     return 1
@@ -456,6 +463,22 @@ create_worktree() {
   open_project "${wt_path#$HOME/}" "$agent"
 }
 
+send_task() {
+  local rel="$1" file="$2" dir proj window_pid
+  dir=$(realpath -- "$HOME/$rel")
+  proj=$(get_proj "$dir")
+  window_pid=$(hyprctl clients -j | jq -er --arg class "openvide-agent-$proj" --arg code "$proj-code" --arg agent "$proj-opencode" \
+    '[.[] | select(.class == $class and (.workspace.name == $code or .workspace.name == $agent))] | if length == 1 then .[0].pid else empty end') || {
+    echo "Openvide: expected exactly one agent window in the selected set." >&2
+    return 1
+  }
+  if [[ "$file" == - ]]; then
+    "$codex_helper" send "$dir" --window-pid "$window_pid"
+  else
+    "$codex_helper" send "$dir" --window-pid "$window_pid" < "$file"
+  fi
+}
+
 case "$mode" in
 --list-projects) list_projects ;;
 --list-repos) list_repos ;;
@@ -468,8 +491,9 @@ case "$mode" in
 --switch-set) switch_set "${2:-}" ;;
 --launch-agent) launch_agent_window "${2:-}" "${3:-}" ;;
 --create-worktree) create_worktree "${2:-}" "${3:-}" "${4:-${3:-}}" "${5:-}" ;;
+--send-task) send_task "${2:?project relative to HOME required}" "${3:--}" ;;
 *)
-  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--open-terminal|--toggle-tool|--switch-set|--launch-agent|--create-worktree" >&2
+  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--open-terminal|--toggle-tool|--switch-set|--launch-agent|--create-worktree|--send-task" >&2
   exit 1
   ;;
 esac

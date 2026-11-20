@@ -39,7 +39,7 @@ Singleton {
 
     property bool hadKeyboard
     property string lastSpecialWorkspace: ""
-    readonly property string projectHelper: `${Quickshell.shellDir}/assets/openvide.sh`
+    readonly property string projectHelper: `${Quickshell.shellDir}/openvide/scripts/openvide.sh`
 
     signal configReloaded
 

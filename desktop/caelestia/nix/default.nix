@@ -11,7 +11,6 @@
   brightnessctl,
   findutils,
   git,
-  lazygit,
   gnugrep,
   gnused,
   jq,
@@ -21,6 +20,8 @@
   wl-clipboard,
   libqalculate,
   bash,
+  callPackage,
+  lazygit,
   hyprland,
   material-symbols,
   rubik,
@@ -44,6 +45,7 @@
   extraRuntimeDeps ? [],
 }: let
   version = "1.0.0";
+  openvide = callPackage ../openvide/nix {};
   unified = vimUtils.buildVimPlugin {
     pname = "unified.nvim";
     version = "2026-11-03";
@@ -73,6 +75,7 @@
       wl-clipboard
       libqalculate
       bash
+      openvide.codex
       hyprland
     ]
     ++ extraRuntimeDeps
@@ -169,6 +172,9 @@ in
         ./../assets
         ./../components
         ./../modules
+        ./../openvide/ui
+        ./../openvide/scripts
+        ./../openvide/profiles
         ./../services
         ./../utils
       ];
@@ -195,8 +201,9 @@ in
     '';
 
     postInstall = ''
-      mkdir -p "$out/share/caelestia-shell/assets/bin"
-      ln -s ${lazygit}/bin/lazygit "$out/share/caelestia-shell/assets/bin/lazygit"
+      mkdir -p "$out/share/caelestia-shell/openvide/bin"
+      ln -s ${openvide.codex}/bin/openvide-codex "$out/share/caelestia-shell/openvide/bin/openvide-codex"
+      ln -s ${lazygit}/bin/lazygit "$out/share/caelestia-shell/openvide/bin/lazygit"
       mkdir -p "$out/share/caelestia-shell/assets/nvim-plugins"
       ln -s ${unified} "$out/share/caelestia-shell/assets/nvim-plugins/unified.nvim"
       ln -s ${vimPlugins.diffview-nvim} "$out/share/caelestia-shell/assets/nvim-plugins/diffview.nvim"

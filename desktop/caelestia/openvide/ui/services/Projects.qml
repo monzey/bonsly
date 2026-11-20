@@ -20,8 +20,8 @@ Singleton {
     property var items: []
 
     readonly property bool showList: step !== "branchName"
-    readonly property string helper: `${Quickshell.shellDir}/assets/openvide.sh`
-    readonly property string agentHelper: `${Quickshell.shellDir}/assets/agent-menu.sh`
+    readonly property string helper: `${Quickshell.shellDir}/openvide/scripts/openvide.sh`
+    readonly property string agentHelper: `${Quickshell.shellDir}/openvide/scripts/agent-menu.sh`
     readonly property string placeholder: {
         if (step === "agent") {
             const repoName = agentRepo.split("/").pop() || agentRepo;

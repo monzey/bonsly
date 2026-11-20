@@ -8,7 +8,7 @@ lazygit.overrideAttrs (old: rec {
     tag = "v${version}";
     hash = "sha256-L1L6ElQIGU1NgUdtDre60zGtZDScWFl8ioj/yuk/SmE=";
   };
-  patches = (old.patches or []) ++ [ ./patches/lazygit-openvide-context.patch ];
+  patches = (old.patches or []) ++ [ ../openvide/nix/patches/lazygit-context.patch ];
   checkPhase = ''
     runHook preCheck
     go test ./pkg/gui/presentation ./pkg/config

@@ -60,11 +60,18 @@ if("plugin" IN_LIST ENABLE_MODULES)
 endif()
 
 if("shell" IN_LIST ENABLE_MODULES)
-    foreach(dir assets components modules services utils)
+    foreach(dir assets components services utils)
         install(DIRECTORY ${dir} DESTINATION "${INSTALL_QSCONFDIR}")
     endforeach()
 
-    install(PROGRAMS assets/wrap_term_launch.sh assets/openvide.sh assets/agent-menu.sh DESTINATION "${INSTALL_QSCONFDIR}/assets")
+    # The source alias supports qs.modules.openvide during checkout development;
+    # installed shells receive the real QML directory at that same namespace.
+    install(DIRECTORY modules DESTINATION "${INSTALL_QSCONFDIR}" PATTERN "openvide" EXCLUDE)
+    install(DIRECTORY openvide/ui/ DESTINATION "${INSTALL_QSCONFDIR}/modules/openvide")
+    install(DIRECTORY openvide/profiles DESTINATION "${INSTALL_QSCONFDIR}/openvide")
+    install(PROGRAMS openvide/scripts/openvide.sh openvide/scripts/agent-menu.sh
+        DESTINATION "${INSTALL_QSCONFDIR}/openvide/scripts")
+    install(PROGRAMS assets/wrap_term_launch.sh DESTINATION "${INSTALL_QSCONFDIR}/assets")
 
     file(READ shell.qml SHELL_QML)
     string(REPLACE "settings.watchFiles: true" "settings.watchFiles: false" SHELL_QML "${SHELL_QML}")

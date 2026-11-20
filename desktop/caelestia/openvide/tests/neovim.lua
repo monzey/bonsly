@@ -1,6 +1,6 @@
 -- Run with OPENVIDE_TEST_PLUGINS=<built-shell>/share/caelestia-shell/assets/nvim-plugins
 -- XDG_CACHE_HOME=/tmp/openvide-test-cache NVIM_LOG_FILE=/tmp/openvide-test.log
--- nvim --headless -u NONE -i NONE -c 'luafile desktop/caelestia/tests/openvide-nvim.lua'
+-- nvim --headless -u NONE -i NONE -c 'luafile desktop/caelestia/openvide/tests/neovim.lua'
 local root = vim.fs.dirname(vim.fs.dirname(vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p")))
 local plugins = assert(vim.env.OPENVIDE_TEST_PLUGINS, "Set OPENVIDE_TEST_PLUGINS to the packaged plugin directory")
 vim.schedule(function()
@@ -30,7 +30,7 @@ vim.schedule(function()
     git({ '-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '--allow-empty', '-qm', 'fixture' })
     -- The headless harness supplies the UI presence needed by the startup gate.
     vim.api.nvim_list_uis = function() return { {} } end
-    local common = root .. '/../../home-manager/configs/nvim'
+    local common = root .. '/../../../home-manager/configs/nvim'
     vim.opt.runtimepath:prepend(common)
     require('config.unified').setup(nil, { auto_refresh = false, file_tree = { width = 28, focus = false } })
     assert(not require('unified.state').is_active(), 'ordinary startup leaves diff closed')
@@ -38,7 +38,7 @@ vim.schedule(function()
     vim.bo.buftype = 'nofile'
     vim.bo.filetype = 'snacks_dashboard'
     local dashboard = vim.api.nvim_get_current_buf()
-    dofile(root .. '/assets/openvide-nvim.lua')
+    dofile(root .. '/profiles/neovim.lua')
     local function wait_for(predicate, label)
       assert(vim.wait(5000, predicate, 30), label .. '\n' .. vim.fn.execute('messages'))
     end
