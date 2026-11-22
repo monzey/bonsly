@@ -49,7 +49,33 @@ defaults:
         hidden: true
   refetchIntervalMinutes: 30
 keybindings:
-  issues: []
+  issues:
+  - key: alt+p
+    name: voir les PR qui mentionnent cette issue
+    command: |
+      set -eu
+      timeline=$(gh api "repos/{{.RepoName}}/issues/{{.IssueNumber}}/timeline?per_page=100" --paginate --slurp)
+      urls=$(printf '%s\n' "$timeline" | jq -r '
+          [.[][] | select(.event == "cross-referenced") | .source.issue
+          | select(.pull_request != null) | .html_url] | unique | .[]
+        ')
+      report=$(
+        if [ -z "$urls" ]; then
+          printf 'Aucune PR accessible ne mentionne cette issue.\n'
+        else
+          printf '%s\n' "$urls" | while IFS= read -r url; do
+            gh pr view "$url" --json number,title,url,state,isDraft --jq '
+              (if .state == "MERGED" then "Fusionnée"
+               elif .state == "CLOSED" then "Fermée"
+               elif .isDraft then "Brouillon"
+               else "Ouverte" end) as $state
+              | "\(.url | split("/") | .[3:5] | join("/"))#\(.number) — \($state)\n  \(.title | gsub("[[:cntrl:]]"; " "))\n  \(.url)\n"
+            ' || exit 1
+          done
+        fi
+      )
+      printf 'PR mentionnant {{.RepoName}}#{{.IssueNumber}}\n(q pour revenir à gh-dash)\n\n%s\n' "$report" \
+        | less -+F -R
   prs:
   - key: d
     name: ouvrir le diff dans Neovide
