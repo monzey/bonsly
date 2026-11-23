@@ -117,6 +117,7 @@ update -hsr     # all three — standard full update
 - Firefox uses profile `default` on both hosts. Shared Hyprland autostart must allow remote commands (no `--no-remote`); `home-manager/home.nix` routes HTML and HTTP/HTTPS links through `firefox-default.desktop` with the same explicit profile.
 - `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
 - Fontconfig is enabled in `home-manager/home.nix`; its `refreshFontCache` activation rebuilds user font caches after package installation and config linking on every Home Manager switch.
+- Home Manager exposes `openvide` through Caelestia's `with-cli` package. Use `openvide --list-projects` to list projects.
 - `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in `desktop/caelestia/`.
 - `Super + X` invokes `caelestia-ipc openvide terminal` for the current set. Openvide implementation and invariants live in `desktop/caelestia/openvide/AGENTS.md`; `services/Hypr.qml` is the desktop integration point.
 - Hyprland hides special workspaces when switching workspace. The `openvide-shortcuts` window rule prevents Openvide's Lazygit/terminal windows from inhibiting compositor shortcuts (`home-manager/configs/hyprland/hyprland.lua`).

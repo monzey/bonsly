@@ -31,6 +31,9 @@ stay in Bonsly's `home-manager/configs/hyprland/`. The shared agent workflow is
   and profiles under `<shellDir>/openvide/{scripts,profiles}/`.
 - Nix links the Codex and Lazygit executables under `<shellDir>/openvide/bin/`.
   Scripts resolve resources relative to their parent Openvide directory.
+- The Caelestia package exposes `bin/openvide` as a wrapper for the installed
+  `<shellDir>/openvide/scripts/openvide.sh`. Use `openvide --list-projects`
+  to check the command from the Home Manager profile or the built package.
 - The shell's Nix source fileset includes `ui/`, `scripts/` and `profiles/`.
   The Rust package has a separate fileset and Cargo lockfile; do not install its
   sources, tests or documentation as shell resources.

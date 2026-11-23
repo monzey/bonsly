@@ -216,6 +216,9 @@ in
         --set CAELESTIA_XKB_RULES_PATH ${xkeyboard-config}/share/xkeyboard-config-2/rules/base.lst \
       	--add-flags "-p $out/share/caelestia-shell"
 
+      makeWrapper "$out/share/caelestia-shell/openvide/scripts/openvide.sh" "$out/bin/openvide" \
+        --prefix PATH : "${lib.makeBinPath (lib.remove openvide.codex runtimeDeps)}"
+
       cat > $out/bin/caelestia-ipc <<'EOF'
       #!/bin/sh
       set -eu

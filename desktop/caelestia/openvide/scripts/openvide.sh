@@ -9,6 +9,13 @@ openvide_dir=$(cd -- "$script_dir/.." && pwd)
 agent_menu="$script_dir/agent-menu.sh"
 codex_helper="$openvide_dir/bin/openvide-codex"
 [[ -x "$codex_helper" ]] || codex_helper=openvide-codex
+
+check_codex_helper() {
+  if ! command -v "$codex_helper" >/dev/null; then
+    printf '%s\n' 'Openvide: openvide-codex is missing. Use openvide.sh from the running Caelestia package (openvide/scripts/).' >&2
+    return 1
+  fi
+}
 project_state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/caelestia/openvide"
 
 mkdir -p "$HOME/.cache/nvim"
@@ -259,6 +266,7 @@ launch_agent_window() {
   local dir="$1" agent="$2" proj workspace editor agent_window class clients monitors
   local -a agent_command=("$agent")
   if [[ "$agent" == codex ]]; then
+    check_codex_helper || return 1
     agent_command=("$codex_helper" launch "$dir")
   fi
   proj=$(get_proj "$dir")
@@ -465,6 +473,7 @@ create_worktree() {
 
 send_task() {
   local rel="$1" file="$2" dir proj window_pid
+  check_codex_helper || return 1
   dir=$(realpath -- "$HOME/$rel")
   proj=$(get_proj "$dir")
   window_pid=$(hyprctl clients -j | jq -er --arg class "openvide-agent-$proj" --arg code "$proj-code" --arg agent "$proj-opencode" \

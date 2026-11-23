@@ -24,17 +24,17 @@ If no suitable checkout exists, create a dedicated worktree through Openvide rat
 
 ## Discover the local interface
 
-Read the project's AGENTS.md. Find the installed Openvide helpers under `<shellDir>/openvide/scripts/` from the running Caelestia service/package, or use `desktop/caelestia/openvide/scripts/openvide.sh` and its adjacent `agent-menu.sh` in the local Bonsly checkout. Read `desktop/caelestia/openvide/AGENTS.md` when changing Openvide itself. Prefer the installed version for the active desktop. Inspect the actual helpers before using them; interfaces may differ between installations. Do not assume that a chat client has local shell access or inherits the desktop environment.
+Read the project's AGENTS.md. Use the Home Manager-provided `openvide` command when available; it calls the installed script with its adjacent resources. For older installations, use the installed helpers under `<shellDir>/openvide/scripts/` from the running Caelestia service. On Bonsly, get the service PID with `systemctl --user show caelestia-shell.service -p MainPID --value` and inspect that process's arguments for Quickshell's `-p <shellDir>`. Use the adjacent installed `agent-menu.sh`. For Codex launch or delivery, first check that `<shellDir>/openvide/bin/openvide-codex` is executable. The helper is packaged there and need not be on PATH. Use the checked-out scripts for inspection or development. If the installed helper is missing or too old for the requested action, report the version mismatch. Read `desktop/caelestia/openvide/AGENTS.md` when changing Openvide. Inspect the actual helpers before using them and verify access to the local desktop session.
 
-The current Bonsly helpers support these calls (`helper` and `agents` below are absolute paths to the discovered scripts):
+The current Bonsly helpers support these calls (`agents` is the absolute path to the installed `agent-menu.sh`). On older installations, replace `openvide` with `bash "$helper"` using the absolute path to the installed `openvide.sh`.
 
 ```bash
-bash "$helper" --list-projects
-bash "$helper" --list-sets
+openvide --list-projects
+openvide --list-sets
 bash "$agents" --list
-bash "$helper" --open-project "$project_relative_to_home" "$agent"
-bash "$helper" --switch-set "$set_id"
-bash "$helper" --send-task "$project_relative_to_home" "$task_file"
+openvide --open-project "$project_relative_to_home" "$agent"
+openvide --switch-set "$set_id"
+openvide --send-task "$project_relative_to_home" "$task_file"
 ```
 
 Listings return JSON entries with `kind`, `value` and `label`. Use returned values, not display labels. Project arguments are relative to `$HOME`; validate the resolved directory and repository before opening. Agent values must come from `agent-menu.sh --list`; validate availability with `--check "$absolute_project_path" "$agent"` before creating a set. Use the user's selected agent or established preference; ask if neither supplies a choice.
