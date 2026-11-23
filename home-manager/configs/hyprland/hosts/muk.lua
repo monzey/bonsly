@@ -1,5 +1,6 @@
 -- Development layout
 local hostBindings = {
+	agent = 'kitty --directory "$HOME/rg" --hold claude',
 	conf = hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/gh-dash-set.sh focus"),
 	code = hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/gh-dash-set.sh claude"),
 }
@@ -17,6 +18,7 @@ hl.workspace_rule({ workspace = "8", default_name = "test", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-7" })
 hl.workspace_rule({ workspace = "name:rg-claude", monitor = "DP-5" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-6" })
+hl.workspace_rule({ workspace = "name:agent", monitor = "DP-7" })
 
 hl.window_rule({
 	name = "rg-claude-shortcuts",

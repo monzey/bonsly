@@ -184,6 +184,13 @@ hl.bind(mainMod .. " + CTRL + P", hl.dsp.focus({ workspace = 4 }))
 hl.bind(mainMod .. " + CTRL + Z", hl.dsp.exec_cmd("~/.config/hypr/scripts/debug-focus.sh"))
 hl.bind(mainMod .. " + CTRL + S", hostBindings.conf or hl.dsp.focus({ workspace = 9 }))
 hl.bind(mainMod .. " + CTRL + B", hl.dsp.focus({ workspace = 10 }))
+hl.bind(mainMod .. " + CTRL + I", function()
+	local workspace = "name:agent"
+	hl.dispatch(hl.dsp.focus({ workspace = workspace }))
+	if #hl.get_workspace_windows(workspace) == 0 then
+		hl.exec_cmd(hostBindings.agent, { workspace = workspace })
+	end
+end, { description = "Open the agent workspace" })
 
 -- Move windows
 hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "left" }))

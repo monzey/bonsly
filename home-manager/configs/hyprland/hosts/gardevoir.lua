@@ -1,4 +1,8 @@
 -- Home layout: DP-2 on the left, DP-1 on the right.
+local hostBindings = {
+	agent = 'kitty --directory "$HOME" --hold codex',
+}
+
 hl.monitor({ output = "DP-1", mode = "preferred", position = "1920x0", scale = 1 })
 hl.monitor({ output = "DP-2", mode = "preferred", position = "0x0", scale = 1 })
 
@@ -9,6 +13,7 @@ hl.workspace_rule({ workspace = "7", default_name = "debugger", monitor = "DP-1"
 hl.workspace_rule({ workspace = "8", default_name = "test", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "9", default_name = "conf", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "10", default_name = "monitor", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "name:agent", monitor = "DP-2" })
 
 hl.window_rule({
 	name = "gardevoir-vesktop",
