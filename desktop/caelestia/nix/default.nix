@@ -20,6 +20,7 @@
   wl-clipboard,
   libqalculate,
   bash,
+  bubblewrap,
   callPackage,
   lazygit,
   hyprland,
@@ -75,6 +76,7 @@
       wl-clipboard
       libqalculate
       bash
+      bubblewrap
       openvide.codex
       hyprland
     ]

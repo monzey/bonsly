@@ -13,7 +13,7 @@ Scope {
     readonly property bool hasFullscreen: Hypr.focusedWorkspace?.toplevels.values.some(t => t.lastIpcObject.fullscreen > 1) ?? false
 
     function openOpenvide(mode: string, target: string): void {
-        if (root.hasFullscreen)
+        if (root.hasFullscreen && mode !== "workspace")
             return;
         const screenState = ShellState.forActive();
         screenState.launcher = false;
@@ -173,6 +173,10 @@ Scope {
     IpcHandler {
         function open(): void {
             root.openOpenvide("new", "");
+        }
+
+        function switchWorkspace(): void {
+            root.openOpenvide("workspace", "");
         }
 
         function switchSet(): void {

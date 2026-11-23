@@ -23,7 +23,9 @@
 - Utiliser le contexte et les outils disponibles avant de poser une question.
 - Demander une précision si l'ambiguïté change réellement le résultat attendu.
 - Respecter les modifications existantes et rester dans le périmètre demandé.
-- Avant de commencer une tâche de modification dans un dépôt ou de créer un
+- Si la session a été lancée avec `OPENVIDE_SET_AGENT=1`, travailler dans le
+  checkout du set actuel.
+- Pour les autres sessions, avant de modifier un dépôt ou de créer un
   worktree, utiliser le skill `openvide` : examiner les worktrees existants,
   réutiliser celui de la tâche, sinon en créer un via Openvide. En continuation,
   garder le bon worktree et vérifier son set : s’il est fermé, l’ouvrir via

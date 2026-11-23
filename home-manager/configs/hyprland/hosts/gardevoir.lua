@@ -28,6 +28,23 @@ hl.window_rule({
 	workspace = "4 silent",
 })
 
+hl.window_rule({
+	name = "gardevoir-steam-game-monitor",
+	match = { class = "steam_app_[0-9]+" },
+	monitor = "DP-1",
+})
+
+hl.on("window.open", function(window)
+	local appId = window.class:match("^steam_app_([0-9]+)$")
+	if appId then
+		hl.dispatch(hl.dsp.window.move({
+			window = window,
+			workspace = "name:steam-" .. appId,
+			follow = true,
+		}))
+	end
+end)
+
 hl.on("hyprland.start", function()
 	hl.exec_cmd("[workspace 3 silent] vesktop")
 	hl.exec_cmd("[workspace 4 silent] steam")

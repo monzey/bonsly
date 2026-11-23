@@ -43,6 +43,8 @@ stay in Bonsly's `home-manager/configs/hyprland/`. The shared agent workflow is
 
 ## Behaviour to preserve
 
+- The workspace picker lists live Steam game workspaces named `steam-<id>` whenever opened. Its IPC entry point is `openvide switchWorkspace` in `../modules/Shortcuts.qml`.
+- Agents launched with a new set inherit `OPENVIDE_SET_AGENT=1` and a private mount that hides the Home Manager Openvide skill. This also covers the private Codex app-server.
 - Select and validate the coding agent before creating worktrees or windows.
   Reopening a set reuses its windows and does not change its agent.
 - With one or two monitors, the initial editor/agent pair is 65%/35%, agent on

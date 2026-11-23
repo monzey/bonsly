@@ -244,6 +244,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 
 -- Custom
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("qs ipc -c overview call overview toggle"))
+hl.bind(mainMod .. " + CTRL + SPACE", hl.dsp.exec_cmd("caelestia-ipc openvide switchWorkspace"))
 hl.bind(mainMod .. " + CTRL + O", hl.dsp.exec_cmd("caelestia-ipc openvide switchSet"))
 
 --------------------------------

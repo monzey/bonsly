@@ -27,6 +27,8 @@ Singleton {
             const repoName = agentRepo.split("/").pop() || agentRepo;
             return qsTr("Agent — %1").arg(repoName);
         }
+        if (step === "workspace")
+            return qsTr("Steam workspaces");
         if (step === "switch")
             return qsTr("Switch set");
         if (step === "repo")
@@ -47,7 +49,7 @@ Singleton {
     function open(newMode: string, target: string, newScreenState: ScreenState): void {
         mode = newMode;
         screenState = newScreenState;
-        step = mode === "switch" ? "switch" : mode === "agent" ? "agent" : "project";
+        step = mode === "new" ? "project" : mode;
         selectedRepo = "";
         agentRepo = target;
         pendingCommand = [];
@@ -65,6 +67,8 @@ Singleton {
             return ["bash", agentHelper, "--list"];
         if (step === "switch")
             return ["bash", helper, "--list-sets"];
+        if (step === "workspace")
+            return ["bash", helper, "--list-workspaces"];
         if (step === "repo")
             return ["bash", helper, "--list-repos"];
         if (step === "branch")
@@ -117,6 +121,8 @@ Singleton {
 
         if (step === "agent") {
             runAgent(item.value, screenState);
+        } else if (step === "workspace") {
+            run(["--switch-workspace", item.value], screenState);
         } else if (step === "switch") {
             run(["--switch-set", item.value], screenState);
         } else if (step === "project" && item.value === "__new_worktree__") {
@@ -144,7 +150,7 @@ Singleton {
                 query = previousQuery;
             else
                 load();
-        } else if (step === "project" || step === "switch" || step === "agent") {
+        } else if (step === "project" || step === "switch" || step === "agent" || step === "workspace") {
             screenState.openvide = false;
         } else if (step === "repo") {
             step = "project";

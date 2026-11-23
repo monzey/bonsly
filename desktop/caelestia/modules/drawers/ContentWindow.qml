@@ -66,12 +66,14 @@ StyledWindow {
         panels.popouts.close();
     }
 
+    readonly property bool workspacePickerOpen: screenState.openvide && screenState.openvideMode === "workspace"
+
     name: "drawers"
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.layer: (fsTransitionProg > 0 && contentItem.Config.general.showOverFullscreen) || (hasSpecialWorkspace && hasFullscreenOnNormalWs) ? WlrLayer.Overlay : WlrLayer.Top
+    WlrLayershell.layer: workspacePickerOpen || (fsTransitionProg > 0 && contentItem.Config.general.showOverFullscreen) || (hasSpecialWorkspace && hasFullscreenOnNormalWs) ? WlrLayer.Overlay : WlrLayer.Top
     WlrLayershell.keyboardFocus: screenState.launcher || screenState.openvide || screenState.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
-    mask: hasFullscreen ? emptyRegion : regions
+    mask: hasFullscreen && !workspacePickerOpen ? emptyRegion : regions
 
     anchors.top: true
     anchors.bottom: true

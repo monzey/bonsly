@@ -269,6 +269,15 @@ launch_agent_window() {
     check_codex_helper || return 1
     agent_command=("$codex_helper" launch "$dir")
   fi
+  if [[ "${OPENVIDE_SET_AGENT:-}" == 1 ]]; then
+    local skill_dir bwrap_path
+    # Home Manager links all agent skill directories to this same target.
+    if skill_dir=$(realpath -e -- "$HOME/.agents/skills/openvide"); then
+      bwrap_path=$(command -v bwrap) || return 1
+      agent_command=("$bwrap_path" --bind / / --tmpfs "$skill_dir" -- "${agent_command[@]}")
+    fi
+    agent_command=(env OPENVIDE_SET_AGENT=1 "${agent_command[@]}")
+  fi
   proj=$(get_proj "$dir")
   workspace="$proj-code"
   class="openvide-agent-$proj"
@@ -350,7 +359,7 @@ create_set() {
     launch_neovide "$proj" "$dir" "$socket" 1
     launch_lazygit_special "$proj" "$dir"
     sleep 0.5
-    bash "$agent_menu" --launch "$dir" "$agent"
+    OPENVIDE_SET_AGENT=1 bash "$agent_menu" --launch "$dir" "$agent"
     return
   fi
 
@@ -370,7 +379,32 @@ create_set() {
 
   hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-5" })'
   hyprctl dispatch "hl.dsp.focus({ workspace = \"name:$proj-opencode\" })"
-  bash "$agent_menu" --launch "$dir" "$agent"
+  OPENVIDE_SET_AGENT=1 bash "$agent_menu" --launch "$dir" "$agent"
+}
+
+list_workspaces() {
+  hyprctl workspaces -j | jq '
+    [.[] | select(.name | test("^steam-[0-9]+$"))]
+    | sort_by(.name)
+    | map({kind: .monitor, value: (.id | tostring), label: .name, icon: "space_dashboard"})
+  '
+}
+
+switch_workspace() {
+  local id="$1" name monitor selector
+  name=$(hyprctl workspaces -j | jq -er --arg id "$id" '.[] | select((.id | tostring) == $id) | .name') || return 1
+  if [[ "$name" == special:* ]]; then
+    monitor=$(hyprctl monitors -j | jq -r --arg name "$name" '.[] | select(.specialWorkspace.name == $name) | .name')
+    if [[ -n "$monitor" ]]; then
+      hyprctl dispatch "hl.dsp.focus({ monitor = $(lua_string "$monitor") })"
+    else
+      hyprctl dispatch "hl.dsp.workspace.toggle_special($(lua_string "${name#special:}"))"
+    fi
+    return
+  fi
+  selector="$id"
+  [[ "$id" == -* ]] && selector="name:$name"
+  hyprctl dispatch "hl.dsp.focus({ workspace = $(lua_string "$selector") })"
 }
 
 list_projects() {
@@ -493,6 +527,8 @@ case "$mode" in
 --list-repos) list_repos ;;
 --list-branches) list_branches "${2:-}" ;;
 --list-sets) list_sets ;;
+--list-workspaces) list_workspaces ;;
+--switch-workspace) switch_workspace "${2:-}" ;;
 --open-project) open_project "${2:-}" "${3:-}" ;;
 --open-git) open_git "${2:-}" "${@:3}" ;;
 --open-terminal) open_terminal "${2:-}" "${@:3}" ;;
@@ -502,7 +538,7 @@ case "$mode" in
 --create-worktree) create_worktree "${2:-}" "${3:-}" "${4:-${3:-}}" "${5:-}" ;;
 --send-task) send_task "${2:?project relative to HOME required}" "${3:--}" ;;
 *)
-  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--open-project|--open-git|--open-terminal|--toggle-tool|--switch-set|--launch-agent|--create-worktree|--send-task" >&2
+  echo "Usage: openvide.sh --list-projects|--list-repos|--list-branches|--list-sets|--list-workspaces|--switch-workspace|--open-project|--open-git|--open-terminal|--toggle-tool|--switch-set|--launch-agent|--create-worktree|--send-task" >&2
   exit 1
   ;;
 esac
