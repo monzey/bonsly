@@ -6,6 +6,12 @@
   dconf.settings."org/gnome/desktop/interface".enable-animations = true;
   home.packages = [ pkgs.steam pkgs.prismlauncher ];
 
+  xdg.mimeApps.defaultApplications = {
+    "x-scheme-handler/codex" = [ "chatgpt.desktop" ];
+    "x-scheme-handler/discord" = [ "vesktop.desktop" ];
+    "x-scheme-handler/slack" = [ "slack.desktop" ];
+  };
+
   home.file.".config/caelestia/shell.json".source = lib.mkForce (
     pkgs.writeText "caelestia-gardevoir-shell.json" (builtins.toJSON (
       lib.recursiveUpdate

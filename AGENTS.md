@@ -67,7 +67,7 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit RTK agent integrations (gardevoir) | `home-manager/modules/rtk/default.nix` |
 | Edit Claude Code launcher / update channel | `home-manager/modules/claude/default.nix` (shared native installation for terminal and Openvide) |
 | Edit Claude Code user settings (muk) | `home-manager/configs/claude/muk.json`; activation in `home-manager/modules/claude/default.nix`, merge in `merge-settings.jq` |
-| Edit desktop MIME associations | `home-manager/home.nix` (shared Firefox defaults) + `home-manager/hosts/muk.nix` (muk handlers) |
+| Edit desktop MIME associations | `home-manager/home.nix` (shared Firefox defaults) + `home-manager/hosts/{muk,gardevoir}.nix` (host handlers) |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
 | Edit local shared agent skills (Openvide workflow) | `home-manager/configs/skills/` + `home-manager/modules/local-skills/default.nix` |
