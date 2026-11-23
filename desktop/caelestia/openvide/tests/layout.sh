@@ -49,7 +49,7 @@ MOCK
 chmod +x "$temporary/bin/kitty" "$temporary/bin/bwrap"
 export OPENVIDE_TEST_KITTY="$temporary/kitty-args"
 OPENVIDE_SET_AGENT=1 bash "$openvide/scripts/openvide.sh" --launch-agent "$HOME/agent-fixture" claude
-[[ $(< "$OPENVIDE_TEST_KITTY") == *$'OPENVIDE_SET_AGENT=1\n'"$temporary/bin/bwrap"$'\n--bind\n/\n/\n--tmpfs\n'"$HOME/.agents/skills/openvide"$'\n--\nclaude' ]]
+[[ $(< "$OPENVIDE_TEST_KITTY") == *$'OPENVIDE_SET_AGENT=1\n'"$temporary/bin/bwrap"$'\n--bind\n/\n/\n--dev-bind\n/dev\n/dev\n--tmpfs\n'"$HOME/.agents/skills/openvide"$'\n--\nclaude' ]]
 bash "$openvide/scripts/openvide.sh" --launch-agent "$HOME/agent-fixture" claude
 [[ $(< "$OPENVIDE_TEST_KITTY") != *bwrap* ]]
 

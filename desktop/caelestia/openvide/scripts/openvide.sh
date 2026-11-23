@@ -274,7 +274,8 @@ launch_agent_window() {
     # Home Manager links all agent skill directories to this same target.
     if skill_dir=$(realpath -e -- "$HOME/.agents/skills/openvide"); then
       bwrap_path=$(command -v bwrap) || return 1
-      agent_command=("$bwrap_path" --bind / / --tmpfs "$skill_dir" -- "${agent_command[@]}")
+      # The root bind is nodev, but agents still need /dev/null and the terminal.
+      agent_command=("$bwrap_path" --bind / / --dev-bind /dev /dev --tmpfs "$skill_dir" -- "${agent_command[@]}")
     fi
     agent_command=(env OPENVIDE_SET_AGENT=1 "${agent_command[@]}")
   fi
