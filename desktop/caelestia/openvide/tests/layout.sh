@@ -47,14 +47,46 @@ cat > "$temporary/bin/bwrap" <<'MOCK'
 exit 1
 MOCK
 chmod +x "$temporary/bin/kitty" "$temporary/bin/bwrap"
+cat > "$temporary/bin/openvide-claude" <<'MOCK'
+#!/usr/bin/env bash
+if [[ "$1" == owns ]]; then exit "${OPENVIDE_TEST_CLAUDE_OWNER:-1}"; fi
+printf 'claude\n' > "$OPENVIDE_TEST_HELPER"
+printf '%s\n' "$@" > "$OPENVIDE_TEST_KITTY"
+if [[ "$1" == send ]]; then cat > "$OPENVIDE_TEST_MESSAGE"; fi
+MOCK
+cat > "$temporary/bin/openvide-codex" <<'MOCK'
+#!/usr/bin/env bash
+printf 'codex\n' > "$OPENVIDE_TEST_HELPER"
+printf '%s\n' "$@" > "$OPENVIDE_TEST_KITTY"
+if [[ "$1" == send ]]; then cat > "$OPENVIDE_TEST_MESSAGE"; fi
+MOCK
+chmod +x "$temporary/bin/openvide-claude" "$temporary/bin/openvide-codex"
 export OPENVIDE_TEST_KITTY="$temporary/kitty-args"
+export OPENVIDE_TEST_HELPER="$temporary/helper"
 OPENVIDE_SET_AGENT=1 bash "$openvide/scripts/openvide.sh" --launch-agent "$HOME/agent-fixture" claude
-[[ $(< "$OPENVIDE_TEST_KITTY") == *$'OPENVIDE_SET_AGENT=1\n'"$temporary/bin/bwrap"$'\n--bind\n/\n/\n--dev-bind\n/dev\n/dev\n--tmpfs\n'"$HOME/.agents/skills/openvide"$'\n--\nclaude' ]]
-bash "$openvide/scripts/openvide.sh" --launch-agent "$HOME/agent-fixture" claude
+[[ $(< "$OPENVIDE_TEST_KITTY") == *$'OPENVIDE_SET_AGENT=1\n'"$temporary/bin/bwrap"$'\n--bind\n/\n/\n--dev-bind\n/dev\n/dev\n--tmpfs\n'"$HOME/.agents/skills/openvide"$'\n--\n'*openvide-claude$'\nlaunch\n'"$HOME/agent-fixture" ]]
+OPENVIDE_SET_AGENT=0 bash "$openvide/scripts/openvide.sh" --launch-agent "$HOME/agent-fixture" claude
 [[ $(< "$OPENVIDE_TEST_KITTY") != *bwrap* ]]
 
+# Exercise shell dispatch in a source checkout (installed packages use real helpers).
+if [[ ! -d "$openvide/bin" ]]; then
+  cat > "$temporary/bin/hyprctl" <<'MOCK'
+#!/usr/bin/env bash
+printf '[{"class":"openvide-agent-fixture","workspace":{"name":"fixture-code"},"pid":42}]\n'
+MOCK
+  export OPENVIDE_TEST_MESSAGE="$temporary/message"
+  printf 'A task\nwith quotes: '\'' and $(literal)\n' > "$temporary/task"
+  OPENVIDE_TEST_CLAUDE_OWNER=0 bash "$openvide/scripts/openvide.sh" --send-task fixture "$temporary/task"
+  [[ $(< "$OPENVIDE_TEST_HELPER") == claude ]]
+  [[ $(< "$OPENVIDE_TEST_KITTY") == $'send\n'"$HOME/fixture"$'\n--window-pid\n42' ]]
+  cmp "$temporary/task" "$OPENVIDE_TEST_MESSAGE"
+  bash "$openvide/scripts/openvide.sh" --send-task fixture - < "$temporary/task"
+  [[ $(< "$OPENVIDE_TEST_HELPER") == codex ]]
+  cmp "$temporary/task" "$OPENVIDE_TEST_MESSAGE"
+fi
+
 if [[ -d "$openvide/bin" ]]; then
-  [[ -x "$openvide/bin/openvide-codex" && -x "$openvide/bin/lazygit" ]]
+  [[ -x "$openvide/bin/openvide-codex" && -x "$openvide/bin/openvide-claude" && -x "$openvide/bin/lazygit" ]]
   if result=$("$openvide/bin/openvide-codex" send "$HOME/fixture" --window-pid "$$" <<< '' 2>&1); then
     echo 'Expected an empty Codex task to be rejected' >&2
     exit 1

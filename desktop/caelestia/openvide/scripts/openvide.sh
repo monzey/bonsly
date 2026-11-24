@@ -9,10 +9,12 @@ openvide_dir=$(cd -- "$script_dir/.." && pwd)
 agent_menu="$script_dir/agent-menu.sh"
 codex_helper="$openvide_dir/bin/openvide-codex"
 [[ -x "$codex_helper" ]] || codex_helper=openvide-codex
+claude_helper="$openvide_dir/bin/openvide-claude"
+[[ -x "$claude_helper" ]] || claude_helper=openvide-claude
 
-check_codex_helper() {
-  if ! command -v "$codex_helper" >/dev/null; then
-    printf '%s\n' 'Openvide: openvide-codex is missing. Use openvide.sh from the running Caelestia package (openvide/scripts/).' >&2
+check_agent_helper() {
+  if ! command -v "$1" >/dev/null; then
+    printf 'Openvide: %s is missing. Use openvide.sh from the updated Caelestia package (openvide/scripts/).\n' "$1" >&2
     return 1
   fi
 }
@@ -266,8 +268,11 @@ launch_agent_window() {
   local dir="$1" agent="$2" proj workspace editor agent_window class clients monitors
   local -a agent_command=("$agent")
   if [[ "$agent" == codex ]]; then
-    check_codex_helper || return 1
+    check_agent_helper "$codex_helper" || return 1
     agent_command=("$codex_helper" launch "$dir")
+  elif [[ "$agent" == claude ]]; then
+    check_agent_helper "$claude_helper" || return 1
+    agent_command=("$claude_helper" launch "$dir")
   fi
   if [[ "${OPENVIDE_SET_AGENT:-}" == 1 ]]; then
     local skill_dir bwrap_path
@@ -507,8 +512,7 @@ create_worktree() {
 }
 
 send_task() {
-  local rel="$1" file="$2" dir proj window_pid
-  check_codex_helper || return 1
+  local rel="$1" file="$2" dir proj window_pid helper
   dir=$(realpath -- "$HOME/$rel")
   proj=$(get_proj "$dir")
   window_pid=$(hyprctl clients -j | jq -er --arg class "openvide-agent-$proj" --arg code "$proj-code" --arg agent "$proj-opencode" \
@@ -516,10 +520,15 @@ send_task() {
     echo "Openvide: expected exactly one agent window in the selected set." >&2
     return 1
   }
+  helper="$codex_helper"
+  if command -v "$claude_helper" >/dev/null && "$claude_helper" owns "$dir" --window-pid "$window_pid" 2>/dev/null; then
+    helper="$claude_helper"
+  fi
+  check_agent_helper "$helper" || return 1
   if [[ "$file" == - ]]; then
-    "$codex_helper" send "$dir" --window-pid "$window_pid"
+    "$helper" send "$dir" --window-pid "$window_pid"
   else
-    "$codex_helper" send "$dir" --window-pid "$window_pid" < "$file"
+    "$helper" send "$dir" --window-pid "$window_pid" < "$file"
   fi
 }
 

@@ -13,9 +13,11 @@ Caelestia full-history subtree; preserve its upstream license and history.
 | Create/reuse sets, place windows, toggle drawers | `scripts/openvide.sh` |
 | List/check/launch supported agents | `scripts/agent-menu.sh` |
 | Deliver tasks to an existing Codex session | `codex/src/main.rs`, `codex/tests/handoff.rs` |
+| Deliver tasks to an existing Claude session | `codex/src/bin/openvide-claude.rs`, `codex/tests/claude.rs` |
+| Validate shared agent process identities | `codex/src/session.rs` |
 | Open the editor's diff view on startup | `profiles/neovim.lua`, `tests/neovim.lua` |
 | Change the Git overview | `profiles/lazygit.yml`, `nix/patches/lazygit-context.patch` |
-| Build Codex or patched Lazygit | `nix/default.nix` |
+| Build agent bridges or patched Lazygit | `nix/default.nix` |
 
 The shell integration points remain outside this folder: `../services/Hypr.qml`
 for tool dispatch, `../modules/drawers/Panels.qml` for the picker, and
@@ -29,7 +31,7 @@ stay in Bonsly's `home-manager/configs/hyprland/`. The shared agent workflow is
   `qs.modules.openvide` imports working in a checkout. Do not create a second copy.
 - CMake installs real QML files under `<shellDir>/modules/openvide/` and scripts
   and profiles under `<shellDir>/openvide/{scripts,profiles}/`.
-- Nix links the Codex and Lazygit executables under `<shellDir>/openvide/bin/`.
+- Nix links the Codex, Claude and Lazygit executables under `<shellDir>/openvide/bin/`.
   Scripts resolve resources relative to their parent Openvide directory.
 - The Caelestia package exposes `bin/openvide` as a wrapper for the installed
   `<shellDir>/openvide/scripts/openvide.sh`. Use `openvide --list-projects`
@@ -62,6 +64,17 @@ stay in Bonsly's `home-manager/configs/hyprland/`. The shared agent workflow is
   queue a task back to the same session. Unsupported/old unbound terminals fail
   explicitly. A receipt confirms queueing, not completion; uncertain sends must
   not be retried automatically. Closing the terminal also stops its private server.
+- Claude handoff uses `openvide-claude` and a private per-terminal MCP stdio channel
+  (`server:openvide`), reached through a Unix socket in a mode-0700 runtime directory.
+  The launcher adds `--mcp-config` and `--dangerously-load-development-channels`
+  for this server only; keep tool permissions and existing MCP configuration intact.
+  Users must accept Claude's experimental-channel confirmation. Organization
+  channel policy still applies. Validate live process identities, checkout and
+  terminal ancestry before sending; reject self-delivery and unbound terminals.
+  `received` means the model called `acknowledge_task`; `forwarded` after 30 seconds
+  means written to MCP without model acknowledgement, possibly busy or blocked.
+  Neither means completed. Never retry an uncertain or unacknowledged send
+  automatically. A late acknowledgement may expire while the task remains queued.
 
 ## Verification
 

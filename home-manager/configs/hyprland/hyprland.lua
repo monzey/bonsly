@@ -180,7 +180,7 @@ hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "down" }))
 -- Switch workspaces
 hl.bind(mainMod .. " + CTRL + J", hl.dsp.focus({ workspace = 1 }))
 hl.bind(mainMod .. " + CTRL + N", hl.dsp.focus({ workspace = 3 }))
-hl.bind(mainMod .. " + CTRL + P", hl.dsp.focus({ workspace = 4 }))
+hl.bind(mainMod .. " + CTRL + P", hostBindings.ia or hl.dsp.focus({ workspace = 4 }))
 hl.bind(mainMod .. " + CTRL + Z", hl.dsp.exec_cmd("~/.config/hypr/scripts/debug-focus.sh"))
 hl.bind(mainMod .. " + CTRL + S", hostBindings.conf or hl.dsp.focus({ workspace = 9 }))
 hl.bind(mainMod .. " + CTRL + B", hl.dsp.focus({ workspace = 10 }))

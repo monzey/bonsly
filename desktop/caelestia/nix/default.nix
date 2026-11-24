@@ -205,6 +205,7 @@ in
     postInstall = ''
       mkdir -p "$out/share/caelestia-shell/openvide/bin"
       ln -s ${openvide.codex}/bin/openvide-codex "$out/share/caelestia-shell/openvide/bin/openvide-codex"
+      ln -s ${openvide.codex}/bin/openvide-claude "$out/share/caelestia-shell/openvide/bin/openvide-claude"
       ln -s ${lazygit}/bin/lazygit "$out/share/caelestia-shell/openvide/bin/lazygit"
       mkdir -p "$out/share/caelestia-shell/assets/nvim-plugins"
       ln -s ${unified} "$out/share/caelestia-shell/assets/nvim-plugins/unified.nvim"

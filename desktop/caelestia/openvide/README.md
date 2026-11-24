@@ -1,16 +1,16 @@
 # Openvide
 
 Project/worktree selection, Hyprland development sets, Git and terminal drawers,
-and native Codex task handoff live here. Read [AGENTS.md](AGENTS.md) before editing.
+and native Codex/Claude task handoff live here. Read [AGENTS.md](AGENTS.md) before editing.
 
 ## Source layout
 
 - `ui/`: the QML picker and its project-selection service.
 - `scripts/`: set/worktree orchestration and agent selection.
-- `codex/`: the Rust native-session bridge and its tests.
+- `codex/`: both Rust agent bridges, shared process validation and their tests.
 - `profiles/`: Openvide's Neovim startup hook and Lazygit overlay.
 - `tests/`: editor and runtime-layout checks.
-- `nix/`: Codex/Lazygit builds and the Openvide-only Lazygit patch.
+- `nix/`: agent bridge/Lazygit builds and the Openvide-only Lazygit patch.
 
 `../modules/openvide` is a source symlink to `ui/`, preserving the
 `qs.modules.openvide` namespace during checkout development. CMake installs real
@@ -33,7 +33,7 @@ Sending validates the terminal and server, requires exactly one loaded root thre
 in that checkout (excluding subagents), then calls `codex queue --remote` with its
 UUID. Success means queued, not task completion. The server closes with the TUI.
 Nix builds and installs it as `openvide/bin/openvide-codex`; Python is not required.
-Other agents and older unbound terminals have no automatic delivery fallback.
+Other unsupported agents and older unbound terminals have no automatic delivery fallback.
 After `/new` or `/resume`, delivery stops if multiple root sessions remain loaded
 or the session has changed directories. Run tests from the Bonsly root:
 
@@ -45,6 +45,34 @@ bash desktop/caelestia/openvide/tests/layout.sh
 To check an installed package instead of the checkout, pass
 `<package>/share/caelestia-shell` to `tests/layout.sh`. See [AGENTS.md](AGENTS.md)
 for the headless editor regression test and the Home Manager build command.
+
+## Claude channel handoff
+
+The same `--send-task <checkout-relative-to-HOME> [task-file|-]` command routes to
+Claude when that set's terminal was launched with `openvide-claude`. The launcher
+keeps the ordinary Claude TUI and native installation, adding a session-only MCP
+server named `openvide`. It uses Anthropic's experimental channels API with
+`--dangerously-load-development-channels server:openvide`; accept the confirmation
+in the terminal before sending. Existing terminals need to be reopened through
+the updated launcher. Existing MCP servers and tool permissions remain in effect.
+Channels require supported Anthropic authentication and may be blocked by an
+organization policy. See the [official channel reference](https://code.claude.com/docs/en/channels-reference).
+
+The bridge records the Claude and channel process identities and checkout under
+`$XDG_CACHE_HOME/caelestia/openvide/claude`. It validates the terminal ancestry and
+live checkout before delivering through a private local Unix socket. It never
+simulates keystrokes, starts another model session or interrupts the current turn.
+Task text is UTF-8 data (up to 1 MiB), passed unchanged to a channel notification.
+Closing the terminal removes its binding and private runtime directory.
+
+Claude is instructed to call `acknowledge_task` before doing the work. The command
+waits up to 30 seconds for that receipt: JSON `status: "received"` confirms model
+receipt, whereas `status: "forwarded", acknowledged: false` confirms only writing
+to the MCP transport. A busy Claude may acknowledge later; an unapproved or
+policy-blocked channel may silently discard the notification. An expired receipt
+does not cancel the queued task. Never resend automatically after an unacknowledged
+receipt or timeout. Neither receipt means task completion; responses stay in the
+Claude terminal. No permissions are approved by this bridge.
 
 ## Development sets and tools
 
