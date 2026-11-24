@@ -1,49 +1,22 @@
 # AGENTS.md — bonsly dotfiles
 
 ## Agent instructions
-After any change to this repo: update this file if affected entry points, paths, or conventions have changed.
 
-NixOS + Home Manager dotfiles repo with the customised Caelestia desktop shell. No DB or package.json.
-Two configuration flakes (`nixos/`, `home-manager/`) plus the local Caelestia package flake. One user: `monzey`; hosts: `muk` (development, Intel) and `gardevoir` (home, AMD/NVIDIA).
+Keep this file focused on repository-wide workflow, entry points and safeguards.
+Update it when those change. Put tool behavior, host details and implementation notes in the
+relevant documentation linked below; update that documentation when its subject changes.
+
+NixOS + Home Manager dotfiles with a customised Caelestia shell. User: `monzey`;
+hosts: `muk` (development, Intel) and `gardevoir` (home, AMD/NVIDIA).
 
 ## Repo map
 
-```
-nixos/                        ← NixOS system config (root-level, requires sudo)
-  flake.nix                   ← system flake entry point
-  configuration.nix           ← shared services, boot, users
-  hosts/<host>/default.nix    ← hostname, GPU and host-specific settings
-  hosts/<host>/hardware-configuration.nix ← generated per machine; do not edit manually
-
-home-manager/                 ← user-level config (no sudo)
-  flake.nix                   ← HM flake entry point
-  home.nix                    ← shared modules + packages
-  hosts/{muk,gardevoir}.nix   ← per-machine Home Manager entry points
-  modules/                    ← zsh, hyprland, rofi, AI CLI tools (Antigravity, Codex, Copilot, Grok, OpenCode, Caveman)
-  scripts/                    ← nix-wrapped shell scripts (update, merge, etc.)
-  configs/                    ← per-tool dotfiles, symlinked into ~/.config/
-    antigravity/              ← Antigravity CLI keybindings
-    codex/                    ← shared desktop/agent guidance + per-host context
-    hyprland/                 ← WM, portal, keybinds, monitor layout, scripts
-    nvim/                     ← LazyVim config (lua/config/, lua/plugins/)
-    opencode/                 ← opencode.json, plugins/nvim.ts
-    waybar/                   ← bar config + style.css
-    eww/                      ← eww.yuck + eww.scss widgets
-    kitty/                    ← terminal config
-    zsh -> modules/zsh.nix
-    git/                      ← gitconfig + global hooks
-    mcphub/                   ← MCP servers config (servers.json)
-
-desktop/caelestia/             ← Caelestia shell subtree, full upstream/fork history
-  flake.nix                   ← local shell packages + development shell
-  nix/default.nix             ← shell/native components and shared Neovim packages
-  openvide/                   ← project sets, QML, scripts, Codex, profiles (see openvide/AGENTS.md)
-  modules/openvide -> ../openvide/ui ← source-only QML namespace alias
-  nix/lazygit.nix             ← shared terminal/Openvide Lazygit version and patch
-  modules/, services/         ← desktop interface and IPC
-
-
-animate/                      ← rain animation PNGs + shell scripts (ignore unless asked)
+```text
+nixos/                System flake: configuration.nix + hosts/<host>/default.nix
+home-manager/         User flake: home.nix + hosts/<host>.nix, modules/, configs/, scripts/
+desktop/caelestia/    Local shell flake and full-history Git subtree
+.specify/             Spec Kit tooling; feature artifacts in specs/
+docs/                 Host, desktop, agent integration and migration notes
 ```
 
 ## Entry points by task
@@ -52,21 +25,22 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 |------|-----------|
 | Add/remove system package | `nixos/configuration.nix` |
 | Add/remove user package | `home-manager/home.nix` (packages list) |
-| Add/remove host-specific user package | `home-manager/hosts/<host>.nix` (`snyk` only on muk) |
+| Add/remove host-specific user package | `home-manager/hosts/<host>.nix` |
 | Edit shell (zsh, aliases, env) | `home-manager/modules/zsh.nix` |
 | Edit keybinds / WM behaviour | `home-manager/configs/hyprland/hyprland.lua` |
 | Edit monitor layout | `home-manager/configs/hyprland/hosts/{muk,gardevoir}.lua` (monitor + workspace rules) |
 | Edit screen sharing portal | `home-manager/configs/hyprland/xdph.conf` |
 | Edit Neovim plugin | `home-manager/configs/nvim/lua/plugins/<name>.lua` |
+| Edit Unified.nvim | `home-manager/configs/nvim/README.md` |
 | Edit Neovim options/keymaps | `home-manager/configs/nvim/lua/config/` |
 | Edit opencode config | `home-manager/configs/opencode/opencode.json` |
 | Edit Codex CLI wrapper | `home-manager/modules/codex/default.nix` |
 | Edit Codex settings and plugin choices | `~/.codex/config.toml` (managed manually and by Codex Desktop, outside Bonsly) |
-| Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `hosts/<host>.md` |
+| Edit global ChatGPT/Codex agent guidance | `home-manager/configs/codex/AGENTS.md` + `home-manager/configs/codex/hosts/<host>.md` |
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit shared RTK agent integrations (muk + gardevoir) | `home-manager/modules/rtk/default.nix`, imported by `home-manager/home.nix` |
 | Edit Claude Code launcher / update channel | `home-manager/modules/claude/default.nix` (shared native installation for terminal and Openvide) |
-| Edit Claude Code user settings (muk) | `home-manager/configs/claude/muk.json`; activation in `home-manager/modules/claude/default.nix`, merge in `merge-settings.jq` |
+| Edit Claude Code user settings (muk) | `home-manager/configs/claude/muk.json`; activation in `home-manager/modules/claude/default.nix`, merge in `home-manager/modules/claude/merge-settings.jq` |
 | Edit desktop MIME associations | `home-manager/home.nix` (shared Firefox defaults) + `home-manager/hosts/{muk,gardevoir}.nix` (host handlers) |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |
@@ -81,78 +55,77 @@ animate/                      ← rain animation PNGs + shell scripts (ignore un
 | Edit bar (waybar) | `home-manager/configs/waybar/config` + `style.css` |
 | Edit widgets (eww) | `home-manager/configs/eww/eww.yuck` + `eww.scss` |
 | Edit Git config/hooks | `home-manager/configs/git/` |
-| Edit muk gh-dash/Claude workspace set | `home-manager/configs/hyprland/scripts/gh-dash-set.sh` + `hosts/muk.lua`; check with `python3 home-manager/configs/hyprland/scripts/test-gh-dash-set.py` |
-| Edit gh-dash theme (Catppuccin Mocha, mauve), sections, shortcuts and repo paths (muk only) | `home-manager/configs/gh-dash/config.yml`, installed by `home-manager/hosts/muk.nix` |
+| Edit muk gh-dash/Claude workspace set | `home-manager/configs/hyprland/scripts/gh-dash-set.sh` + `home-manager/configs/hyprland/hosts/muk.lua`; checks in the gh-dash README |
+| Edit gh-dash (muk only) | `home-manager/configs/gh-dash/config.yml`, installed by `home-manager/hosts/muk.nix` |
 | Edit update/merge scripts | `home-manager/scripts/<name>.nix` |
 | Edit MCP servers | `home-manager/configs/mcphub/servers.json` |
 | Edit NixOS services | `nixos/configuration.nix` (systemd, networking, etc.) |
 | New HM module | Create `home-manager/modules/<name>.nix`, import in `home.nix` |
 
-## Build commands
+## Targeted documentation
+
+Read the relevant notes before changing these areas. Paths in those notes are relative to the
+Bonsly root unless stated otherwise.
+
+- [Desktop](docs/desktop.md): Hyprland layout, shortcuts, Firefox, fonts and shared Lazygit.
+- [gardevoir](docs/gardevoir.md): boot/ESP constraints, storage, locking, games, portal and controller.
+- [Agent tools](docs/agent-tools.md): launchers, skills, RTK, mutable settings and Claude permissions.
+- [gh-dash](home-manager/configs/gh-dash/README.md): shortcuts, repository paths and checks.
+- [Neovim](home-manager/configs/nvim/README.md): Unified.nvim configuration and Openvide startup.
+- [Initial migration](docs/migration.md): installations predating host-specific outputs.
+- [Openvide instructions](desktop/caelestia/openvide/AGENTS.md): sets, worktrees and agent delivery.
+
+## Build and activation
 
 ```bash
-update -h       # home-manager switch --flake (resolved from cwd, BONSLY_FLAKE, or ~/.config/home-manager)
-update -s       # nixos-rebuild switch --flake (resolved from cwd or BONSLY_FLAKE)
-update -r       # hyprctl reload (WM only, instant)
-update -hsr     # all three — standard full update
+update -h       # Home Manager switch
+update -s       # NixOS switch (sudo)
+update -r       # Hyprland reload only
+update -hsr     # All three
 ```
 
-## Key conventions
+`update -h` and `update -s` resolve their flakes from cwd or `BONSLY_FLAKE` (repo root or the
+corresponding flake directory); Home Manager also falls back to `~/.config/home-manager`.
+Outputs are NixOS `muk` / `gardevoir` and Home Manager `monzey@muk` / `monzey@gardevoir`.
+Selection uses hostname unless `BONSLY_HOST` overrides it; unknown hosts fail before switching.
+Identify the actual machine before selecting a host output; see the migration notes for an old hostname.
+
+## Working conventions
 
 - Agents started by opening an Openvide set (`OPENVIDE_SET_AGENT=1`) work in that set's checkout. The launcher hides the shared Openvide workflow skill for those sessions.
 - For other sessions, before repository coding tasks or worktree creation, use the shared `openvide` skill: inspect `git worktree list`, reuse a suitable task checkout, otherwise create through Openvide. On continuation, keep the selected task worktree and check its set: open it through Openvide if absent, otherwise reuse or focus it without duplicating windows or agents. Skill source: `home-manager/configs/skills/openvide/SKILL.md`; distribution: `home-manager/modules/local-skills/default.nix`.
+- Spec Kit uses `.agents/skills/speckit-*/` and `specs/`. Commit shared tooling, manifests,
+  configuration and feature artifacts; respect `.specify/.gitignore` for local state.
+- `home-manager/` and `nixos/` are independent flakes; rebuild only the affected configuration.
+- Home Manager's `shell` input is `path:../desktop/caelestia` (Nix >= 2.26). Build shell edits with
+  `update -h`; no separate Shell push or lock revision bump is needed. Add new files to Git before building.
+- Caelestia is a full-history subtree. From a clean Bonsly root, merge upstream with
+  `git subtree pull --prefix=desktop/caelestia https://github.com/caelestia-dots/shell.git main`;
+  review conflicts/dependencies and build Home Manager afterward. Keep the license and subtree history.
+- Shell dependencies are pinned in `home-manager/flake.lock`; the subtree lock is for standalone
+  development. Update lockfiles with Nix commands, not by hand; avoid unrelated input updates.
+- `configs/` files are linked through Home Manager (`xdg.configFile` / `home.file`). Edit their
+  repository sources, not read-only runtime files such as Caelestia's `shell.json` / `shell-tokens.json`.
+- Scripts use `pkgs.writeShellScriptBin` in `home-manager/scripts/`, exported through `home.nix`.
+- Git uses `~/.config/git/hooks`; `commit-msg` removes all `Co-authored-by` trailers.
 
-- gardevoir uses UEFI GRUB (at most 2 generations on the 512 MiB ESP, 3-second menu, Catppuccin Mocha, 1280×720 preferred for menu responsiveness) and Plymouth with adi1090x `cuts_alt`, configured in `nixos/hosts/gardevoir/default.nix`; muk retains the shared systemd-boot configuration. Boot appearance must be checked after reboot.
+## Tool safeguards
 
-- gardevoir mounts its ext4 data partitions by filesystem UUID at `/mnt/games` (Crucial BX500), `/mnt/media` (Toshiba MQ04UBF100) and `/mnt/misc` (Samsung 860 EVO), declared in `nixos/hosts/gardevoir/default.nix`. They use systemd automount and tolerate absent drives; ext4 ownership is stored on disk, not set through mount options.
+- Codex's native npm installation lives in `~/.codex-npm`. Do not wrap its static musl binary in
+  `buildFHSEnv`/Bubblewrap: desktop-inherited capabilities prevent launch.
+- `~/.codex/AGENTS.md` is generated and read-only. Edit `home-manager/configs/codex/`;
+  a custom `CODEX_HOME` needs separate wiring. Codex settings remain in `~/.codex/config.toml` outside Bonsly.
+- Keep the single native Claude installation at the upstream-managed `~/.local/bin/claude` symlink.
+  Do not replace it with a Home Manager file or reinstall nixpkgs `claude-code`. Preserve unrelated
+  mutable Claude settings when changing activation merges.
+- Copilot's npm prefix is separate from `~/.copilot`; do not export it as `COPILOT_HOME`.
+- Firefox uses profile `default`. Keep remote commands enabled in Hyprland autostart (no
+  `--no-remote`) and use the same profile for desktop URL handlers.
+- Lazygit is shared by Home Manager and Openvide through `desktop/caelestia/nix/lazygit.nix`.
+  Update its version/source hash and check the Openvide patch; no flake input update is required.
 
-- gardevoir disables automatic locking (idle and before sleep) through host-specific Caelestia and hypridle overrides in `home-manager/hosts/gardevoir.nix`; manual locking and other idle actions remain available.
+## Generated and unrelated files
 
-- Spec Kit project tooling lives in `.specify/`, with Codex skills in `.agents/skills/speckit-*/` and feature artifacts in `specs/`. Commit shared tooling, manifests, configuration and feature artifacts; `.specify/.gitignore` excludes local feature selection, extension overrides and executable adapter packages.
-- Host outputs: NixOS `muk` / `gardevoir`; Home Manager `monzey@muk` / `monzey@gardevoir`. `update -h` and `update -s` select by hostname; `BONSLY_HOST` explicitly overrides it. Unknown hosts fail before switching.
-- `home-manager/modules/codex/default.nix` assembles common guidance and only the selected host's context into `~/.codex/AGENTS.md`. Edit its sources in `home-manager/configs/codex/`; the generated file is read-only. This is agent/Codex guidance, not an automatic replacement for ordinary ChatGPT chat custom instructions. A custom `CODEX_HOME` needs separate wiring.
-- First migration: use `home-manager switch --flake ./home-manager#monzey@<host>` to install the new update script. On the home PC, whose old hostname may still be `muk`, first use `sudo nixos-rebuild switch --flake ./nixos#gardevoir` to apply the correct hardware and rename it. Never select `muk` there based on the old hostname.
-- `Super+Ctrl+I` opens the shared named workspace `agent`: Codex from `$HOME` on gardevoir's left screen (DP-2), and Claude from `$HOME/rg` on muk's middle desk screen (DP-7). The shortcut reuses the existing terminal on that workspace.
-- Hyprland monitor/workspace layouts live in `home-manager/configs/hyprland/hosts/<host>.lua`; `modules/hyprland.nix` prepends the selected layout to the shared `hyprland.lua`. Other Hyprland files remain symlinked.
-- Host-specific autostart also lives in those Hyprland host files: `gardevoir` starts Vesktop on workspace 3 (`vesktop`, Super+Ctrl+N), Steam on workspace 4 (`ia`, Super+Ctrl+P) and ChatGPT Desktop on workspace 9 (`conf`, Super+Ctrl+S); `muk` keeps Slack on workspace 3, starts ChatGPT Desktop on workspace 4 (Super+Ctrl+P) and `gh dash` in Kitty on workspace 9 (Super+Ctrl+S). On muk, Super+Ctrl+S opens the gh-dash/Claude set: gh-dash on DP-7 and a persistent Claude session rooted in `/home/monzey/rg` on DP-5 when the desk monitors are connected (at least three screens). With fewer screens, Claude uses `special:rg-claude`; Super+C toggles that drawer from workspace 9 and retains its ordinary VS Code action outside the set. The host profile supplies optional `hostBindings` overrides consumed by the shared Hyprland configuration. Steam and Prism Launcher are installed only by `home-manager/hosts/gardevoir.nix`; The games disk replaces the former Windows F disk; use `/mnt/games` for Steam and Prism data (launcher configuration stays in the Linux home); `nixos/hosts/gardevoir/default.nix` supplies 32-bit graphics/audio and Steam hardware rules, without enabling `programs.steam`.
-- On gardevoir, Hyprland opens new windows with class `steam_app_<id>` on a dedicated `steam-<id>` workspace on DP-1 and follows the game. The host rules live in `home-manager/configs/hyprland/hosts/gardevoir.lua`.
-- Nix flakes: `home-manager/` and `nixos/` are independent — changes to one don't require rebuilding the other
-- Firefox uses profile `default` on both hosts. Shared Hyprland autostart must allow remote commands (no `--no-remote`); `home-manager/home.nix` routes HTML and HTTP/HTTPS links through `firefox-default.desktop` with the same explicit profile.
-- `configs/` dirs are symlinked to `~/.config/<tool>/` via Home Manager `xdg.configFile` or `home.file`
-- Fontconfig is enabled in `home-manager/home.nix`; its `refreshFontCache` activation rebuilds user font caches after package installation and config linking on every Home Manager switch.
-- Home Manager exposes `openvide` through Caelestia's `with-cli` package. Use `openvide --list-projects` to list projects.
-- `Super+Ctrl+Space` opens the Openvide picker for current Steam game workspaces (`steam-<id>`).
-- `Super + G` invokes `caelestia-ipc openvide git`; project-aware Git toggling and focus restoration live in `desktop/caelestia/`.
-- `Super + X` invokes `caelestia-ipc openvide terminal` for the current set. Openvide implementation and invariants live in `desktop/caelestia/openvide/AGENTS.md`; `services/Hypr.qml` is the desktop integration point.
-- Hyprland hides special workspaces when switching workspace. The `openvide-shortcuts` window rule prevents Openvide's Lazygit/terminal windows from inhibiting compositor shortcuts (`home-manager/configs/hyprland/hyprland.lua`).
-- Unified.nvim is configured for ordinary Neovim in `home-manager/configs/nvim/lua/plugins/unified.lua` and `lua/config/unified.lua`; `<leader>gu` opens diffs against HEAD. Home Manager links the shell's pinned, patched plugins into `~/.local/share/nvim/nix-plugins`. `desktop/caelestia/openvide/profiles/neovim.lua` only triggers the diff view on set startup. The shared configuration polls external edits, uses editable buffers, replaces the dashboard on opening and keeps the panel visible on selection, and provides `<leader>b`, `]h` / `[h` and `<leader>gD`. The patch in `desktop/caelestia/nix/patches/unified-no-external-diff.patch` bypasses external diff drivers. Ordinary startup leaves the diff view closed.
-- Home Manager's `shell` input is `path:../desktop/caelestia` (requires Nix >= 2.26). Shell edits are built locally with `update -h`; no separate Shell push or lock revision bump is needed. Add new files to Git before building.
-- Caelestia is a full-history Git subtree. From a clean Bonsly root, merge upstream with `git subtree pull --prefix=desktop/caelestia https://github.com/caelestia-dots/shell.git main`; review conflicts/dependencies and build Home Manager afterward. Keep the upstream license and subtree history.
-- Shell dependencies remain pinned in `home-manager/flake.lock`; the subtree's own lock is for standalone development. Avoid updating unrelated inputs. Native build revisions are hashes of filtered component sources, independent of Bonsly's Git HEAD.
-- Caelestia's `shell.json` and `shell-tokens.json` are managed as standard Home Manager files and are therefore read-only at runtime
-- Scripts live as `.nix` files (wrapped with `pkgs.writeShellScriptBin`) in `home-manager/scripts/`, exported as packages in `home.nix`
-- Git uses `~/.config/git/hooks` globally; `commit-msg` removes all `Co-authored-by` trailers
-- gh-dash's PR shortcut `d` fetches the selected PR refs and opens Neovide with `DiffviewOpen <base>...<head>`, without checking out a branch. Its Home Manager-managed config maps `monzey/*` to `/home/monzey/monzey/*` and `rgsystemes/*` to `/home/monzey/rg/*`; the `monzey/rgsupv-dashboard` fork also uses `/home/monzey/rg/rgsupv-dashboard`. Paths must be absolute because gh-dash passes them literally to the quoted `cd` command. Repositories must already exist locally and use GitHub SSH access.
-- gh-dash's custom configuration is installed only on muk through `home-manager/hosts/muk.nix`; it includes the existing PR sections and a KB stories section filtered by `repo:rgsystemes/kb assignee:@me is:open`. gardevoir does not receive this configuration.
-- In gh-dash's Issues view, `Alt+p` lists PRs mentioning the selected issue across repositories, with their current open/draft/merged/closed state; `q` returns from the pager. The command in `home-manager/configs/gh-dash/config.yml` paginates GitHub timeline cross-references, deduplicates PR URLs and reads fresh PR metadata. Results depend on the authenticated `gh` account's access and include historical mentions, even if subsequently removed; they do not represent a completeness check for a story. Check the command with `python3 home-manager/configs/gh-dash/test-issue-prs.py`.
-- `update -h` and `update -s` resolve their flakes dynamically; `BONSLY_FLAKE` can point to the repo root, `home-manager/`, or `nixos/`
-- Lazygit is defined once in `desktop/caelestia/nix/lazygit.nix` and exported by the local shell flake. Home Manager and Openvide use the same patched package. Update its version/source hash and check the Openvide patch there; no flake input update is required. The patch adds remote URLs, worktree paths and full commit descriptions only when `OPENVIDE_GIT_OVERVIEW=1`; native `gui.sidePanels` in `assets/openvide-lazygit.yml` selects worktrees/remotes. Ordinary terminal use keeps the upstream behaviour. Package builds test presentation and configuration.
-- Firefox stable uses `unstablePkgs.firefox` in `home-manager/home.nix`; update the Home Manager `nixos-unstable` input for browser updates.
-- Third-party agent skills are pinned with `fetchFromGitHub` (Caveman uses `sparseCheckout` of the skill dirs) and linked with `home.file`. Same store path into `~/.agents/skills`, `~/.grok/skills` and `~/.claude/skills`. Parents stay unmanaged. Read-only at runtime. Bump `rev` + `hash` in the module to update. Ponytail's main skill is imported through shared `home.nix` for both hosts; its plugin, hooks and companion skills are not installed.
-- opencode runs in an FHS env (see `home-manager/opencode-bin.nix`)
-- Both hosts install RTK from the pinned unstable input via `home-manager/modules/rtk/`, imported by the shared `home-manager/home.nix`. Its pinned binary generates Codex, OpenCode, Copilot CLI and Antigravity integration files during the build; activation merges the Claude Code hook without replacing existing settings. Grok has no RTK integration. Copilot's npm prefix is separate from its standard `~/.copilot` configuration directory; do not export that prefix as `COPILOT_HOME`.
-- Claude Code uses one native installation per host: Home Manager's `claude` launcher forwards to the upstream-managed `~/.local/bin/claude` symlink, installing it from `https://claude.ai/install.sh` with `latest` on first use if missing. Terminal, Openvide and URL handlers use that same installation; do not replace the mutable native symlink with a Home Manager file or reinstall the nixpkgs `claude-code` package. Native binaries use the shared NixOS `programs.nix-ld` support. `claude update` updates the binary without rebuilding Home Manager; restart Claude sessions afterward.
-- The shared Claude module merges the `latest` update channel and, on muk, `home-manager/configs/claude/muk.json` into the mutable `~/.claude/settings.json` on Home Manager activation: objects merge recursively, arrays are combined without duplicates, and declared scalar values take precedence. Existing unrelated settings are preserved. muk pre-approves `*.dashboard.rg-supervision.local` for WebFetch and sandbox networking, the `npx playwright` / `playwright` command prefixes, and the exact command `ssh dev@localhost -p 8888`. Playwright command permissions cover their arguments globally; they do not restrict Playwright to that domain or to headless mode.
-
-## Ignore
-
-- `animate/` (rain animation assets, not config)
-- `nixos/hosts/*/hardware-configuration.nix` (auto-generated)
-- `home-manager/flake.lock`, `nixos/flake.lock` (lockfiles, update with `nix flake update`)
-- `preview.png`, `wall.png`, `recdsk` (assets/scripts unrelated to config)
-- `home-manager/configs/cursor/` (binary cursor theme assets)
-- `home-manager/configs/nvim/lua/plugins/dart.lua`, `php.lua` (language plugins, rarely touched)
-
-- gardevoir exports the standard `org.freedesktop.appearance/reduced-motion` portal setting through a GTK compatibility patch in `nixos/packages/portal-gtk.nix` and `portal-gtk-reduced-motion.patch`, selected by the host overlay. It maps the existing `org.gnome.desktop.interface/enable-animations` preference (Home Manager host profile) to 0/1 and emits live changes; remove the patch when upstream provides this mapping.
-- gardevoir remaps the GC101 Controller 1.03 (`20bc:5656`, revision `0111`) HID button usages to positional Linux gamepad codes via `services.udev.extraHwdb` in `nixos/hosts/gardevoir/default.nix`. This applies outside Steam, including Firefox. After activation, reconnect the controller and reconfigure any Steam custom input mapping if needed; joydev button indices may change. Axes are unchanged.
-- The same host exports `SDL_GAMECONTROLLERCONFIG` for the GC101's normalized Linux layout: X/Y use button indices 3/2, digital L2/R2 use 6/7, and guide/stick clicks use 10/11/12. This complements hwdb for SDL applications; it does not override application-owned mappings. Log out and back in after a system switch to propagate session variables.
+- Do not manually edit `nixos/hosts/*/hardware-configuration.nix` (generated hardware configuration).
+- Leave `animate/`, `preview.png`, `wall.png`, `recdsk` and binary cursor assets in
+  `home-manager/configs/cursor/` alone unless the task concerns them.
