@@ -11,6 +11,7 @@ in {
     ./modules/antigravity
     ./modules/codex
     ./modules/claude
+    ./modules/rtk
     ./modules/grok
     ./modules/caveman
     ./modules/ponytail
