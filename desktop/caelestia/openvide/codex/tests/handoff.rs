@@ -35,6 +35,7 @@ fn handoff(
     root_count: usize,
     subagent: bool,
     paginated: bool,
+    mut empty_lists: usize,
     queue_status: i32,
     message: &str,
 ) -> (Output, Vec<String>) {
@@ -64,6 +65,10 @@ fn handoff(
             }
             let result = match request["method"].as_str().unwrap() {
                 "initialize" => json!({}),
+                "thread/loaded/list" if empty_lists > 0 => {
+                    empty_lists -= 1;
+                    json!({"data": []})
+                }
                 "thread/loaded/list" if paginated && request["params"]["cursor"].is_null() => {
                     json!({"data": [], "nextCursor": "page2"})
                 }
@@ -159,7 +164,7 @@ fn handoff(
 #[test]
 fn native_handoff_preserves_text_and_skips_subagents_across_pages() {
     let message = "Fix it\n$(touch /tmp/should-not-exist) `echo no` 'quoted'";
-    let (output, args) = handoff(1, true, true, 0, message);
+    let (output, args) = handoff(1, true, true, 0, 0, message);
     assert!(
         output.status.success(),
         "{}",
@@ -173,18 +178,32 @@ fn native_handoff_preserves_text_and_skips_subagents_across_pages() {
 }
 
 #[test]
+fn handoff_waits_for_the_startup_session() {
+    let (output, args) = handoff(1, false, false, 2, 0, "Task");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert_eq!(&args[3..], &["--thread", ID, "--message", "Task"]);
+}
+
+#[test]
 fn ambiguous_or_unloaded_sessions_never_receive_a_message() {
-    for count in [0, 2] {
-        let (output, args) = handoff(count, false, false, 0, "Task");
+    for (count, error) in [
+        (0, "finish any startup prompt"),
+        (2, "Multiple root Codex sessions"),
+    ] {
+        let (output, args) = handoff(count, false, false, 0, 0, "Task");
         assert!(!output.status.success());
-        assert!(String::from_utf8_lossy(&output.stderr).contains("exactly one loaded"));
+        assert!(String::from_utf8_lossy(&output.stderr).contains(error));
         assert!(args.is_empty());
     }
 }
 
 #[test]
 fn queue_failure_is_not_reported_as_success() {
-    let (output, _) = handoff(1, false, false, 7, "Task");
+    let (output, _) = handoff(1, false, false, 0, 7, "Task");
     assert!(!output.status.success());
     assert!(String::from_utf8_lossy(&output.stderr).contains("Codex queue failed"));
     assert!(output.stdout.is_empty());

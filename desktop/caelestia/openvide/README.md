@@ -31,7 +31,10 @@ read from the file or stdin. The Rust executable in `codex/` launches a private 
 The socket, checkout and process identities are recorded under the Openvide cache.
 Sending validates the terminal and server, requires exactly one loaded root thread
 in that checkout (excluding subagents), then calls `codex queue --remote` with its
-UUID. Success means queued, not task completion. The server closes with the TUI.
+UUID. If no session is loaded yet, the bridge waits up to five seconds for normal
+startup. If Codex is still waiting for folder trust or another confirmation,
+complete it in the terminal before sending again. Success means queued, not task
+completion. The server closes with the TUI.
 Nix builds and installs it as `openvide/bin/openvide-codex`; Python is not required.
 Other unsupported agents and older unbound terminals have no automatic delivery fallback.
 After `/new` or `/resume`, delivery stops if multiple root sessions remain loaded

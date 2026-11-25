@@ -70,6 +70,12 @@ OPENVIDE_SET_AGENT=0 bash "$openvide/scripts/openvide.sh" --launch-agent "$HOME/
 
 # Exercise shell dispatch in a source checkout (installed packages use real helpers).
 if [[ ! -d "$openvide/bin" ]]; then
+  if result=$(bash "$openvide/scripts/openvide.sh" --send-task fixture - </dev/null 2>&1); then
+    echo 'Expected handoff without Hyprland access to be rejected' >&2
+    exit 1
+  fi
+  [[ "$result" == *'cannot access the Hyprland session'* ]]
+
   cat > "$temporary/bin/hyprctl" <<'MOCK'
 #!/usr/bin/env bash
 printf '[{"class":"openvide-agent-fixture","workspace":{"name":"fixture-code"},"pid":42}]\n'

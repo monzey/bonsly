@@ -512,11 +512,15 @@ create_worktree() {
 }
 
 send_task() {
-  local rel="$1" file="$2" dir proj window_pid helper
+  local rel="$1" file="$2" dir proj clients window_pid helper
   dir=$(realpath -- "$HOME/$rel")
   proj=$(get_proj "$dir")
-  window_pid=$(hyprctl clients -j | jq -er --arg class "openvide-agent-$proj" --arg code "$proj-code" --arg agent "$proj-opencode" \
-    '[.[] | select(.class == $class and (.workspace.name == $code or .workspace.name == $agent))] | if length == 1 then .[0].pid else empty end') || {
+  clients=$(hyprctl clients -j) || {
+    echo "Openvide: cannot access the Hyprland session to locate the agent window. No message sent." >&2
+    return 1
+  }
+  window_pid=$(jq -er --arg class "openvide-agent-$proj" --arg code "$proj-code" --arg agent "$proj-opencode" \
+    '[.[] | select(.class == $class and (.workspace.name == $code or .workspace.name == $agent))] | if length == 1 then .[0].pid else empty end' <<<"$clients") || {
     echo "Openvide: expected exactly one agent window in the selected set." >&2
     return 1
   }

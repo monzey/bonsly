@@ -84,7 +84,7 @@ impl CodexServer {
         }
     }
 
-    fn root_thread(&mut self) -> Result<Value> {
+    fn root_thread(&mut self) -> Result<Option<Value>> {
         let mut roots = Vec::new();
         let mut cursor = Value::Null;
         let mut cursors = HashSet::new();
@@ -112,10 +112,10 @@ impl CodexServer {
             );
         }
         ensure!(
-            roots.len() == 1,
-            "Expected exactly one loaded root Codex session; no message sent"
+            roots.len() <= 1,
+            "Multiple root Codex sessions are loaded; no message sent"
         );
-        Ok(roots.remove(0))
+        Ok(roots.pop())
     }
 }
 
@@ -325,7 +325,18 @@ fn send(directory: &Path, window_pid: u32, message: &str, interrupted: &AtomicBo
     let binding: Binding = serde_json::from_reader(file)?;
     validate_binding(&binding, directory, &codex_home()?, window_pid)?;
     let mut server = CodexServer::connect(&binding.socket)?;
-    let target = server.root_thread()?;
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let target = loop {
+        if let Some(target) = server.root_thread()? {
+            break target;
+        }
+        ensure!(!interrupted.load(Ordering::Relaxed), "Interrupted");
+        ensure!(
+            Instant::now() < deadline,
+            "Codex has no loaded session yet; finish any startup prompt (such as folder trust) in the set's terminal, then send again. No message sent"
+        );
+        thread::sleep(Duration::from_millis(200));
+    };
     let current = env::var("CODEX_THREAD_ID").ok();
     let id = validate_target(&target, directory, current.as_deref())?;
     let remote = format!("unix://{}", binding.socket.display());

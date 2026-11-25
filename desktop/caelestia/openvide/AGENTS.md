@@ -62,8 +62,10 @@ stay in Bonsly's `home-manager/configs/hyprland/`. The shared agent workflow is
   root thread, excluding subagents. Send with `codex queue --remote` and its exact
   UUID. Never guess a session, simulate keystrokes, interrupt an active turn or
   queue a task back to the same session. Unsupported/old unbound terminals fail
-  explicitly. A receipt confirms queueing, not completion; uncertain sends must
-  not be retried automatically. Closing the terminal also stops its private server.
+  explicitly. Wait briefly when no root session has loaded and surface pending
+  terminal prompts if it remains unavailable. A receipt confirms queueing, not
+  completion; uncertain sends must not be retried automatically. Closing the
+  terminal also stops its private server.
 - Claude handoff uses `openvide-claude` and a private per-terminal MCP stdio channel
   (`server:openvide`), reached through a Unix socket in a mode-0700 runtime directory.
   The launcher adds `--mcp-config` and `--dangerously-load-development-channels`
