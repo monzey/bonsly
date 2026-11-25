@@ -37,8 +37,15 @@ in
   };
   xdg.configFile."opencode/plugins/rtk.ts".source = "${integrations}/.config/opencode/plugins/rtk.ts";
 
-  # Claude settings contain mutable plugin state: let upstream merge its hook.
-  home.activation.rtkClaude = config.lib.dag.entryAfter [ "linkGeneration" ] ''
+  programs.claude-code.settings.hooks.PreToolUse = [
+    {
+      matcher = "Bash";
+      hooks = [ { type = "command"; command = "${rtk}/bin/rtk hook claude"; } ];
+    }
+  ];
+
+  # Install RTK's Claude documentation after Home Manager writes the hook.
+  home.activation.rtkClaude = config.lib.dag.entryAfter [ "claudeCodeSettings" ] ''
     run env PATH=${lib.makeBinPath [ rtk pkgs.coreutils pkgs.bash pkgs.git ]} \
       ${rtk}/bin/rtk init -g --auto-patch --no-trust-filters
   '';

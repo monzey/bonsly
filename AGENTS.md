@@ -40,7 +40,7 @@ docs/                 Host, desktop, agent integration and migration notes
 | Edit Grok CLI wrapper | `home-manager/modules/grok/default.nix` |
 | Edit shared RTK agent integrations (muk + gardevoir) | `home-manager/modules/rtk/default.nix`, imported by `home-manager/home.nix` |
 | Edit Claude Code launcher / update channel | `home-manager/modules/claude/default.nix` (shared native installation for terminal and Openvide) |
-| Edit Claude Code user settings (muk) | `home-manager/configs/claude/muk.json`; activation in `home-manager/modules/claude/default.nix`, merge in `home-manager/modules/claude/merge-settings.jq` |
+| Edit Claude Code user settings | `home-manager/configs/claude/settings.json` and `home-manager/configs/claude/muk.json`; `programs.claude-code.mutableSettings` in `home-manager/modules/claude/default.nix` |
 | Edit desktop MIME associations | `home-manager/home.nix` (shared Firefox defaults) + `home-manager/hosts/{muk,gardevoir}.nix` (host handlers) |
 | Edit global caveman skills | `home-manager/modules/caveman/default.nix` |
 | Edit shared Ponytail skill (muk + gardevoir) | `home-manager/modules/ponytail/default.nix` |

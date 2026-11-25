@@ -12,30 +12,17 @@ let
     exec "$executable" "$@"
   '';
 
-  declaredSettings = pkgs.writeText "claude-settings.json" (builtins.toJSON (
-    { autoUpdatesChannel = "latest"; }
-    // lib.optionalAttrs (config.bonsly.host == "muk")
-      (builtins.fromJSON (builtins.readFile ../../configs/claude/muk.json))
-  ));
 in
 {
   home.packages = [ claudeLauncher ];
 
-  # Leave the native launcher's symlink mutable so Anthropic can update it.
-  home.activation.claudeSettings = config.lib.dag.entryAfter [ "linkGeneration" ] ''
-    run ${pkgs.writeShellScript "merge-claude-settings" ''
-      set -euo pipefail
-      settings=${config.home.homeDirectory}/.claude/settings.json
-      mkdir -p "$(dirname "$settings")"
-      input=/dev/null
-      if [[ -e "$settings" ]]; then
-        input="$settings"
-      fi
-      temporary=$(mktemp "$settings.XXXXXX")
-      trap 'rm -f "$temporary"' EXIT
-      ${pkgs.jq}/bin/jq -s -f ${./merge-settings.jq} \
-        "$input" ${declaredSettings} > "$temporary"
-      mv "$temporary" "$settings"
-    ''}
-  '';
+  programs.claude-code = {
+    enable = true;
+    package = null;
+    mutableSettings = true;
+    settings = lib.recursiveUpdate
+      (builtins.fromJSON (builtins.readFile ../../configs/claude/settings.json))
+      (lib.optionalAttrs (config.bonsly.host == "muk")
+        (builtins.fromJSON (builtins.readFile ../../configs/claude/muk.json)));
+  };
 }

@@ -38,8 +38,9 @@ opencode runs in an FHS env (see `home-manager/modules/opencode/default.nix`)
 
 Both hosts install RTK from the pinned unstable input via `home-manager/modules/rtk/`, imported by
 the shared `home-manager/home.nix`. Its pinned binary generates Codex, OpenCode, Copilot CLI and
-Antigravity integration files during the build; activation merges the Claude Code hook without
-replacing existing settings. Grok has no RTK integration. Copilot's npm prefix is separate from its
+Antigravity integration files during the build. The module declares Claude's `PreToolUse` hook
+with the pinned RTK binary. Home Manager applies it before `rtk init` installs the Claude
+documentation. Grok has no RTK integration. Copilot's npm prefix is separate from its
 standard `~/.copilot` configuration directory; do not export that prefix as `COPILOT_HOME`.
 
 ## Claude Code
@@ -52,10 +53,11 @@ nixpkgs `claude-code` package. Native binaries use the shared NixOS `programs.ni
 `claude update` updates the binary without rebuilding Home Manager; restart Claude sessions
 afterward.
 
-The shared Claude module merges the `latest` update channel and, on muk,
-`home-manager/configs/claude/muk.json` into the mutable `~/.claude/settings.json` on Home Manager
-activation: objects merge recursively, arrays are combined without duplicates, and declared scalar
-values take precedence. Existing unrelated settings are preserved. muk pre-approves
+The shared Claude module reads `home-manager/configs/claude/settings.json` and adds the overrides
+in `home-manager/configs/claude/muk.json` on muk. Home Manager's `mutableSettings` merges those
+declarations into the writable `~/.claude/settings.json` on activation. Undeclared keys are
+preserved. Declared lists, including `permissions.allow` and `hooks.PreToolUse`, replace the
+corresponding local lists. Add persistent entries for those lists to Bonsly. muk pre-approves
 `*.dashboard.rg-supervision.local` for WebFetch and sandbox networking, the `npx playwright` /
 `playwright` command prefixes, and the exact command `ssh dev@localhost -p 8888`. Playwright command
 permissions cover their arguments globally; they do not restrict Playwright to that domain or to
